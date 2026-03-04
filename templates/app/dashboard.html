@@ -1,0 +1,30 @@
+{% extends "app/base_app.html" %}
+
+{% block title %}Dashboard | Hibiro - 2026{% endblock %}
+
+{% block content %}
+<div class="welcome-area" style="margin-bottom: 30px;">
+    <h1 style="font-size: 1.8rem; font-weight: 700;">Visão Geral da Frota</h1>
+    <p style="color: var(--text-muted);">Acompanhe o desempenho do seu negócio em tempo real.</p>
+</div>
+
+<div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+    <div class="stat-card">
+        <h3>Veículos Ativos</h3>
+        <p class="stat-value">{{ total_veiculos }}</p>
+        <p style="font-size: 0.9rem; color: #2ecc71;">● Frota monitorada</p>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Motoristas</h3>
+        <p class="stat-value">{{ total_motoristas }}</p>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Colaboradores ativos</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Alertas</h3>
+        <p class="stat-value" style="color: #f1c40f;">02</p>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Manutenções pendentes</p>
+    </div>
+</div>
+{% endblock %}

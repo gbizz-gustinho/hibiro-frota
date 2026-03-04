@@ -1,0 +1,44 @@
+{% extends "app/base_app.html" %}
+{% block title %}Marcas | Hibiro{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h1>Gerenciar Marcas</h1>
+    <p>Cadastre as fabricantes dos veículos da sua frota.</p>
+</div>
+
+<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-top: 20px;">
+    <div class="stat-card">
+        <h3>➕ Nova Marca</h3>
+        <form method="POST" style="margin-top: 15px;">
+            <div class="input-group">
+                <label>Nome da Marca</label>
+                <input type="text" name="nome_marca" placeholder="Ex: VOLVO" required class="input-standard">
+            </div>
+            <button type="submit" class="cta-primary" style="width: 100%; margin-top: 10px;">Salvar Marca</button>
+        </form>
+    </div>
+
+    <div class="stat-card">
+        <h3>📋 Marcas Cadastradas</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                    <th style="padding: 12px; color: var(--brand-purple);">Marca</th>
+                    <th style="padding: 12px; color: var(--brand-purple); text-align: right;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for marca in marcas %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 12px; font-weight: bold;">🚚 {{ marca.nome_marca }}</td>
+                    <td style="padding: 12px; text-align: right;">
+                        <a href="{{ url_for('excluir_marca', id=marca.id_marca) }}" onclick="return confirm('Excluir {{ marca.nome_marca }}?')" style="text-decoration: none;">🗑️</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

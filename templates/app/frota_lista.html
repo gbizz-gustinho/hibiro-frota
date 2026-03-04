@@ -1,0 +1,27 @@
+{% extends "app/base_app.html" %}
+{% block title %}Garagem Virtual | Hibiro{% endblock %}
+
+{% block content %}
+<div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1>Garagem Virtual</h1>
+        <p>Acompanhe a depreciação e o valor contábil da sua frota.</p>
+    </div>
+    <a href="{{ url_for('adicionar_veiculo') }}" class="cta-primary" style="text-decoration: none;">+ Novo Veículo</a>
+</div>
+
+<div class="stats-grid">
+    {% for v in veiculos %}
+    <div class="stat-card" style="border-left: 5px solid var(--brand-purple); text-align: left;">
+        <div style="display: flex; justify-content: space-between;">
+            <strong>{{ v.placa }}</strong>
+            <span class="badge">{{ v.nome_tipo }}</span>
+        </div>
+        <p>{{ v.nome_marca }} {{ v.nome_modelo }}</p>
+        <hr style="margin: 10px 0; border: 0; border-top: 1px solid var(--border-color);">
+        <p>💰 Aquisição: R$ {{ "{:,.2f}".format(v.valor_aquisicao) }}</p>
+        <p style="color: var(--brand-purple); font-weight: bold;">📉 Contábil: R$ {{ "{:,.2f}".format(v.valor_contabil_atual) }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

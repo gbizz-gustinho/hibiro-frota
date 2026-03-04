@@ -1,0 +1,74 @@
+/* =========================================
+   GLOBAL.CSS - Estilos base do sistema
+========================================= */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #0d0c22;
+    color: #f0f0f0;
+}
+
+/* --- MENSAGENS DE ALERTA (FLASH MESSAGES) --- */
+.flash-messages-container {
+    position: absolute;
+    top: 150px; /* <-- AUMENTE ESTE VALOR (antes era 20px) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.alert {
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    animation: slideDown 0.4s ease-out forwards;
+}
+
+.alert-danger { background-color: #e74c3c; color: white; }
+.alert-success { background-color: #2ecc71; color: white; }
+.alert-warning { background-color: #f1c40f; color: #333; }
+.alert-info { background-color: #3498db; color: white; }
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- INPUTS COM CONTRASTE --- */
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #00c6ff; /* Azul neon para destacar */
+    font-weight: bold;
+}
+
+.input-group input, .input-group textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: #1a1a3a;
+    border: 1px solid #3a3a6a;
+    border-radius: 8px;
+    color: #ffffff;
+}
+
+/* Botão do Formulário */
+.cta-primary {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}

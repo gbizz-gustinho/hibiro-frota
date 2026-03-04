@@ -1,0 +1,60 @@
+{% extends "site/base_site.html" %}
+
+{% block title %}Hibiro 2026 - Login{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <style>
+        /* Cores solicitadas para o cabeçalho de login */
+        .welcome-yellow { color: #ffff00; }
+        .welcome-white { color: #ffffff; }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-header">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro">
+        </div>
+        <h2>
+            <span class="welcome-yellow">Bem Vindo</span> 
+            <span class="welcome-white">a Hibiro 2026</span>
+        </h2>
+    </div>
+    
+    <div class="login-form-wrapper">
+        <form id="loginForm" class="login-form active" action="{{ url_for('login') }}" method="POST">
+            <h3>Acesse sua Conta</h3>
+            <div class="input-group">
+                <label for="loginEmail">E-mail</label>
+                <input type="email" id="loginEmail" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="loginSenha">Senha</label>
+                <input type="password" id="loginSenha" name="senha" required>
+            </div>
+            <button type="submit" class="cta-primary">Entrar</button>
+            <p>Novo por aqui? <a href="#" id="showRegister">Cadastre-se</a></p>
+        </form>
+
+        <form id="registerForm" class="login-form" action="{{ url_for('register') }}" method="POST">
+            <h3>Criar Nova Conta</h3>
+            <div class="input-group">
+                <label for="registerNome">Nome Completo</label>
+                <input type="text" id="registerNome" name="nome" required>
+            </div>
+            <div class="input-group">
+                <label for="registerEmail">E-mail</label>
+                <input type="email" id="registerEmail" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="registerSenha">Senha</label>
+                <input type="password" id="registerSenha" name="senha" required>
+            </div>
+            <button type="submit" class="cta-primary">Cadastrar</button>
+            <p>Já possui conta? <a href="#" id="showLogin">Fazer Login</a></p>
+        </form>
+    </div>
+</div>
+{% endblock %}

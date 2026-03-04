@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hibiro - Gestão de Frotas{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="site-publico">
+        {% if request.endpoint != 'login' %}
+    <header>
+        {% endif %}
+        <nav>
+    <div class="logo">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro">
+        </a>
+    </div>
+
+    <div class="mobile-menu-icon" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('funcionalidades') }}">Funcionalidades</a></li>
+        <li><a href="{{ url_for('beneficios') }}">Benefícios</a></li>
+        <li><a href="{{ url_for('contato') }}">Contato</a></li>
+        
+        <li><a href="{{ url_for('login') }}" class="cta-button">Entrar - Login</a></li>
+    </ul>
+
+</nav>
+    </header>
+
+    <main class="page-content">
+        {% block content %}{% endblock %}
+    </main>
+        
+    <footer>
+        <p>&copy; 2026 Hibiro. Todos os direitos reservados.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

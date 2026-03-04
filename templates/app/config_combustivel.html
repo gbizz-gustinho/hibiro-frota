@@ -1,0 +1,53 @@
+{% extends "app/base_app.html" %}
+
+{% block title %}Combustíveis | Hibiro - 2026{% endblock %}
+
+{% block content %}
+<div class="welcome-area" style="margin-bottom: 30px;">
+    <h1 style="font-size: 1.8rem; font-weight: 700;">Gerenciar Combustíveis</h1>
+    <p style="color: var(--text-muted);">Cadastre os tipos de energia utilizados pela sua frota.</p>
+</div>
+
+<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 25px;">
+    <div class="stat-card">
+        <h3 style="color: var(--brand-purple); margin-bottom: 20px;">➕ Novo Cadastro</h3>
+        <form method="POST">
+            <div class="input-group">
+                <label>Descrição do Combustível</label>
+                <input type="text" name="nome_combustivel" placeholder="Ex: Diesel S10" required class="input-standard">
+            </div>
+            <button type="submit" class="cta-primary" style="width: 100%; background: var(--brand-purple); border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer;">
+                Salvar Combustível
+            </button>
+        </form>
+    </div>
+
+    <div class="stat-card">
+        <h3 style="margin-bottom: 20px;">📋 Lista de Combustíveis</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                    <th style="padding: 12px; color: var(--text-muted);">Descrição</th>
+                    <th style="padding: 12px; color: var(--text-muted); text-align: right;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in combustiveis %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 12px; font-weight: 600;">⛽ {{ c.nome_combustivel }}</td>
+                    <td style="padding: 12px; text-align: right;">
+                        <a href="{{ url_for('excluir_combustivel', id=c.id_tipo_combustivel) }}" 
+   onclick="return confirm('Tem certeza que deseja excluir o combustível {{ c.nome_combustivel }}?')"
+   style="text-decoration: none; color: #e74c3c; font-size: 1.2rem;">🗑️</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="2" style="padding: 20px; text-align: center; color: var(--text-muted);">Nenhum combustível cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

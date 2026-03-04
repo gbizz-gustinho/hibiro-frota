@@ -1,0 +1,157 @@
+/* =========================================
+   LOGIN.CSS - Estilos da Autenticação
+========================================= */
+.login-page header {
+    display: none;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, #1a0f3d 0%, #0d0c22 70%);
+}
+
+/* login.css - Centralização e Ajustes de Layout */
+
+/* 1. Garante que o container de login fique no centro exato da tela */
+.login-container {
+    background-color: #1a1a3a;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 95%; 
+    max-width: 400px; /* Mantém um tamanho elegante no monitor */
+    text-align: center;
+    margin: 60px auto; /* 'auto' centraliza horizontalmente */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+}
+
+/* 2. Ajuste na altura do wrapper para evitar cortes no formulário */
+.login-form-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 380px; /* Altura mínima para os campos e botão */
+    overflow: visible; /* Permite ver o conteúdo se crescer */
+}
+
+/* 3. Estilo para os inputs dentro do login para combinar com o global */
+.login-form .input-group {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px;
+    background-color: #0d0c22;
+    border: 1px solid #3a3a6a;
+    border-radius: 8px;
+    color: white;
+    box-sizing: border-box; /* Evita que o input saia da caixa */
+}
+
+/* Garante que o conteúdo da página de login ocupe o centro */
+.page-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 160px); /* Desconta o header e footer */
+}
+
+.login-header {
+    margin-bottom: 2rem;
+}
+
+.login-header .logo img {
+    max-width: 120px;
+    margin-bottom: 1rem;
+}
+
+.login-header h2 {
+    font-size: 1.8rem;
+    line-height: 1.3;
+    margin-top: 10px;
+}
+
+.welcome-yellow { color: #ffff00; font-weight: bold; }
+.welcome-white { color: #ffffff; }
+.login-form-wrapper {
+    position: relative;
+    height: 480px; 
+    overflow: hidden; 
+}
+
+.login-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0; 
+    transform: translateX(100%); 
+    visibility: hidden; 
+    pointer-events: none; 
+}
+
+.login-form.active {
+    opacity: 1; 
+    transform: translateX(0); 
+    visibility: visible;
+    pointer-events: auto; 
+}
+
+.login-form .cta-primary {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    padding: 12px;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+}
+
+.login-form .cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+}
+
+.login-form p {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.login-form p a {
+    color: #00c6ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.login-form p a:hover {
+    color: #6a11cb;
+}
+
+/* --- LINK DE VOLTAR PARA A HOME --- */
+.back-home-link {
+    display: inline-block;
+    margin-top: 5px;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.back-home-link:hover {
+    color: #00c6ff; /* Fica azul neon ao passar o mouse */
+}

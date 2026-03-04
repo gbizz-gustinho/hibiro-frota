@@ -1,0 +1,146 @@
+/* =========================================
+   APP.CSS - RIGOR TÉCNICO HIBIRO 2026
+========================================= */
+
+:root {
+    --bg-body: #F4F7FE;       
+    --bg-sidebar: #FFFFFF;    
+    --bg-card: #FFFFFF;
+    --text-main: #2B3674;     
+    --text-muted: #A3AED0;    
+    --border-color: #E0E5F2;
+    --brand-purple: #8A05BE;  /* Roxo Nubank */
+    --brand-accent: #4318FF;
+    --shadow: 14px 17px 40px 4px rgba(112, 144, 176, 0.08);
+    --input-bg: #F8F9FE;
+}
+
+body[data-theme="dark"] {
+    --bg-body: #0b1437;
+    --bg-sidebar: #111c44;
+    --bg-card: #111c44;
+    --text-main: #FFFFFF;
+    --border-color: #1b254b;
+    --input-bg: #1b254b;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: all 0.3s ease;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- ESTRUTURA DASHBOARD --- */
+.dashboard-main-content {
+    display: flex;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px;
+    gap: 30px;
+}
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   ✨ SEÇÃO: SIDEBAR (CORREÇÃO DOS LINKS AZUIS ✅)
+   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.sidebar {
+    width: 280px;
+    background: var(--bg-sidebar);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    height: fit-content;
+    overflow: hidden;
+}
+
+.sidebar-header h3 {
+    background-color: var(--brand-purple) !important;
+    color: #FFFFFF;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    color: var(--text-main);
+    text-decoration: none !important; /* Mata o sublinhado azul ✅ */
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+    background-color: rgba(138, 5, 190, 0.05);
+    color: var(--brand-purple);
+}
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   ✨ SEÇÃO: BOTÕES E INPUTS (TRAVA DE ESTOURO ✅)
+   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+/* CORREÇÃO DO BOTÃO QUE ESTAVA ESTOURANDO NA CAPTURA */
+.cta-primary {
+    display: inline-block !important; /* Impede que o botão ocupe 100% da largura ✅ */
+    width: auto !important;           /* Deixa o tamanho automático pelo texto ✅ */
+    min-width: 180px;
+    padding: 12px 25px;
+    background: linear-gradient(to right, #4318FF, #8A05BE);
+    color: white;
+    border-radius: 12px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(67, 24, 255, 0.3);
+}
+
+.input-standard, input, select, textarea {
+    width: 100%;
+    max-width: 100%;                   /* Impede que o input saia do card ✅ */
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 12px;
+    border-radius: 10px;
+    box-sizing: border-box;            /* Garante que padding não aumente a largura ✅ */
+}
+
+::placeholder {
+    color: var(--text-muted) !important;
+    opacity: 0.5; 
+}
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+/* --- CARDS DE STATUS --- */
+.stat-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--brand-purple);
+}
+
+/* Botão Dark Mode Header */
+.theme-switch { position: relative; display: inline-block; width: 44px; height: 22px; }
+.theme-switch input { display: none; }
+.slider { background-color: #cbd5e0; position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; transition: .4s; border-radius: 34px; }
+.slider:before {
+    background-color: white; content: "";
+    height: 16px; width: 16px; left: 3px; bottom: 3px;
+    position: absolute; transition: .4s; border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--brand-purple); }
+input:checked + .slider:before { transform: translateX(22px); }

@@ -1,0 +1,99 @@
+{% extends "app/base_app.html" %}
+
+{% block title %}Imobilizar Veículo | Hibiro{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h1>Adicionar Veículo à Frota</h1>
+    <p>Cadastre os dados técnicos e contábeis do novo ativo imobilizado.</p>
+</div>
+
+<form method="POST" class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+    
+    <div class="stat-card">
+        <h3>🔍 Identificação e Categoria</h3>
+        
+        <div class="input-group" style="margin-top: 15px;">
+            <label>Placa</label>
+            <input type="text" name="placa" placeholder="Ex: ABC-1234" required class="input-standard">
+        </div>
+
+        <div class="input-group" style="margin-top: 15px;">
+            <label>Marca / Modelo</label>
+            <select name="id_modelo" required class="input-standard">
+                <option value="">-- Selecione o Modelo --</option>
+                {% for m in marcas %}
+                    <optgroup label="{{ m.nome_marca }}">
+                        {% for modelo in modelos %}
+                            {% if modelo.id_marca == m.id_marca %}
+                                <option value="{{ modelo.id_modelo }}">{{ modelo.nome_modelo }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </optgroup>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="input-group" style="margin-top: 15px;">
+            <label>Tipo de Veículo</label>
+            <select name="id_tipo" required class="input-standard">
+                <option value="">-- Selecione o Tipo --</option>
+                {% for t in tipos %}
+                    <option value="{{ t.id_tipo }}">{{ t.nome_tipo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="input-group" style="margin-top: 15px;">
+            <label>Combustível</label>
+            <select name="id_combustivel" required class="input-standard">
+                <option value="">-- Selecione o Combustível --</option>
+                {% for c in combustiveis %}
+                    <option value="{{ c.id_combustivel }}">{{ c.nome_combustivel }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <h3>💰 Dados Contábeis e Aquisição</h3>
+
+        <div class="input-group" style="margin-top: 15px;">
+            <label>Fornecedor (Origem do Bem)</label>
+            <select name="id_clifor" required class="input-standard">
+                <option value="">-- Selecione o Fornecedor --</option>
+                {% for f in fornecedores %}
+                    <option value="{{ f.id_clifor }}">{{ f.nome_colaborador }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 15px;">
+            <div class="input-group" style="flex: 2;">
+                <label>Valor de Aquisição</label>
+                <input type="number" step="0.01" name="valor_aquisicao" placeholder="R$ 0,00" class="input-standard">
+            </div>
+            <div class="input-group" style="flex: 1;">
+                <label>Depreciação (% ano)</label>
+                <input type="number" step="0.1" name="taxa_depreciacao_anual" value="20.0" class="input-standard">
+            </div>
+        </div>
+
+        <div class="input-group" style="margin-top: 15px;">
+            <label>Data de Compra / Entrada</label>
+            <input type="date" name="data_aquisicao" class="input-standard">
+        </div>
+
+        <div class="input-group" style="margin-top: 15px;">
+            <label>Nº Documento Fiscal (NF/Recibo)</label>
+            <input type="text" name="num_doc_fiscal" placeholder="Ex: NF-123456" class="input-standard">
+        </div>
+    </div>
+
+    <div style="grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: 10px;">
+        <button type="submit" class="cta-primary" style="width: 250px; padding: 15px;">
+            🚀 Imobilizar Veículo
+        </button>
+    </div>
+</form>
+{% endblock %}
