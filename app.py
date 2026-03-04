@@ -3,6 +3,9 @@ from flask_bcrypt import Bcrypt
 import sqlite3
 import os
 from datetime import datetime
+from flask import Flask, render_template
+
+
 
 app = Flask(__name__)
 app.secret_key = 'chave_secreta_desenvolvimento_hibiro' 
