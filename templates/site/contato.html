@@ -4,40 +4,50 @@
 
 {% block content %}
 <section class="section-title">
-    <h1>Fale Conosco</h1>
+    <h1><i class="fas fa-comments"></i> Fale Conosco</h1>
     <p>Tire suas dúvidas, solicite uma demonstração ou nos envie uma mensagem!</p>
 </section>
 
 <section class="contact-form-section">
     <form class="contact-form" method="POST">
         <div class="input-group">
-            <label for="contactNome">Seu Nome</label>
-            <input type="text" id="contactNome" name="nome" required>
+            <label for="contactNome"><i class="fas fa-user"></i> Seu Nome</label>
+            <input type="text" id="contactNome" name="nome" placeholder="Ex: João da Silva" required>
         </div>
         <div class="input-group">
-            <label for="contactEmail">Seu E-mail</label>
-            <input type="email" id="contactEmail" name="email" required>
+            <label for="contactEmail"><i class="fas fa-envelope"></i> Seu E-mail</label>
+            <input type="email" id="contactEmail" name="email" placeholder="exemplo@empresa.com.br" required>
         </div>
         <div class="input-group">
-            <label for="contactAssunto">Assunto</label>
-            <input type="text" id="contactAssunto" name="assunto">
+            <label for="contactAssunto"><i class="fas fa-tag"></i> Assunto</label>
+            <input type="text" id="contactAssunto" name="assunto" placeholder="Ex: Dúvida sobre funcionalidades">
         </div>
         <div class="input-group">
-            <label for="contactMensagem">Sua Mensagem</label>
-            <textarea id="contactMensagem" name="mensagem" rows="5" required></textarea>
+            <label for="contactMensagem"><i class="fas fa-comment-dots"></i> Sua Mensagem</label>
+            <textarea id="contactMensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
         </div>
-        <button type="submit" class="cta-primary">Enviar Mensagem</button>
+        <button type="submit" class="cta-primary"><i class="fas fa-paper-plane"></i> Enviar Mensagem</button>
     </form>
     
     <div class="contact-info">
-        <h3>Outros Canais</h3>
-        <p><strong>E-mail:</strong> contato@hibiro.com.br</p>
-        <p><strong>Telefone:</strong> (11) 99999-9999</p>
-        <p><strong>Endereço:</strong> Rua da Frota, 123 - Cidade, Estado</p>
+        <h3><i class="fas fa-address-book"></i> Outros Canais</h3>
+        
+        <div class="info-list">
+            <p><i class="fas fa-envelope"></i> <strong>E-mail:</strong> gbizz.idi@gmail.com</p>
+            <p><i class="fas fa-phone"></i> <strong>Telefone:</strong> +55 (11) 99257-4664</p>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Endereço:</strong> Rua da Guarujá, 191 - CEP 06445-070<br>Jd Maria Helena - Barueri/SP</p>
+        </div>
+        
+        <hr class="social-divider">
+        
+        <h4><i class="fas fa-share-nodes"></i> Nossas Redes</h4>
         <div class="social-links">
-            <a href="#" target="_blank">Facebook</a> | 
-            <a href="#" target="_blank">Instagram</a> | 
-            <a href="#" target="_blank">LinkedIn</a>
+            <a href="https://www.facebook.com/xmei.pj/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/meix.pj/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/israel-bizzarri-142343347/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.youtube.com/@meixpj/" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://sites.google.com/view/meipj/" target="_blank" title="Google Sites"><i class="fab fa-google"></i></a>
+            <a href="https://x.com/meixpj" target="_blank" title="Twitter/X"><i class="fab fa-x-twitter"></i></a>
         </div>
     </div>
 </section>

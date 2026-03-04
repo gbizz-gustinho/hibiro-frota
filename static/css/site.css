@@ -140,3 +140,84 @@ footer p { color: #8A05BE; font-weight: bold; margin: 0; }
 @media (max-width: 768px) {
     .hero { flex-direction: column; text-align: center; }
 }
+/* Ajustes específicos da página de contato */
+.contact-form-section {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.contact-form {
+    flex: 1;
+    max-width: 500px;
+}
+
+/* =========================================
+   ATUALIZAÇÕES PARA O CSS DE CONTATO (Substitua no seu site.css / global.css)
+========================================= */
+
+/* Ajuste da caixa de informações para o Dark Mode (estava #f9f9f9) */
+.contact-info {
+    flex: 1;
+    background: #1a1a3a; /* Mesmo fundo do formulário */
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #2c2869;
+    min-width: 300px;
+}
+
+.contact-info h3, .contact-info h4 {
+    color: #00c6ff; /* Azul neon para títulos */
+    margin-top: 0;
+}
+
+.contact-info .info-list p {
+    color: #f0f0f0;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.contact-info i {
+    color: #8A05BE; /* Roxo da paleta para os ícones de contato */
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+/* Divisória estilizada para as redes sociais */
+.social-divider {
+    border: 0;
+    height: 1px;
+    background: #3a3a6a;
+    margin: 25px 0;
+}
+
+/* Estilização das Redes Sociais com hover neon */
+.social-links {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #2c2869;
+    border-radius: 50%;
+    text-decoration: none;
+    color: #f0f0f0; /* Corrigido de #333 para claro */
+    transition: 0.3s ease;
+}
+
+.social-links a i {
+    color: #f0f0f0; /* Corrigido de #555 para claro */
+    margin-right: 0; /* Centraliza o ícone no botão redondo */
+}
+
+.social-links a:hover {
+    background: #00c6ff;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 198, 255, 0.4);
+}

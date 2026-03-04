@@ -72,3 +72,20 @@ body {
     cursor: pointer;
     width: 100%;
 }
+
+/* Ícones e links sociais - valem para todo o site */
+.contact-info i, .contact-form i {
+    margin-right: 6px;
+    color: #444;
+}
+
+.social-links a {
+    margin: 0 8px;
+    text-decoration: none;
+    color: #333;
+}
+
+.social-links i {
+    margin-right: 5px;
+    color: #555;
+}
