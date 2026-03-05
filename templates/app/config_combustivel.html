@@ -36,9 +36,9 @@
                 <tr style="border-bottom: 1px solid var(--border-color);">
                     <td style="padding: 12px; font-weight: 600;">⛽ {{ c.nome_combustivel }}</td>
                     <td style="padding: 12px; text-align: right;">
-                        <a href="{{ url_for('excluir_combustivel', id=c.id_tipo_combustivel) }}" 
-   onclick="return confirm('Tem certeza que deseja excluir o combustível {{ c.nome_combustivel }}?')"
-   style="text-decoration: none; color: #e74c3c; font-size: 1.2rem;">🗑️</a>
+                        <a href="{{ url_for('configuracoes.excluir_combustivel', id=c.id_tipo_combustivel) }}" 
+                    onclick="return confirm('Tem certeza que deseja excluir o combustível {{ c.nome_combustivel }}?')"
+                    style="text-decoration: none; color: #e74c3c; font-size: 1.2rem;">🗑️</a>
                     </td>
                 </tr>
                 {% else %}

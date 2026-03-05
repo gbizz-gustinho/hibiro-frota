@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hibiro - Gestão de Frotas{% endblock %}</title>
     
-    <!-- Adicione o link do Font Awesome no <head> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     
     <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}" type="image/x-icon">
@@ -14,33 +13,35 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body class="site-publico">
-        {% if request.endpoint != 'login' %}
+    
+    {% if request.endpoint != 'auth.login' %}
     <header>
-        {% endif %}
+    {% endif %}
         <nav>
-    <div class="logo">
-        <a href="{{ url_for('index') }}">
-            <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro">
-        </a>
-    </div>
+            <div class="logo">
+                <a href="{{ url_for('site.index') }}">
+                    <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro">
+                </a>
+            </div>
 
-    <div class="mobile-menu-icon" onclick="toggleMenu()">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
+            <div class="mobile-menu-icon" onclick="toggleMenu()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
 
-    <ul class="nav-links" id="nav-links">
-        <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('funcionalidades') }}">Funcionalidades</a></li>
-        <li><a href="{{ url_for('beneficios') }}">Benefícios</a></li>
-        <li><a href="{{ url_for('contato') }}">Contato</a></li>
-        
-        <li><a href="{{ url_for('login') }}" class="cta-button">Entrar - Login</a></li>
-    </ul>
-
-</nav>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('site.index') }}">Home</a></li>
+                <li><a href="{{ url_for('site.funcionalidades') }}">Funcionalidades</a></li>
+                <li><a href="{{ url_for('site.beneficios') }}">Benefícios</a></li>
+                <li><a href="{{ url_for('site.contato') }}">Contato</a></li>
+                
+                <li><a href="{{ url_for('auth.login') }}" class="cta-button">Entrar - Login</a></li>
+            </ul>
+        </nav>
+    {% if request.endpoint != 'auth.login' %}
     </header>
+    {% endif %}
 
     <main class="page-content">
         {% block content %}{% endblock %}

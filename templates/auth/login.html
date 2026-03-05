@@ -5,7 +5,6 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <style>
-        /* Cores solicitadas para o cabeçalho de login */
         .welcome-yellow { color: #ffff00; }
         .welcome-white { color: #ffffff; }
     </style>
@@ -24,7 +23,7 @@
     </div>
     
     <div class="login-form-wrapper">
-        <form id="loginForm" class="login-form active" action="{{ url_for('login') }}" method="POST">
+        <form id="loginForm" class="login-form active" action="{{ url_for('auth.login') }}" method="POST">
             <h3>Acesse sua Conta</h3>
             <div class="input-group">
                 <label for="loginEmail">E-mail</label>
@@ -38,7 +37,7 @@
             <p>Novo por aqui? <a href="#" id="showRegister">Cadastre-se</a></p>
         </form>
 
-        <form id="registerForm" class="login-form" action="{{ url_for('register') }}" method="POST">
+        <form id="registerForm" class="login-form" action="{{ url_for('auth.register') }}" method="POST">
             <h3>Criar Nova Conta</h3>
             <div class="input-group">
                 <label for="registerNome">Nome Completo</label>

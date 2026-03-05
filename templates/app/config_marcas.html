@@ -33,7 +33,7 @@
                 <tr style="border-bottom: 1px solid var(--border-color);">
                     <td style="padding: 12px; font-weight: bold;">🚚 {{ marca.nome_marca }}</td>
                     <td style="padding: 12px; text-align: right;">
-                        <a href="{{ url_for('excluir_marca', id=marca.id_marca) }}" onclick="return confirm('Excluir {{ marca.nome_marca }}?')" style="text-decoration: none;">🗑️</a>
+                        <a href="{{ url_for('configuracoes.excluir_marca', id=marca.id_marca) }}" onclick="return confirm('Excluir {{ marca.nome_marca }}?')" style="text-decoration: none;">🗑️</a>
                     </td>
                 </tr>
                 {% endfor %}

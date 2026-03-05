@@ -11,7 +11,7 @@
     <header class="dashboard-header">
         <nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; background: var(--bg-sidebar); border-bottom: 1px solid var(--border-color);">
             <div class="logo">
-                <a href="{{ url_for('dashboard') }}">
+                <a href="{{ url_for('frota.dashboard') }}">
                     <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo" style="max-width: 120px;">
                 </a>
             </div>
@@ -27,7 +27,7 @@
                     </label>
                 </div>
                 <span style="font-weight: 600; color: var(--text-main);">Olá, {{ username }}</span>
-                <a href="{{ url_for('logout') }}" class="logout-button" style="text-decoration: none; background: #e74c3c; color: white; padding: 8px 15px; border-radius: 8px; font-size: 0.9rem;">Sair</a>
+                <a href="{{ url_for('auth.logout') }}" class="logout-button" style="text-decoration: none; background: #e74c3c; color: white; padding: 8px 15px; border-radius: 8px; font-size: 0.9rem;">Sair</a>
             </div>
         </nav>
     </header>
@@ -36,19 +36,19 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header"><h3>Navegação Hibiro - 2026</h3></div>
             <ul style="list-style: none; padding: 10px 0;">
-                <li><a href="{{ url_for('dashboard') }}" class="menu-item">📊 Visão Geral</a></li>
-                <li><a href="{{ url_for('lista_frota') }}" class="menu-item">🚚 Minha Frota</a></li>
+                <li><a href="{{ url_for('frota.dashboard') }}" class="menu-item">📊 Visão Geral</a></li>
+                <li><a href="{{ url_for('frota.lista_frota') }}" class="menu-item">🚚 Minha Frota</a></li>
                 
                 <li class="has-submenu">
                     <a href="javascript:void(0)" class="menu-item" onclick="toggleSubmenu(this)">
                         <span class="icon">⚙️</span> Configurações <span class="arrow">▼</span>
                     </a>
                     <ul class="submenu" style="display: none; list-style: none; padding-left: 15px; background: var(--bg-body);">
-                        <li><a href="{{ url_for('config_marcas') }}" class="menu-item">🏷️ Marcas</a></li>
-                        <li><a href="{{ url_for('config_modelos') }}" class="menu-item">🚘 Modelos</a></li>
-                        <li><a href="{{ url_for('config_tipo_veiculo') }}" class="menu-item">🚛 Tipos de Veículo</a></li>
-                        <li><a href="{{ url_for('config_combustivel') }}" class="menu-item">⛽ Combustíveis</a></li>
-                        <li><a href="{{ url_for('config_parceiros') }}" class="menu-item">🤝 Parceiros</a></li>
+                        <li><a href="{{ url_for('configuracoes.config_marcas') }}" class="menu-item">🏷️ Marcas</a></li>
+                        <li><a href="{{ url_for('configuracoes.config_modelos') }}" class="menu-item">🚘 Modelos</a></li>
+                        <li><a href="{{ url_for('configuracoes.config_tipo_veiculo') }}" class="menu-item">🚛 Tipos de Veículo</a></li>
+                        <li><a href="{{ url_for('configuracoes.config_combustivel') }}" class="menu-item">⛽ Combustíveis</a></li>
+                        <li><a href="{{ url_for('configuracoes.config_parceiros') }}" class="menu-item">🤝 Parceiros</a></li>
                     </ul>
                 </li>
             </ul>
@@ -68,7 +68,6 @@
     </main>
 
     <script>
-        // 1. Função para abrir/fechar submenus
         function toggleSubmenu(element) {
             const submenu = element.nextElementSibling;
             const arrow = element.querySelector('.arrow');
@@ -79,7 +78,6 @@
             element.parentElement.classList.toggle('active');
         }
 
-        // 2. Função Unificada de Tema (Check ✅)
         function toggleTheme() {
             const currentTheme = document.body.getAttribute('data-theme');
             const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -87,7 +85,6 @@
             localStorage.setItem('theme', targetTheme);
         }
 
-        // 3. Inicialização do Tema ao carregar (Check ✅)
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.body.setAttribute('data-theme', savedTheme);
