@@ -1,30 +1,87 @@
-{% extends "app/base_app.html" %}
+{% extends "base_app.html" %}
 
-{% block title %}Dashboard | Hibiro - 2026{% endblock %}
+{% block title %}Dashboard - Hibiro 2026{% endblock %}
+{% block page_title %}Visão Geral da Frota{% endblock %}
 
 {% block content %}
-<div class="welcome-area" style="margin-bottom: 30px;">
-    <h1 style="font-size: 1.8rem; font-weight: 700;">Visão Geral da Frota</h1>
-    <p style="color: var(--text-muted);">Acompanhe o desempenho do seu negócio em tempo real.</p>
-</div>
-
-<div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+<div class="dashboard-grid">
     <div class="stat-card">
-        <h3>Veículos Ativos</h3>
-        <p class="stat-value">{{ total_veiculos }}</p>
-        <p style="font-size: 0.9rem; color: #2ecc71;">● Frota monitorada</p>
-    </div>
-    
-    <div class="stat-card">
-        <h3>Motoristas</h3>
-        <p class="stat-value">{{ total_motoristas }}</p>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Colaboradores ativos</p>
+        <h3 style="margin-top: 0; color: var(--text-muted);">🚚 Veículos Ativos</h3>
+        <p style="font-size: 2.5rem; font-weight: 800; color: var(--accent); margin: 10px 0;">{{ total_veiculos }}</p>
+        <small style="color: #2ecc71; font-weight: bold;">● Frota monitorada</small>
     </div>
 
     <div class="stat-card">
-        <h3>Alertas</h3>
-        <p class="stat-value" style="color: #f1c40f;">02</p>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Manutenções pendentes</p>
+        <h3 style="margin-top: 0; color: var(--text-muted);">👤 Motoristas</h3>
+        <p style="font-size: 2.5rem; font-weight: 800; color: var(--accent); margin: 10px 0;">{{ total_motoristas }}</p>
+        <small style="color: var(--text-muted);">Colaboradores ativos</small>
+    </div>
+
+    <div class="stat-card">
+        <h3 style="margin-top: 0; color: var(--text-muted);">⚠️ Alertas</h3>
+        <p style="font-size: 2.5rem; font-weight: 800; color: #f1c40f; margin: 10px 0;">0</p>
+        <small style="color: var(--text-muted);">Manutenções pendentes</small>
     </div>
 </div>
+
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <h3 style="text-align: center; margin-top: 0;">Composição por Tipo</h3>
+        <div class="chart-container">
+            <canvas id="chartTipos"></canvas>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <h3 style="text-align: center; margin-top: 0;">Veículos por Marca</h3>
+        <div class="chart-container">
+            <canvas id="chartMarcas"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { position: 'bottom', labels: { color: getComputedStyle(document.body).getPropertyValue('--text-main') } } 
+            }
+        };
+
+        new Chart(document.getElementById('chartTipos'), {
+            type: 'doughnut',
+            data: {
+                labels: {{ labels_tipos | tojson }},
+                datasets: [{
+                    data: {{ values_tipos | tojson }},
+                    backgroundColor: ['#8A05BE', '#00c6ff', '#2ecc71', '#f1c40f', '#e74c3c'],
+                    borderWidth: 0
+                }]
+            },
+            options: chartOptions
+        });
+
+        new Chart(document.getElementById('chartMarcas'), {
+            type: 'bar',
+            data: {
+                labels: {{ labels_marcas | tojson }},
+                datasets: [{
+                    label: 'Quantidade',
+                    data: {{ values_marcas | tojson }},
+                    backgroundColor: '#00c6ff',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    y: { beginAtZero: true, ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-main') } },
+                    x: { ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-main') } }
+                }
+            }
+        });
+    });
+</script>
 {% endblock %}

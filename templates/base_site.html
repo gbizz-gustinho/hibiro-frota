@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hibiro - Gestão de Frotas{% endblock %}</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}" type="image/x-icon">
+    {# ORDEM CRÍTICA: site.css É O ÚNICO ARQUIVO DE ESTILOS DO SITE PÚBLICO #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+{# O body DEVE ter o atributo data-theme para que o tema funcione #}
+<body data-theme="dark"> {# O JavaScript definirá o tema salvo, mas 'dark' é um bom padrão inicial #}
+    
+    {% if request.endpoint != 'auth.login' %} {# Garante que o header não apareça na página de login #}
+    <header>
+    {% endif %}
+        <nav>
+            <div class="logo">
+                <a href="{{ url_for('site_bp.index') }}"> {# CORRIGIDO: de 'site.index' para 'site_bp.index' #}
+                    <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro">
+                </a>
+            </div>
+
+            <div class="mobile-menu-icon" onclick="toggleMenu()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('site_bp.index') }}">Home</a></li> {# CORRIGIDO #}
+                <li><a href="{{ url_for('site_bp.funcionalidades') }}">Funcionalidades</a></li> {# CORRIGIDO #}
+                <li><a href="{{ url_for('site_bp.beneficios') }}">Benefícios</a></li> {# CORRIGIDO #}
+                <li><a href="{{ url_for('site_bp.contato') }}">Contato</a></li> {# CORRIGIDO #}
+                
+                {# BOTÃO DE ALTERNAR TEMA #}
+                <li>
+                    <button id="themeToggle" aria-label="Alternar tema">
+                        <i class="fa-solid fa-moon"></i> {# Ícone de lua para tema escuro #}
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    {% if request.endpoint != 'auth.login' %}
+    </header>
+    {% endif %}
+
+    <main class="page-content">
+        {% block content %}{% endblock %}
+    </main>
+        
+    <footer>
+        <p>&copy; 2026 Hibiro. Todos os direitos reservados.</p>
+    </footer>
+
+    {# SCRIPT JAVASCRIPT para o Tema e Menu Mobile #}
+    <script>
+        // Função para alternar o tema
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme') || 'dark'; // Padrão 'dark'
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('hibiro-theme-public', newTheme);
+            updateThemeToggleIcon(newTheme);
+        }
+
+        // Função para atualizar o ícone do botão de tema
+        function updateThemeToggleIcon(theme) {
+            const themeToggleBtn = document.getElementById('themeToggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+            }
+        }
+
+        // Aplica o tema salvo no localStorage ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('hibiro-theme-public') || 'dark'; // Inicia com DARK como padrão
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeToggleIcon(savedTheme);
+            
+            const themeToggleBtn = document.getElementById('themeToggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+
+            // Script para o menu mobile
+            const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
+            const navLinks = document.getElementById('nav-links');
+
+            if (mobileMenuIcon && navLinks) {
+                mobileMenuIcon.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    mobileMenuIcon.classList.toggle('active');
+                });
+
+                // Fecha o menu ao clicar em um link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        mobileMenuIcon.classList.remove('active');
+                    });
+                });
+                // Fecha o menu ao clicar no botão de tema
+                const themeToggleButtonInMenu = navLinks.querySelector('#themeToggle');
+                if (themeToggleButtonInMenu) {
+                    themeToggleButtonInMenu.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        mobileMenuIcon.classList.remove('active');
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

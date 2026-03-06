@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hibiro - 2026{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-theme="light">
+    <div class="vscode-layout">
+        <aside class="vscode-sidebar">
+            <div class="sidebar-brand">
+                <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Hibiro" style="width: 100px; height: auto;">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('frota.dashboard') }}" class="nav-link"><i class="fa-solid fa-chart-pie"></i> <span>Visão Geral</span></a>
+                <a href="{{ url_for('frota.lista_frota') }}" class="nav-link"><i class="fa-solid fa-truck-fast"></i> <span>Minha Frota</span></a>
+                
+                <div class="nav-section">
+                    <!--<span class="section-title">CONFIGURAÇÕES</span>-->
+                    
+                    <a href="{{ url_for('configuracoes.config_parceiros') }}" class="nav-link"><i class="fa-solid fa-handshake"></i> <span>Parceiros</span></a>
+                    <a href="{{ url_for('configuracoes.config_marcas_veiculo') }}" class="nav-link"><i class="fa-solid fa-copyright"></i> <span>Marcas</span></a>
+                    <a href="{{ url_for('configuracoes.config_combustivel') }}" class="nav-link"><i class="fa-solid fa-gas-pump"></i> <span>Combustíveis</span></a>
+                    <a href="{{ url_for('configuracoes.config_tipo_veiculo') }}" class="nav-link"><i class="fa-solid fa-truck-ramp-box"></i> <span>Tipos de Veículos</span></a>
+
+                    <a href="{{ url_for('configuracoes.config_marca_pneu') }}" class="nav-link"><i class="fa-solid fa-circle-dot"></i> <span>Marca dos Pneus</span></a>
+                    <a href="{{ url_for('configuracoes.config_servico_pneu') }}" class="nav-link"><i class="fa-solid fa-screwdriver-wrench"></i> <span>Serviço no Pneus</span></a>
+                    <a href="{{ url_for('configuracoes.config_situacao_pneu') }}" class="nav-link"><i class="fa-solid fa-dharmachakra"></i> <span>Situação dos Pneus</span></a>
+
+                    <a href="{{ url_for('configuracoes.config_orgao_emissor') }}" class="nav-link"><i class="fa-solid fa-building-shield"></i> <span>Órgão Emissor</span></a>
+                    <a href="{{ url_for('configuracoes.config_gravidade_multa') }}" class="nav-link"><i class="fa-solid fa-triangle-exclamation"></i> <span>Gravidade da Multa</span></a>
+                    <a href="{{ url_for('configuracoes.config_status_documento') }}" class="nav-link"><i class="fa-solid fa-file-shield"></i> <span>Status do Documento</span></a>
+                    
+                    <a href="{{ url_for('configuracoes.config_status_manutencao') }}" class="nav-link"><i class="fa-solid fa-calendar-check"></i> <span>Status Manutenção</span></a>
+                    <a href="{{ url_for('configuracoes.config_tipo_manutencao') }}" class="nav-link"><i class="fa-solid fa-gears"></i> <span>Tipo Manutenção</span></a>
+                    <a href="{{ url_for('configuracoes.config_status_frete') }}" class="nav-link"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Status do Frete</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="vscode-main">
+            <header class="vscode-header">
+                <h2 style="margin: 0; font-size: 1.1rem; color: var(--text-main);">{% block page_title %}Painel{% endblock %}</h2>
+                <div class="header-right">
+                    <span class="user-info"><i class="fa-solid fa-circle-user"></i> {{ username }}</span>
+                    <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer;">🌓</button>
+                    <a href="{{ url_for('auth.logout') }}" class="btn-logout"><i class="fa-solid fa-power-off"></i> Sair</a>
+                </div>
+            </header>
+
+            <section class="vscode-content">
+                {% block content %}{% endblock %}
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', theme);
+            localStorage.setItem('hibiro-theme', theme);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('hibiro-theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+        });
+    </script>
+</body>
+</html>

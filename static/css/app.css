@@ -1,146 +1,278 @@
 /* =========================================
-   APP.CSS - RIGOR TÉCNICO HIBIRO 2026
+   app.css - Estilos do Painel Administrativo (base_app.html)
+   Com suporte a Tema Claro e Escuro
 ========================================= */
 
+/* --- 1. VARIÁVEIS DE TEMA E CONFIGURAÇÕES GERAIS --- */
+
+/* Tema Claro (Padrão: definido em :root) */
 :root {
-    --bg-body: #F4F7FE;       
-    --bg-sidebar: #FFFFFF;    
-    --bg-card: #FFFFFF;
-    --text-main: #2B3674;     
-    --text-muted: #A3AED0;    
-    --border-color: #E0E5F2;
-    --brand-purple: #8A05BE;  /* Roxo Nubank */
-    --brand-accent: #4318FF;
-    --shadow: 14px 17px 40px 4px rgba(112, 144, 176, 0.08);
-    --input-bg: #F8F9FE;
+    --bg-app: #F4F7FE;          /* Fundo principal do aplicativo */
+    --bg-sidebar: #FFFFFF;      /* Fundo da barra lateral */
+    --text-main: #2B3674;       /* Cor principal do texto */
+    --text-secondary: #56567C;  /* Cor secundária do texto */
+    --accent: #4318FF;          /* Cor de destaque (botões, ícones ativos) */
+    --accent-rgb: 67,24,255;    /* Versão RGB da cor accent */
+    --danger: #e74c3c;          /* Cor para ações perigosas (ex: logout) */
+    --border: #E0E5F2;          /* Cor da borda */
+    --shadow-light: rgba(140, 152, 164, 0.2); /* Sombra suave */
+    --shadow-dark: rgba(0,0,0,0.1); /* Sombra mais escura */
 }
 
-body[data-theme="dark"] {
-    --bg-body: #0b1437;
+/* Tema Escuro (ativado por [data-theme="dark"]) */
+[data-theme="dark"] {
+    --bg-app: #0b1437;
     --bg-sidebar: #111c44;
-    --bg-card: #111c44;
     --text-main: #FFFFFF;
-    --border-color: #1b254b;
-    --input-bg: #1b254b;
+    --text-secondary: #A0AEC0; /* Adaptação para tema escuro */
+    --accent: #7070F0;         /* Um accent um pouco diferente para dark mode se desejar */
+    --accent-rgb: 112,112,240; /* RGB do accent dark */
+    --danger: #FF6B6B;         /* Adaptação para tema escuro */
+    --border: #2B3674;
+    --shadow-light: rgba(0,0,0,0.4);
+    --shadow-dark: rgba(0,0,0,0.6);
 }
 
+/* Reset básico e tipografia */
 body {
-    background-color: var(--bg-body);
-    color: var(--text-main);
-    transition: all 0.3s ease;
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-app);
+    overflow: hidden; /* Para o layout fixo sem scroll na body */
+    color: var(--text-main); /* Cor do texto padrão do app */
+    transition: background 0.3s ease, color 0.3s ease; /* Transição suave de tema */
+    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura/altura */
 }
 
-/* --- ESTRUTURA DASHBOARD --- */
-.dashboard-main-content {
+/* --- 2. LAYOUT PRINCIPAL DO APLICATIVO --- */
+.vscode-layout {
     display: flex;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 30px;
-    gap: 30px;
+    height: 100vh;
+    width: 100vw;
 }
 
-/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   ✨ SEÇÃO: SIDEBAR (CORREÇÃO DOS LINKS AZUIS ✅)
-   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-.sidebar {
-    width: 280px;
+/* --- 3. BARRA LATERAL (SIDEBAR) --- */
+.vscode-sidebar {
+    width: 250px;
     background: var(--bg-sidebar);
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow);
-    height: fit-content;
-    overflow: hidden;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    overflow-y: auto; /* Permite scroll se muitos itens */
+    overflow-x: hidden; /* Esconde overflow horizontal quando colapsado */
 }
 
-.sidebar-header h3 {
-    background-color: var(--brand-purple) !important;
-    color: #FFFFFF;
+.sidebar-brand {
     padding: 20px;
-    margin: 0;
     text-align: center;
-    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
 }
 
-.menu-item {
+.sidebar-brand img {
+    max-width: 100%;
+    height: auto;
+    transition: max-width 0.3s ease, height 0.3s ease; /* Transição para logo ao colapsar */
+}
+
+.sidebar-nav {
+    flex-grow: 1;
+    padding: 10px 0;
+}
+
+.nav-section {
+    margin-top: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+}
+
+.nav-link {
     display: flex;
     align-items: center;
-    padding: 15px 25px;
+    padding: 12px 20px;
     color: var(--text-main);
-    text-decoration: none !important; /* Mata o sublinhado azul ✅ */
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.menu-item:hover {
-    background-color: rgba(138, 5, 190, 0.05);
-    color: var(--brand-purple);
-}
-
-/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   ✨ SEÇÃO: BOTÕES E INPUTS (TRAVA DE ESTOURO ✅)
-   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-
-/* CORREÇÃO DO BOTÃO QUE ESTAVA ESTOURANDO NA CAPTURA */
-.cta-primary {
-    display: inline-block !important; /* Impede que o botão ocupe 100% da largura ✅ */
-    width: auto !important;           /* Deixa o tamanho automático pelo texto ✅ */
-    min-width: 180px;
-    padding: 12px 25px;
-    background: linear-gradient(to right, #4318FF, #8A05BE);
-    color: white;
-    border-radius: 12px;
-    font-weight: bold;
-    text-align: center;
     text-decoration: none;
+    position: relative;
+    transition: background 0.2s ease, color 0.2s ease;
+    white-space: nowrap; /* Impede que o texto quebre linha */
+}
+
+.nav-link:hover {
+    background: rgba(var(--accent-rgb), 0.1);
+    color: var(--accent);
+}
+
+.nav-link i {
+    width: 25px;
+    margin-right: 10px;
+    color: var(--accent);
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* --- 4. BOTÃO SAIR ESTILIZADO --- */
+.btn-logout {
+    background: var(--danger);
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease, transform 0.2s ease;
+    margin: 10px 20px; /* Adicionado margem para se separar um pouco */
+}
+
+.btn-logout:hover {
+    background: darken(var(--danger), 10%); /* Necessita de SASS/LESS para darken() */
+    /* Para CSS puro, defina uma cor mais escura diretamente: */
+    background: #c0392b; /* Exemplo para --danger: #e74c3c */
+    transform: translateY(-1px);
+}
+
+/* --- 5. HEADER E CONTEÚDO PRINCIPAL --- */
+.vscode-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Controla o overflow de elementos filhos */
+}
+
+.vscode-header {
+    height: 60px;
+    background: var(--bg-sidebar); /* Mesmo fundo da sidebar para continuidade */
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    flex-shrink: 0; /* Impede que o header encolha */
+    box-shadow: 0 2px 4px var(--shadow-dark); /* Sombra para dar profundidade */
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vscode-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--text-main);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.user-info i {
+    color: var(--accent);
+}
+
+/* Botão de alternar tema */
+.vscode-header button {
+    background: none;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(67, 24, 255, 0.3);
-}
-
-.input-standard, input, select, textarea {
-    width: 100%;
-    max-width: 100%;                   /* Impede que o input saia do card ✅ */
-    background-color: var(--input-bg) !important;
-    border: 1px solid var(--border-color);
+    font-size: 1.5rem;
     color: var(--text-main);
-    padding: 12px;
-    border-radius: 10px;
-    box-sizing: border-box;            /* Garante que padding não aumente a largura ✅ */
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
-::placeholder {
-    color: var(--text-muted) !important;
-    opacity: 0.5; 
+.vscode-header button:hover {
+    transform: scale(1.1);
+    color: var(--accent);
 }
 
-/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-
-/* --- CARDS DE STATUS --- */
-.stat-card {
-    background: var(--bg-card);
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
+/* Área do conteúdo scrollable */
+.vscode-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto; /* Permite scroll apenas nesta área */
+    -webkit-overflow-scrolling: touch; /* Melhoria de scroll em iOS */
 }
 
-.stat-value {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--brand-purple);
-}
+/* --- 6. RESPONSIVIDADE (COLAPSO DA SIDEBAR) --- */
+@media (max-width: 768px) {
+    .vscode-sidebar {
+        width: 70px; /* Sidebar colapsada */
+    }
 
-/* Botão Dark Mode Header */
-.theme-switch { position: relative; display: inline-block; width: 44px; height: 22px; }
-.theme-switch input { display: none; }
-.slider { background-color: #cbd5e0; position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; transition: .4s; border-radius: 34px; }
-.slider:before {
-    background-color: white; content: "";
-    height: 16px; width: 16px; left: 3px; bottom: 3px;
-    position: absolute; transition: .4s; border-radius: 50%;
+    .sidebar-brand img {
+        max-width: 40px; /* Reduz o tamanho da logo */
+        height: auto;
+    }
+
+    /* Esconde o texto dos links e o título da seção */
+    .nav-link span,
+    .nav-section .section-title, /* Adicionado para esconder o título da seção se for usado */
+    .user-info span { /* Também esconde o nome de usuário */
+        display: none;
+    }
+
+    .nav-link i {
+        margin-right: 0; /* Centraliza os ícones */
+    }
+    
+    /* TOOLTIP: Exibe o texto completo do link no hover da sidebar colapsada */
+    .nav-link:hover span {
+        display: block; /* Torna o span visível */
+        position: absolute;
+        left: 75px; /* Posição à direita do ícone */
+        background: var(--bg-sidebar); /* Fundo do tooltip */
+        color: var(--text-main);
+        padding: 5px 10px;
+        border-radius: 4px;
+        white-space: nowrap; /* Impede que o texto quebre linha */
+        z-index: 1000; /* Garante que o tooltip apareça sobre outros elementos */
+        box-shadow: 0 2px 8px var(--shadow-dark);
+        border: 1px solid var(--border);
+    }
+
+    /* O botão de logout também precisa se adaptar */
+    .btn-logout {
+        margin: 10px auto; /* Centraliza o botão */
+        width: 40px; /* Largura reduzida para mostrar apenas o ícone */
+        height: 40px; /* Altura igual à largura */
+        padding: 0;
+        border-radius: 50%; /* Transforma em círculo */
+        justify-content: center; /* Centraliza o ícone */
+    }
+    .btn-logout span { /* Esconde o texto "Sair" */
+        display: none;
+    }
+    .btn-logout i { /* Centraliza o ícone dentro do círculo */
+        margin-right: 0;
+    }
+
+    /* Ajustes para o cabeçalho em telas menores */
+    .vscode-header {
+        padding: 0 15px;
+    }
+
+    .vscode-header h2 {
+        font-size: 1rem; /* Título da página menor */
+    }
+
+    .header-right {
+        gap: 10px; /* Menor espaçamento */
+    }
+
+    .user-info {
+        font-size: 0.85rem; /* Texto do usuário menor */
+    }
+    .user-info i {
+        margin-right: 0; /* Centraliza o ícone se o span sumir */
+    }
 }
-input:checked + .slider { background-color: var(--brand-purple); }
-input:checked + .slider:before { transform: translateX(22px); }

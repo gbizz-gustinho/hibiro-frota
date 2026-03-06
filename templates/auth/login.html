@@ -1,59 +1,103 @@
-{% extends "site/base_site.html" %}
+{% extends "base_site.html" %}
 
 {% block title %}Hibiro 2026 - Login{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <style>
-        .welcome-yellow { color: #ffff00; }
+        .welcome-yellow { color: #f1c40f; font-weight: bold; }
         .welcome-white { color: #ffffff; }
+        
+        /* Garante que o container de login brilhe no centro */
+        .login-page-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 20px;
+        }
+
+        .login-form h3 {
+            color: #00c6ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-form p {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .login-form a {
+            color: #00c6ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Esconde o formulário de registro por padrão */
+        #registerForm { display: none; }
     </style>
 {% endblock %}
 
 {% block content %}
-<div class="login-container">
-    <div class="login-header">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro">
+<div class="login-page-wrapper">
+    <div class="login-container">
+        <div class="login-header" style="text-align: center; margin-bottom: 30px;">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro" style="height: 60px;">
+            </div>
+            <h2 style="margin-top: 15px;">
+                <span class="welcome-yellow">Bem Vindo</span> 
+                <span class="welcome-white">ao Hibiro 2026</span>
+            </h2>
         </div>
-        <h2>
-            <span class="welcome-yellow">Bem Vindo</span> 
-            <span class="welcome-white">a Hibiro 2026</span>
-        </h2>
-    </div>
-    
-    <div class="login-form-wrapper">
-        <form id="loginForm" class="login-form active" action="{{ url_for('auth.login') }}" method="POST">
-            <h3>Acesse sua Conta</h3>
-            <div class="input-group">
-                <label for="loginEmail">E-mail</label>
-                <input type="email" id="loginEmail" name="email" required>
-            </div>
-            <div class="input-group">
-                <label for="loginSenha">Senha</label>
-                <input type="password" id="loginSenha" name="senha" required>
-            </div>
-            <button type="submit" class="cta-primary">Entrar</button>
-            <p>Novo por aqui? <a href="#" id="showRegister">Cadastre-se</a></p>
-        </form>
+        
+        <div class="login-form-wrapper">
+            <form id="loginForm" class="login-form" action="{{ url_for('auth.login') }}" method="POST">
+                <h3>Acesse sua Conta</h3>
+                <div class="input-group">
+                    <label for="loginEmail"><i class="fa-solid fa-envelope"></i> E-mail</label>
+                    <input type="email" id="loginEmail" name="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="loginSenha"><i class="fa-solid fa-lock"></i> Senha</label>
+                    <input type="password" id="loginSenha" name="senha" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="cta-primary">Entrar</button>
+                <p>Novo por aqui? <a href="javascript:void(0)" id="showRegister">Cadastre-se</a></p>
+            </form>
 
-        <form id="registerForm" class="login-form" action="{{ url_for('auth.register') }}" method="POST">
-            <h3>Criar Nova Conta</h3>
-            <div class="input-group">
-                <label for="registerNome">Nome Completo</label>
-                <input type="text" id="registerNome" name="nome" required>
-            </div>
-            <div class="input-group">
-                <label for="registerEmail">E-mail</label>
-                <input type="email" id="registerEmail" name="email" required>
-            </div>
-            <div class="input-group">
-                <label for="registerSenha">Senha</label>
-                <input type="password" id="registerSenha" name="senha" required>
-            </div>
-            <button type="submit" class="cta-primary">Cadastrar</button>
-            <p>Já possui conta? <a href="#" id="showLogin">Fazer Login</a></p>
-        </form>
+            <form id="registerForm" class="login-form" action="{{ url_for('auth.register') }}" method="POST">
+                <h3>Criar Nova Conta</h3>
+                <div class="input-group">
+                    <label for="registerNome"><i class="fa-solid fa-user"></i> Nome Completo</label>
+                    <input type="text" id="registerNome" name="nome" placeholder="Seu nome" required>
+                </div>
+                <div class="input-group">
+                    <label for="registerEmail"><i class="fa-solid fa-envelope"></i> E-mail</label>
+                    <input type="email" id="registerEmail" name="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="registerSenha"><i class="fa-solid fa-lock"></i> Senha</label>
+                    <input type="password" id="registerSenha" name="senha" placeholder="Crie uma senha" required>
+                </div>
+                <button type="submit" class="cta-primary">Cadastrar</button>
+                <p>Já possui conta? <a href="javascript:void(0)" id="showLogin">Fazer Login</a></p>
+            </form>
+        </div>
     </div>
 </div>
+
+<script>
+    // Script simples para alternar entre Login e Cadastro sem recarregar a página
+    document.getElementById('showRegister').addEventListener('click', function() {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'block';
+    });
+
+    document.getElementById('showLogin').addEventListener('click', function() {
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+    });
+</script>
 {% endblock %}

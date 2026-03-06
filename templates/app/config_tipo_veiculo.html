@@ -1,39 +1,42 @@
-{% extends "app/base_app.html" %}
-{% block title %}Tipos de Veículo | Hibiro{% endblock %}
+{% extends "base_app.html" %}
+
+{% block title %}Tipos de Veículo - Configurações{% endblock %}
+{% block page_title %}Tipos de Veículo/Carroceria{% endblock %}
 
 {% block content %}
-<div class="section-header">
-    <h1>Tipos de Veículo</h1>
-    <p>Categorize os ativos da sua frota imobilizada.</p>
+<div class="stat-card" style="margin-bottom: 25px;">
+    <h3 style="margin-top: 0; margin-bottom: 20px;">➕ Adicionar Tipo (Carroceria)</h3>
+    <form method="POST" action="{{ url_for('configuracoes.config_tipo_veiculo') }}" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+        <input type="text" name="nome_tipo" class="input-standard" placeholder="Ex: Cavalo Mecânico, Bitrem, Baú..." required style="flex: 1; min-width: 250px;">
+        <button type="submit" style="background-color: var(--accent); color: white; border: none; padding: 0 25px; height: 45px; border-radius: 8px; font-weight: bold; cursor: pointer; min-width: 120px;">Salvar</button>
+    </form>
 </div>
 
-<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-top: 20px;">
-    <div class="stat-card">
-        <h3>➕ Novo Tipo</h3>
-        <form method="POST" style="margin-top: 15px;">
-            <div class="input-group">
-                <label>Descrição</label>
-                <input type="text" name="nome_tipo" placeholder="Ex: BI-TREM" required class="input-standard">
-            </div>
-            <button type="submit" class="cta-primary" style="width: 100%; margin-top: 10px;">Salvar Tipo</button>
-        </form>
-    </div>
-
-    <div class="stat-card">
-        <h3>📋 Categorias Ativas</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+<div class="stat-card">
+    <h3 style="margin-top: 0; margin-bottom: 20px;">🚛 Tipos Registrados</h3>
+    <div style="overflow-x: auto; width: 100%;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap;">
             <thead>
-                <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
-                    <th style="padding: 12px; color: var(--brand-purple);">Descrição</th>
-                    <th style="padding: 12px; color: var(--brand-purple); text-align: right;">Ações</th>
+                <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
+                    <th style="padding: 15px;">ID</th>
+                    <th style="padding: 15px;">Tipo de Carroceria/Veículo</th>
+                    <th style="padding: 15px; text-align: right;">Ações</th>
                 </tr>
             </thead>
             <tbody>
                 {% for t in tipos %}
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 12px;">🚛 {{ t.nome_tipo }}</td>
-                    <td style="padding: 12px; text-align: right;">✏️ 🗑️</td>
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 15px;">#{{ t.id_tipo }}</td>
+                    <td style="padding: 15px; font-weight: bold;">{{ t.nome_tipo }}</td>
+                    <td style="padding: 15px; text-align: right;">
+                        <a href="{{ url_for('configuracoes.editar_tipo_veiculo', id_tipo=t.id_tipo) }}" style="background: #f1c40f; color: #000; padding: 6px 12px; border-radius: 5px; text-decoration: none; font-size: 0.85rem; font-weight: bold; margin-right: 5px;">✏️ Editar</a>
+                        <form method="POST" action="{{ url_for('configuracoes.excluir_tipo_veiculo', id_tipo=t.id_tipo) }}" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Excluir este tipo?');" style="background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; cursor: pointer;">🗑️</button>
+                        </form>
+                    </td>
                 </tr>
+                {% else %}
+                <tr><td colspan="3" style="padding: 25px; text-align: center; color: var(--text-muted);">Nenhum tipo registado.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

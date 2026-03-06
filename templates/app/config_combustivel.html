@@ -1,50 +1,42 @@
-{% extends "app/base_app.html" %}
+{% extends "base_app.html" %}
 
-{% block title %}Combustíveis | Hibiro - 2026{% endblock %}
+{% block title %}Combustíveis - Configurações{% endblock %}
+{% block page_title %}Tipos de Combustível{% endblock %}
 
 {% block content %}
-<div class="welcome-area" style="margin-bottom: 30px;">
-    <h1 style="font-size: 1.8rem; font-weight: 700;">Gerenciar Combustíveis</h1>
-    <p style="color: var(--text-muted);">Cadastre os tipos de energia utilizados pela sua frota.</p>
+<div class="stat-card" style="margin-bottom: 25px;">
+    <h3 style="margin-top: 0; margin-bottom: 20px;">➕ Adicionar Combustível</h3>
+    <form method="POST" action="{{ url_for('configuracoes.config_combustivel') }}" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+        <input type="text" name="nome_combustivel" class="input-standard" placeholder="Ex: Diesel S10, Arla 32..." required style="flex: 1; min-width: 250px;">
+        <button type="submit" style="background-color: var(--accent); color: white; border: none; padding: 0 25px; height: 45px; border-radius: 8px; font-weight: bold; cursor: pointer; min-width: 120px;">Salvar</button>
+    </form>
 </div>
 
-<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 25px;">
-    <div class="stat-card">
-        <h3 style="color: var(--brand-purple); margin-bottom: 20px;">➕ Novo Cadastro</h3>
-        <form method="POST">
-            <div class="input-group">
-                <label>Descrição do Combustível</label>
-                <input type="text" name="nome_combustivel" placeholder="Ex: Diesel S10" required class="input-standard">
-            </div>
-            <button type="submit" class="cta-primary" style="width: 100%; background: var(--brand-purple); border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer;">
-                Salvar Combustível
-            </button>
-        </form>
-    </div>
-
-    <div class="stat-card">
-        <h3 style="margin-bottom: 20px;">📋 Lista de Combustíveis</h3>
-        <table style="width: 100%; border-collapse: collapse;">
+<div class="stat-card">
+    <h3 style="margin-top: 0; margin-bottom: 20px;">⛽ Combustíveis Registrados</h3>
+    <div style="overflow-x: auto; width: 100%;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap;">
             <thead>
-                <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
-                    <th style="padding: 12px; color: var(--text-muted);">Descrição</th>
-                    <th style="padding: 12px; color: var(--text-muted); text-align: right;">Ações</th>
+                <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
+                    <th style="padding: 15px;">ID</th>
+                    <th style="padding: 15px;">Nome do Combustível</th>
+                    <th style="padding: 15px; text-align: right;">Ações</th>
                 </tr>
             </thead>
             <tbody>
                 {% for c in combustiveis %}
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 12px; font-weight: 600;">⛽ {{ c.nome_combustivel }}</td>
-                    <td style="padding: 12px; text-align: right;">
-                        <a href="{{ url_for('configuracoes.excluir_combustivel', id=c.id_tipo_combustivel) }}" 
-                    onclick="return confirm('Tem certeza que deseja excluir o combustível {{ c.nome_combustivel }}?')"
-                    style="text-decoration: none; color: #e74c3c; font-size: 1.2rem;">🗑️</a>
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 15px;">#{{ c.id_tipo_combustivel }}</td>
+                    <td style="padding: 15px; font-weight: bold;">{{ c.nome_combustivel }}</td>
+                    <td style="padding: 15px; text-align: right;">
+                        <a href="{{ url_for('configuracoes.editar_combustivel', id_tipo_combustivel=c.id_tipo_combustivel) }}" style="background: #f1c40f; color: #000; padding: 6px 12px; border-radius: 5px; text-decoration: none; font-size: 0.85rem; font-weight: bold; margin-right: 5px;">✏️ Editar</a>
+                        <form method="POST" action="{{ url_for('configuracoes.excluir_combustivel', id_tipo_combustivel=c.id_tipo_combustivel) }}" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Excluir este combustível?');" style="background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; cursor: pointer;">🗑️</button>
+                        </form>
                     </td>
                 </tr>
                 {% else %}
-                <tr>
-                    <td colspan="2" style="padding: 20px; text-align: center; color: var(--text-muted);">Nenhum combustível cadastrado.</td>
-                </tr>
+                <tr><td colspan="3" style="padding: 25px; text-align: center; color: var(--text-muted);">Nenhum combustível registado.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

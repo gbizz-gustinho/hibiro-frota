@@ -1,27 +1,60 @@
 {% extends "app/base_app.html" %}
-{% block title %}Garagem Virtual | Hibiro{% endblock %}
+
+{% block title %}Minha Frota - Hibiro 2026{% endblock %}
+{% block page_title %}Gestão de Frota{% endblock %}
 
 {% block content %}
-<div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
-    <div>
-        <h1>Garagem Virtual</h1>
-        <p>Acompanhe a depreciação e o valor contábil da sua frota.</p>
+
+<div class="stat-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <h3 style="margin: 0;">🚚 Veículos Registados</h3>
+        <a href="{{ url_for('frota.adicionar_veiculo') }}" style="background-color: var(--accent); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(67, 24, 255, 0.2);">
+            ➕ Adicionar Veículo
+        </a>
     </div>
-    <a href="{{ url_for('frota.adicionar_veiculo') }}" class="cta-primary" style="text-decoration: none;">+ Novo Veículo</a>
+
+    <div style="overflow-x: auto; width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap;">
+            <thead style="background-color: rgba(0,0,0,0.02);">
+                <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
+                    <th style="padding: 15px;">Placa</th>
+                    <th style="padding: 15px;">Marca / Modelo</th>
+                    <th style="padding: 15px;">Tipo</th>
+                    <th style="padding: 15px;">Aquisição</th>
+                    <th style="padding: 15px;">Valor Inicial</th>
+                    <th style="padding: 15px;">Valor Contábil</th>
+                    <th style="padding: 15px; text-align: right;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in veiculos %}
+                <tr style="border-bottom: 1px solid var(--border); transition: 0.2s;">
+                    <td style="padding: 15px; font-weight: bold; color: var(--accent);">{{ v.placa }}</td>
+                    <td style="padding: 15px;">{{ v.nome_marca }} - {{ v.nome_modelo }}</td>
+                    <td style="padding: 15px;">{{ v.nome_tipo }}</td>
+                    <td style="padding: 15px;">{{ v.data_aquisicao }}</td>
+                    <td style="padding: 15px;">R$ {{ "%.2f"|format(v.valor_aquisicao) }}</td>
+                    <td style="padding: 15px; color: #2ecc71; font-weight: bold;">R$ {{ "%.2f"|format(v.valor_contabil_atual) }}</td>
+                    <td style="padding: 15px; text-align: right;">
+                        <a href="#" style="background: #f1c40f; color: #000; padding: 6px 12px; border-radius: 5px; text-decoration: none; font-size: 0.85rem; font-weight: bold; margin-right: 5px;">✏️</a>
+                        
+                        <form method="POST" action="#" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Excluir este veículo?');" style="background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 0.85rem; cursor: pointer;">
+                                🗑️
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" style="padding: 30px; text-align: center; color: var(--text-muted); font-size: 1.1rem;">
+                        Nenhum veículo registado na sua frota. Clique em "Adicionar Veículo" para começar.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<div class="stats-grid">
-    {% for v in veiculos %}
-    <div class="stat-card" style="border-left: 5px solid var(--brand-purple); text-align: left;">
-        <div style="display: flex; justify-content: space-between;">
-            <strong>{{ v.placa }}</strong>
-            <span class="badge">{{ v.nome_tipo }}</span>
-        </div>
-        <p>{{ v.nome_marca }} {{ v.nome_modelo }}</p>
-        <hr style="margin: 10px 0; border: 0; border-top: 1px solid var(--border-color);">
-        <p>💰 Aquisição: R$ {{ "{:,.2f}".format(v.valor_aquisicao) }}</p>
-        <p style="color: var(--brand-purple); font-weight: bold;">📉 Contábil: R$ {{ "{:,.2f}".format(v.valor_contabil_atual) }}</p>
-    </div>
-    {% endfor %}
-</div>
 {% endblock %}

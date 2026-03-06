@@ -1,51 +1,62 @@
-{% extends "app/base_app.html" %}
-{% block title %}Modelos | Hibiro{% endblock %}
+{% extends "base_app.html" %}
+
+{% block title %}Modelos - Configurações{% endblock %}
+{% block page_title %}Gerenciar Modelos{% endblock %}
 
 {% block content %}
-<div class="section-header">
-    <h1>Gerenciar Modelos</h1>
-    <p>Vincule modelos específicos às marcas cadastradas.</p>
+<div class="stat-card" style="margin-bottom: 25px;">
+    <h3 style="margin-top: 0; margin-bottom: 20px;">➕ Adicionar Novo Modelo</h3>
+    <form method="POST" action="{{ url_for('configuracoes.config_modelos') }}" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+        
+        <div style="flex: 1; min-width: 200px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem; color: var(--text-muted);">Marca</label>
+            <select name="id_marca" class="input-standard" required>
+                <option value="">Selecione uma marca...</option>
+                {% for m in marcas %}
+                    <option value="{{ m.id_marca }}">{{ m.nome_marca }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="flex: 2; min-width: 250px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem; color: var(--text-muted);">Nome do Modelo</label>
+            <input type="text" name="nome_modelo" class="input-standard" placeholder="Ex: FH 540, Constellation..." required>
+        </div>
+
+        <button type="submit" style="background-color: var(--accent); color: white; border: none; padding: 0 25px; height: 45px; border-radius: 8px; font-weight: bold; cursor: pointer; min-width: 120px;">
+            Salvar
+        </button>
+    </form>
 </div>
 
-<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-top: 20px;">
-    <div class="stat-card">
-        <h3>➕ Novo Modelo</h3>
-        <form method="POST" style="margin-top: 15px;">
-            <div class="input-group">
-                <label>Marca</label>
-                <select name="id_marca" required class="input-standard">
-                    <option value="">-- Selecione --</option>
-                    {% for marca in marcas %}
-                    <option value="{{ marca.id_marca }}">{{ marca.nome_marca }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="input-group" style="margin-top: 15px;">
-                <label>Nome do Modelo</label>
-                <input type="text" name="nome_modelo" placeholder="Ex: FH 540" required class="input-standard">
-            </div>
-            <button type="submit" class="cta-primary" style="width: 100%; margin-top: 10px;">Salvar Modelo</button>
-        </form>
-    </div>
-
-    <div class="stat-card">
-        <h3>📋 Modelos na Base</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+<div class="stat-card">
+    <h3 style="margin-top: 0; margin-bottom: 20px;">🚘 Modelos Registrados</h3>
+    <div style="overflow-x: auto; width: 100%;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap;">
             <thead>
-                <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
-                    <th style="padding: 12px; color: var(--brand-purple);">Marca / Modelo</th>
-                    <th style="padding: 12px; color: var(--brand-purple); text-align: right;">Ações</th>
+                <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
+                    <th style="padding: 15px;">ID</th>
+                    <th style="padding: 15px;">Marca</th>
+                    <th style="padding: 15px;">Modelo</th>
+                    <th style="padding: 15px; text-align: right;">Ações</th>
                 </tr>
             </thead>
             <tbody>
-                {% for m in modelos %}
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 12px;">
-                        <small style="color: var(--text-muted);">{{ m.nome_marca }}</small><br>
-                        <strong>{{ m.nome_modelo }}</strong>
+                {% for mo in modelos %}
+                <tr style="border-bottom: 1px solid var(--border); transition: 0.2s;">
+                    <td style="padding: 15px;">#{{ mo.id_modelo }}</td>
+                    <td style="padding: 15px; font-weight: bold; color: var(--accent);">{{ mo.nome_marca }}</td>
+                    <td style="padding: 15px; font-weight: bold;">{{ mo.nome_modelo }}</td>
+                    <td style="padding: 15px; text-align: right;">
+                        <form method="POST" action="#" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Excluir este modelo?');" style="background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; cursor: pointer;">
+                                🗑️ Excluir
+                            </button>
+                        </form>
                     </td>
-                    <td style="padding: 12px; text-align: right;">✏️ 🗑️</td>
                 </tr>
+                {% else %}
+                <tr><td colspan="4" style="padding: 25px; text-align: center; color: var(--text-muted);">Nenhum modelo registado ainda.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

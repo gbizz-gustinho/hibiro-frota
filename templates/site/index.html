@@ -1,23 +1,30 @@
-{% extends "site/base_site.html" %}
+{% extends "base_site.html" %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+    {# Este bloco deve ser usado APENAS para CSS muito específico desta página, se houver. #}
 {% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="hero-content">
-        <h1>O Futuro da Gestão de Frotas na Palma da Sua Mão</h1>
-        <p>Otimize rotas, controle gastos e monitore seus veículos em tempo real.</p>
+<section class="hero-section">
+    <div class="hero-content-wrapper">
+        <div class="hero-text-container">
+            <h1>O Futuro da Gestão de Frotas na Palma da Sua Mão</h1>
+            <p>Otimize rotas, controle gastos e monitore seus veículos em tempo real.</p>
+        </div>
         
-        <a href="{{ url_for('auth.login') }}" class="cta-primary">Experimente Grátis</a>
+        <div class="hero-video-container">
+            <video autoplay muted loop playsinline class="app-video">
+                <source src="{{ url_for('static', filename='video/hibiro.mp4') }}" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+        </div>
     </div>
     
-    <div class="hero-image">
-        <video autoplay muted loop playsinline class="app-video">
-            <source src="{{ url_for('static', filename='video/hibiro.mp4') }}" type="video/mp4">
-        </video>
+    {# BLOCO PARA OS DOIS BOTÕES NA HERO SECTION #}
+    <div class="hero-buttons-wrapper">
+        <a href="{{ url_for('site_bp.cadastro_teste_gratis') }}" class="cta-primary hero-main-cta">Experimente Grátis</a> {# CORRIGIDO #}
+        <a href="{{ url_for('auth.login') }}" class="cta-secondary hero-login-cta">Fazer Login</a>
     </div>
+
 </section>
 {% endblock %}
