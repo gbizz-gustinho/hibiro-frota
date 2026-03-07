@@ -3,35 +3,38 @@
 {% block title %}Hibiro - Benefícios{% endblock %}
 
 {% block content %}
-<section class="section-title">
-    <h1><i class="fa-solid fa-award"></i> Por Que Escolher Hibiro?</h1>
-    <p>Veja como o Hibiro pode transformar a gestão da sua frota.</p>
+<section class="text-center mb-16">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-blue-600 dark:text-blue-400 mb-4 tracking-tight">
+        <i class="fa-solid fa-award mr-2"></i> Por Que Escolher Hibiro?
+    </h1>
+    <p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto font-medium">
+        Entregamos mais do que dados: entregamos inteligência para o seu negócio crescer com segurança.
+    </p>
 </section>
 
-<section class="feature-grid">
-    <div class="card-beneficio">
-        <h3><i class="fa-solid fa-hand-holding-dollar"></i> Redução de Custos</h3>
-        <p>Otimize o uso de combustível, minimize manutenções emergenciais e elimine gastos desnecessários.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto pb-20">
+    <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-slate-700 transition hover:shadow-blue-500/10">
+        <div class="bg-blue-600 p-8 flex items-center justify-center text-white text-5xl md:w-1/3 shadow-inner">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+        </div>
+        <div class="p-8 md:w-2/3">
+            <h3 class="text-2xl font-black mb-3 text-gray-800 dark:text-white uppercase tracking-tight">Redução de Custos</h3>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+                Diminua drasticamente os gastos com combustível e manutenções não planejadas através de análise preditiva.
+            </p>
+        </div>
     </div>
 
-    <div class="card-beneficio">
-        <h3><i class="fa-solid fa-arrow-up-right-dots"></i> Produtividade</h3>
-        <p>Rotas inteligentes e monitoramento eficiente garantem mais entregas em menos tempo.</p>
+    <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-slate-700 transition hover:shadow-green-500/10">
+        <div class="bg-green-600 p-8 flex items-center justify-center text-white text-5xl md:w-1/3 shadow-inner">
+            <i class="fa-solid fa-arrow-up-right-dots"></i>
+        </div>
+        <div class="p-8 md:w-2/3">
+            <h3 class="text-2xl font-black mb-3 text-gray-800 dark:text-white uppercase tracking-tight">Produtividade</h3>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+                Garanta que sua frota esteja sempre em movimento com rotas otimizadas e menor tempo de ociosidade.
+            </p>
+        </div>
     </div>
-
-    <div class="card-beneficio">
-        <h3><i class="fa-solid fa-shield-halved"></i> Maior Segurança</h3>
-        <p>Monitore o comportamento dos motoristas e garanta a segurança de sua equipe e carga.</p>
-    </div>
-
-    <div class="card-beneficio">
-        <h3><i class="fa-solid fa-brain"></i> Decisão Inteligente</h3>
-        <p>Acesse relatórios detalhados e dados precisos para decisões estratégicas e proativas.</p>
-    </div>
-
-    <div class="card-beneficio">
-        <h3><i class="fa-solid fa-scale-balanced"></i> Conformidade</h3>
-        <p>Mantenha a documentação e os requisitos legais da frota sempre em dia com nossa plataforma.</p>
-    </div>
-</section>
+</div>
 {% endblock %}

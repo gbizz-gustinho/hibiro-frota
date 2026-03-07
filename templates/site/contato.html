@@ -1,45 +1,57 @@
-    {% extends "base_site.html" %}
+{% extends "base_site.html" %}
 
-    {% block title %}Hibiro - Contato{% endblock %}
+{% block content %}
+<section class="text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-blue-600 dark:text-blue-400">
+        <i class="fa-solid fa-comments"></i> Fale Conosco
+    </h1>
+    <p class="text-gray-500 dark:text-gray-400 mt-2">Estamos prontos para atender sua frota.</p>
+</section>
 
-    {% block content %}
-    <section class="section-title">
-        <h1><i class="fa-solid fa-comments"></i> Fale Conosco</h1>
-        <p>Estamos prontos para atender sua frota.</p>
-    </section>
-
-    <div class="feature-grid" style="align-items: start;">
-        {# ALTERADO: Adicionado action para a rota 'site_bp.contato' #}
-        <form class="card-funcionalidade" style="text-align: left;" method="POST" action="{{ url_for('site_bp.contato') }}">
-            <div class="input-group">
-                <label><i class="fa-solid fa-user"></i> Nome</label>
-                <input type="text" name="nome" placeholder="Seu nome completo" required>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto pb-20">
+    <form class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700" method="POST" action="{{ url_for('site_bp.contato') }}">
+        <div class="space-y-6">
+            <div>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Nome</label>
+                <input type="text" name="nome" placeholder="Seu nome completo" required
+                    class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition dark:text-white">
             </div>
-            <div class="input-group">
-                <label><i class="fa-solid fa-envelope"></i> E-mail</label>
-                <input type="email" name="email" placeholder="seu@email.com" required>
-            </div>
-            <div class="input-group">
-                <label><i class="fa-solid fa-comment-dots"></i> Mensagem</label>
-                <textarea name="mensagem" rows="4" placeholder="Como podemos ajudar?" required></textarea>
-            </div>
-            <button type="submit" class="cta-primary" style="width: 100%;">Enviar Agora</button>
-        </form>
-
-        <div class="card-funcionalidade" style="text-align: left;">
-            <h3>Canais Diretos</h3>
-            <p><i class="fa-solid fa-phone" style="color: var(--accent);"></i> (11) 99257-4664</p>
-            <p><i class="fa-solid fa-location-dot" style="color: var(--accent);"></i> Barueri - SP</p>
             
-            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+            <div>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">E-mail</label>
+                <input type="email" name="email" placeholder="seu@email.com" required
+                    class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition dark:text-white">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Mensagem</label>
+                <textarea name="mensagem" rows="4" placeholder="Como podemos ajudar?" required
+                    class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition dark:text-white"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transform hover:-translate-y-1 transition">
+                Enviar Agora
+            </button>
+        </div>
+    </form>
+
+    <div class="space-y-8">
+        <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-xl border border-gray-100 dark:border-slate-700">
+            <h3 class="text-2xl font-bold mb-6 text-blue-600 dark:text-blue-400">Canais Diretos</h3>
+            <div class="space-y-4 text-lg dark:text-gray-300">
+                <p class="flex items-center gap-4"><i class="fa-solid fa-phone text-blue-500"></i> (11) 99257-4664</p>
+                <p class="flex items-center gap-4"><i class="fa-solid fa-location-dot text-blue-500"></i> Barueri - SP</p>
+            </div>
             
-            <h3>Nossas Redes</h3>
-            <div class="social-links" style="justify-content: flex-start;">
-                <a href="https://facebook.com/xmei.pj/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-                <a href="https://instagram.com/meix.pj/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://linkedin.com/in/israel-bizzarri-142343347/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://youtube.com/@meixpj/" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+            <div class="my-8 border-t border-gray-100 dark:border-slate-700"></div>
+            
+            <h3 class="text-2xl font-bold mb-6 text-blue-600 dark:text-blue-400">Nossas Redes</h3>
+            <div class="flex gap-6 text-3xl text-gray-400">
+                <a href="https://linkedin.com/in/israel-bizzarri-142343347/" target="_blank" class="hover:text-blue-600 transition"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://instagram.com/meix.pj/" target="_blank" class="hover:text-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://youtube.com/@meixpj/" target="_blank" class="hover:text-red-600 transition"><i class="fa-brands fa-youtube"></i></a>
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

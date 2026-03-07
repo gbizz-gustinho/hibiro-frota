@@ -1,0 +1,227 @@
+/* =========================================
+   static/css/login.css - Estilos da Autenticação
+   Consolidado e Otimizado
+========================================= */
+
+/* Estilos globais para a página de login */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, #1a0f3d 0%, #0d0c22 70%); /* Gradiente de fundo com as cores do tema escuro */
+}
+
+/* Wrapper para centralizar o container de login */
+.login-page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Ajuste para centralizar bem na tela */
+    padding: 20px;
+    width: 100%; /* Garante que o wrapper ocupe a largura total */
+}
+
+/* Container principal do formulário de Login/Registro */
+.login-container {
+    background-color: #1a1a3a; /* Cor de fundo escura */
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Sombra suave */
+    width: 95%; /* Ocupa 95% da largura disponível */
+    max-width: 400px; /* Limite de largura para desktop */
+    text-align: center;
+    margin: 60px auto; /* Centraliza horizontalmente e dá margem superior */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    box-sizing: border-box; /* Inclui padding na largura total */
+}
+
+/* Cabeçalho do formulário (Logo e Texto de Boas-Vindas) */
+.login-header {
+    margin-bottom: 2rem;
+    text-align: center; /* Centraliza o conteúdo */
+}
+
+.login-header.logo img {
+    max-width: 120px; /* Tamanho máximo da logo */
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.login-header h2 {
+    font-size: 1.8rem;
+    line-height: 1.3;
+    margin-top: 15px; /* Ajuste de margem superior */
+}
+
+/* Cores específicas para o texto de boas-vindas */
+.welcome-yellow {
+    color: #ffff00; /* Amarelo vibrante */
+    font-weight: bold;
+}
+
+.welcome-white {
+    color: #ffffff; /* Branco puro */
+}
+
+/* Wrapper para os formulários de Login/Registro (controla a transição) */
+.login-form-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 380px; /* Altura mínima para acomodar o formulário mais alto */
+    overflow: hidden; /* Esconde o formulário que está fora de vista */
+}
+
+/* Estilos base para ambos os formulários (Login e Registro) */
+.login-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: all 0.5s ease-in-out; /* Transição suave para todas as mudanças */
+    opacity: 0; /* Esconde o formulário por padrão */
+    transform: translateX(100%); /* Coloca o formulário para fora da tela (direita) */
+    visibility: hidden; /* Esconde totalmente */
+    pointer-events: none; /* Desabilita interações */
+    box-sizing: border-box;
+}
+
+/* Formulário ATIVO (visível e interativo) */
+.login-form.active {
+    opacity: 1; /* Torna visível */
+    transform: translateX(0); /* Move para a posição inicial */
+    visibility: visible; /* Torna visível */
+    pointer-events: auto; /* Habilita interações */
+}
+
+/* Estilo para os grupos de input */
+.login-form.input-group {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 15px;
+    position: relative; /* ESSENCIAL para posicionar o ícone da senha */
+}
+
+/* Estilo para os rótulos dos inputs */
+.login-form.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #00c6ff; /* Cor azul neon para os labels */
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+/* Estilo para ícones nos labels (ex: envelope, cadeado) */
+.login-form.input-group label i {
+    margin-right: 8px;
+    color: #2575fc; /* Cor azul mais escura para os ícones */
+}
+
+/* Estilo para os campos de input */
+.login-form input {
+    width: 100%; /* Removido!important, o default já é 100% */
+    padding: 12px;
+    background-color: #0d0c22;
+    border: 1px solid #3a3a6a;
+    border-radius: 8px;
+    color: white;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+    display: block;
+    max-width: none; /* Remove a limitação de largura que pode vir de estilos globais */
+}
+
+/* Foco nos campos de input */
+.login-form input:focus {
+    border-color: #00c6ff; /* Removido!important */
+    box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.3); /* Removido!important */
+    outline: none;
+}
+
+/* Adaptação para o input de senha para dar espaço ao ícone */
+.login-form.input-group input[type="password"],
+.login-form.input-group input[type="text"] { /* Aplica a ambos os tipos para transição suave */
+    padding-right: 45px; /* Mais padding para o texto não ficar por baixo do ícone */
+}
+
+/* Estilo para o ícone "olhinho" dentro do input */
+.login-form.input-group.toggle-password { /* Seletor corrigido e mais específico */
+    position: absolute;
+    right: 15px; /* Posição ajustada dentro do campo */
+    top: 50%; /* Centraliza verticalmente o ícone */
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-color-secondary); /* Cor padrão do ícone */
+    font-size: 1.1em;
+    transition: color 0.2s ease;
+    z-index: 10; /* Garante que o ícone esteja acima do input */
+}
+
+.login-form.input-group.toggle-password:hover {
+    color: var(--accent); /* Cor ao passar o mouse */
+}
+
+/* Estilo do botão primário (cta-primary) dentro do formulário */
+.login-form.cta-primary {
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradiente roxo/azul */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%; /* Ocupa a largura total */
+    padding: 12px;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    box-sizing: border-box; /* Inclui padding na largura total */
+}
+
+/* Efeito hover no botão primário */
+.login-form.cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+}
+
+/* Estilo para parágrafos informativos */
+.login-form p {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #bbb; /* Cinza claro */
+}
+
+/* Estilo para links dentro dos parágrafos (alternar login/registro) */
+.login-form p a {
+    color: #00c6ff; /* Azul neon */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+/* Efeito hover nos links */
+.login-form p a:hover {
+    color: #6a11cb; /* Roxo */
+}
+
+/* --- RESPONSIVIDADE BÁSICA --- */
+@media (max-width: 480px) {
+  .login-container {
+        padding: 1.5rem;
+        margin-top: 30px; /* Ajuste para telas menores */
+    }
+
+  .login-header h2 {
+        font-size: 1.5rem;
+    }
+
+  .login-form input,
+  .login-form.cta-primary {
+        padding: 10px;
+        font-size: 1rem;
+    }
+}
+

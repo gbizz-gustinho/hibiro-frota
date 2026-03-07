@@ -103,6 +103,14 @@ def editar_combustivel(id_tipo_combustivel):
     c = db.execute('SELECT * FROM vei_combustivel WHERE id_tipo_combustivel=?', (id_tipo_combustivel,)).fetchone()
     return render_template('app/config_combustivel_edit.html', combustivel=c, username=session.get('username'))
 
+@config_bp.route('/combustivel/excluir/<int:id_tipo_combustivel>', methods=['POST'])
+def excluir_combustivel(id_tipo_combustivel):
+    db = get_db()
+    db.execute('DELETE FROM vei_combustivel WHERE id_tipo_combustivel = ?', (id_tipo_combustivel,))
+    db.commit()
+    flash('Combustível removido com sucesso!', 'warning')
+    return redirect(url_for('configuracoes.config_combustivel'))
+
 # ==========================================
 # 🚛 TIPOS DE VEÍCULO (vei_tipo)
 # ==========================================

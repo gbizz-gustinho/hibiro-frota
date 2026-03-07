@@ -1,75 +1,54 @@
 {% extends "base_site.html" %}
 
-{% block title %}Hibiro 2026 - Login{% endblock %}
-
-{# Carrega o CSS específico da página de login #}
-{% block extra_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-{% endblock %}
-
 {% block content %}
-<div class="login-page-wrapper">
-    <div class="login-container">
-        <div class="login-header" style="text-align: center; margin-bottom: 30px;">
-            <div class="logo">
-                <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro" style="height: 60px;">
-            </div>
-            <h2 style="margin-top: 15px;">
-                <span class="welcome-yellow">Bem Vindo</span> 
-                <span class="welcome-white">ao Hibiro 2026</span>
+<div class="min-h-[70vh] flex items-center justify-center py-12 px-4">
+    <div class="max-w-md w-full space-y-8 bg-white dark:bg-slate-800 p-10 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 relative overflow-hidden">
+        
+        <div class="text-center">
+            <img class="mx-auto h-12 w-auto" src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro">
+            <h2 class="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+                <span class="text-blue-600">Bem-vindo</span> ao Hibiro 2026
             </h2>
         </div>
-        
-        <div class="login-form-wrapper">
-            <form id="loginForm" class="login-form" action="{{ url_for('auth.login') }}" method="POST">
-                <h3>Acesse sua Conta</h3>
-                <div class="input-group">
-                    <label for="loginEmail"><i class="fa-solid fa-envelope"></i> E-mail</label>
-                    <input type="email" id="loginEmail" name="email" placeholder="seu@email.com" required 
-                           value="{{ request.form.email if request.form and request.url_rule.endpoint == 'auth.login' else '' }}">
-                </div>
-                {# CAMPO DE SENHA COM OLHINHO PARA LOGIN #}
-                <div class="input-group"> {# O input-group já terá position: relative pelo CSS #}
-                    <label for="loginSenha"><i class="fa-solid fa-lock"></i> Senha</label>
-                    <input type="password" id="loginSenha" name="senha" placeholder="••••••••" required>
-                    <i class="fa-solid fa-eye toggle-password" data-target="loginSenha"></i>
-                </div>
-                <button type="submit" class="cta-primary">Entrar</button>
-                <p>Novo por aqui? <a href="javascript:void(0)" id="showRegister">Cadastre-se</a></p>
-            </form>
 
-            <form id="registerForm" class="login-form" action="{{ url_for('auth.register') }}" method="POST">
-                <h3>Criar Nova Conta</h3>
-                <div class="input-group">
-                    <label for="registerNome"><i class="fa-solid fa-user"></i> Nome Completo</label>
-                    <input type="text" id="registerNome" name="nome" placeholder="Seu nome" required 
-                           value="{{ request.form.nome if request.form and request.url_rule.endpoint == 'auth.register' else '' }}">
+        <div id="loginSection" class="space-y-6">
+            <form class="mt-8 space-y-4" action="{{ url_for('auth.login') }}" method="POST">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">E-mail</label>
+                    <input type="email" name="email" required 
+                        class="w-full p-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="seu@email.com">
                 </div>
-                <div class="input-group">
-                    <label for="registerEmail"><i class="fa-solid fa-envelope"></i> E-mail</label>
-                    <input type="email" id="registerEmail" name="email" placeholder="seu@email.com" required 
-                           value="{{ request.form.email if request.form and request.url_rule.endpoint == 'auth.register' else '' }}">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Senha</label>
+                    <input type="password" id="loginPass" name="senha" required 
+                        class="w-full p-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="••••••••">
                 </div>
-                {# CAMPO DE SENHA COM OLHINHO PARA CADASTRO #}
-                <div class="input-group"> {# O input-group já terá position: relative pelo CSS #}
-                    <label for="registerSenha"><i class="fa-solid fa-lock"></i> Senha</label>
-                    <input type="password" id="registerSenha" name="senha" placeholder="Crie uma senha" required>
-                    <i class="fa-solid fa-eye toggle-password" data-target="registerSenha"></i>
-                </div>
-                <div class="input-group">
-                    <label for="registerCnpj"><i class="fa-solid fa-building"></i> CNPJ (Opcional)</label>
-                    <input type="text" id="registerCnpj" name="cnpj" placeholder="Apenas números (Ex: 00000000000100)" pattern="[0-9]{14}" title="CNPJ deve conter 14 dígitos numéricos" 
-                           value="{{ request.form.cnpj if request.form and request.url_rule.endpoint == 'auth.register' else '' }}">
-                </div>
-                <button type="submit" class="cta-primary">Cadastrar</button>
-                <p>Já possui conta? <a href="javascript:void(0)" id="showLogin">Fazer Login</a></p>
+
+                <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition transform hover:scale-[1.02]">
+                    Entrar no Painel
+                </button>
             </form>
+            <p class="text-center text-sm text-gray-600 dark:text-gray-400">
+                Ainda não tem conta? 
+                <button onclick="switchForm('register')" class="font-bold text-blue-600 hover:underline">Cadastre-se</button>
+            </p>
+        </div>
+
+        <div id="registerSection" class="hidden space-y-6">
+            <h3 class="text-xl font-bold text-center text-gray-800 dark:text-white">Criar Nova Conta</h3>
+            <form class="space-y-4" action="{{ url_for('auth.register') }}" method="POST">
+                <input type="text" name="nome" placeholder="Nome Completo" required class="w-full p-3 border dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-900 text-white outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="email" name="email" placeholder="E-mail" required class="w-full p-3 border dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-900 text-white outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="password" name="senha" placeholder="Crie uma Senha" required class="w-full p-3 border dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-900 text-white outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition transform hover:scale-[1.02]">
+                    Finalizar Cadastro
+                </button>
+            </form>
+            <p class="text-center text-sm text-gray-600 dark:text-gray-400">
+                Já possui conta? 
+                <button onclick="switchForm('login')" class="font-bold text-blue-600 hover:underline">Fazer Login</button>
+            </p>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-    {# Carrega o JS específico da página de login #}
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}

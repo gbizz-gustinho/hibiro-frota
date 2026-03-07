@@ -1,37 +1,30 @@
 {% extends "base_site.html" %}
 
-{% block title %}Hibiro - Funcionalidades{% endblock %}
-
 {% block content %}
-<section class="section-title">
-    <h1>Descubra o Poder do Hibiro</h1>
-    <p>Conheça as principais funcionalidades que otimizam sua operação diária.</p>
+<section class="text-center mb-16">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-blue-600 dark:text-blue-400 mb-4 tracking-tight">
+        Descubra o Poder do Hibiro
+    </h1>
+    <p class="text-gray-500 dark:text-gray-400 text-lg">Tecnologia avançada para otimizar sua operação diária.</p>
 </section>
 
-<section class="feature-grid">
-    <div class="card-funcionalidade">
-        <h3><i class="fa-solid fa-chart-line"></i> Monitoramento</h3>
-        <p>Acompanhe seus veículos e motoristas com precisão cirúrgica.</p>
-    </div>
-    
-    <div class="card-funcionalidade">
-        <h3><i class="fa-solid fa-satellite-dish"></i> Telemetria Avançada</h3>
-        <p>Monitore localização, velocidade, consumo e comportamento do motorista em tempo real para otimização.</p>
-    </div>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
+    {% set funcs = [
+        {'icon': 'fa-chart-line', 'title': 'Monitoramento', 'desc': 'Acompanhe seus veículos e motoristas com precisão cirúrgica.'},
+        {'icon': 'fa-satellite-dish', 'title': 'Telemetria', 'desc': 'Localização, velocidade e consumo em tempo real.'},
+        {'icon': 'fa-video', 'title': 'Vídeo Telemetria', 'desc': 'Imagens de alta resolução integradas aos dados de condução.'},
+        {'icon': 'fa-calculator', 'title': 'Controle Contábil', 'desc': 'Gestão de ativos com cálculo automático de depreciação.'},
+        {'icon': 'fa-users-gear', 'title': 'Gestão de Parceiros', 'desc': 'Base unificada para Clientes, Fornecedores e Colaboradores.'}
+    ] %}
 
-    <div class="card-funcionalidade">
-        <h3><i class="fa-solid fa-video"></i> Vídeo Telemetria Integrada</h3>
-        <p>Combine dados de telemetria com imagens de alta resolução para visão completa e segurança.</p>
+    {% for item in funcs %}
+    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 hover:shadow-blue-500/10 transition duration-300">
+        <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 text-2xl mb-6">
+            <i class="fa-solid {{ item.icon }}"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">{{ item.title }}</h3>
+        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{{ item.desc }}</p>
     </div>
-
-    <div class="card-funcionalidade">
-        <h3><i class="fa-solid fa-calculator"></i> Controle Contábil</h3>
-        <p>Gestão completa de ativos com cálculo automático de depreciação.</p>
-    </div>
-    
-    <div class="card-funcionalidade">
-        <h3><i class="fa-solid fa-users-gear"></i> Gestão de Parceiros</h3>
-        <p>Base unificada para Clientes, Fornecedores e Colaboradores.</p>
-    </div>
+    {% endfor %}
 </section>
 {% endblock %}

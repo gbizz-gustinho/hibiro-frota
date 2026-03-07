@@ -4,60 +4,76 @@
 {% block page_title %}Gerenciar Parceiros{% endblock %}
 
 {% block content %}
-<div class="stat-card" style="margin-bottom: 25px;">
-    <h3 style="margin-top: 0; margin-bottom: 20px;">➕ Adicionar Parceiro (Motorista/Fornecedor)</h3>
-    <form method="POST" action="{{ url_for('configuracoes.config_parceiros') }}" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
-        
-        <div style="flex: 2; min-width: 250px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem; color: var(--text-muted);">Nome Completo / Empresa</label>
-            <input type="text" name="nome_clifor" class="input-standard" placeholder="Nome do parceiro..." required>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 mb-8">
+    <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-gray-800 dark:text-white">
+        <span class="text-blue-500">➕</span> Adicionar Parceiro
+    </h3>
+    <form method="POST" action="{{ url_for('configuracoes.config_parceiros') }}" class="flex flex-wrap gap-4 items-end">
+        <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">Nome Completo / Empresa</label>
+            <input type="text" name="nome_clifor" placeholder="Nome do parceiro..." required 
+                class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
         </div>
 
-        <div style="flex: 1; min-width: 200px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem; color: var(--text-muted);">Tipo</label>
-            <select name="tipo_clifor" class="input-standard" required>
+        <div class="w-full sm:w-64">
+            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">Tipo</label>
+            <select name="tipo_clifor" required class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition cursor-pointer">
                 <option value="MOTORISTA">Motorista</option>
                 <option value="FORNECEDOR">Fornecedor (Oficina/Posto)</option>
             </select>
         </div>
 
-        <button type="submit" style="background-color: var(--accent); color: white; border: none; padding: 0 25px; height: 45px; border-radius: 8px; font-weight: bold; cursor: pointer; min-width: 120px;">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-blue-500/20">
             Salvar
         </button>
     </form>
 </div>
 
-<div class="stat-card">
-    <h3 style="margin-top: 0; margin-bottom: 20px;">🤝 Equipe e Fornecedores</h3>
-    <div style="overflow-x: auto; width: 100%;">
-        <table style="width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap;">
-            <thead>
-                <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
-                    <th style="padding: 15px;">ID</th>
-                    <th style="padding: 15px;">Nome</th>
-                    <th style="padding: 15px;">Tipo</th>
-                    <th style="padding: 15px; text-align: right;">Ações</th>
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 dark:divide-slate-700">
+        <h3 class="text-lg font-bold flex items-center gap-2 text-gray-800 dark:text-white">
+            <span class="text-indigo-500">🤝</span> Equipe e Fornecedores
+        </h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-gray-50 dark:bg-slate-900/50 text-gray-500 dark:text-gray-400 text-xs uppercase font-bold">
+                <tr>
+                    <th class="px-6 py-4">ID</th>
+                    <th class="px-6 py-4">Nome</th>
+                    <th class="px-6 py-4">Tipo</th>
+                    <th class="px-6 py-4 text-right">Ações</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
                 {% for p in parceiros %}
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding: 15px;">#{{ p.id_clifor }}</td>
-                    <td style="padding: 15px; font-weight: bold;">{{ p.nome_clifor }}</td>
-                    <td style="padding: 15px;">
-                        <span style="background: {{ '#2ecc71' if p.tipo_clifor == 'MOTORISTA' else '#3498db' }}; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">
-                            {{ p.tipo_clifor }}
+                <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition">
+                    <td class="px-6 py-4 text-sm text-gray-400">#{{ p.id_clifor }}</td>
+                    <td class="px-6 py-4 font-bold text-gray-700 dark:text-white">{{ p.nome_clifor }}</td>
+                    <td class="px-6 py-4">
+                        {% if p.tipo_clifor == 'MOTORISTA' %}
+                        <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-bold tracking-wide">
+                            <i class="fa-solid fa-user-tie mr-1"></i> {{ p.tipo_clifor }}
                         </span>
+                        {% else %}
+                        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-bold tracking-wide">
+                            <i class="fa-solid fa-truck-field mr-1"></i> {{ p.tipo_clifor }}
+                        </span>
+                        {% endif %}
                     </td>
-                    <td style="padding: 15px; text-align: right;">
-                        <a href="{{ url_for('configuracoes.editar_parceiro', id_clifor=p.id_clifor) }}" style="background: #f1c40f; color: #000; padding: 6px 12px; border-radius: 5px; text-decoration: none; font-size: 0.85rem; font-weight: bold; margin-right: 5px;">✏️ Editar</a>
-                        <form method="POST" action="{{ url_for('configuracoes.excluir_parceiro', id_clifor=p.id_clifor) }}" style="display:inline;">
-                            <button type="submit" onclick="return confirm('Excluir este parceiro?');" style="background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; cursor: pointer;">🗑️</button>
+                    <td class="px-6 py-4 text-right flex justify-end gap-2">
+                        <a href="{{ url_for('configuracoes.editar_parceiro', id_colaborador=p.id_colaborador) }}" 
+                        class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-yellow-200 transition">
+                            ✏️ Editar
+                        </a>
+                        <form method="POST" action="{{ url_for('configuracoes.excluir_parceiro', id_colaborador=p.id_colaborador) }}" class="inline">
+                            <button type="submit" onclick="return confirm('Excluir este parceiro?');" 
+                                class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-1.5 rounded-lg hover:bg-red-200 transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
                         </form>
                     </td>
                 </tr>
-                {% else %}
-                <tr><td colspan="4" style="padding: 25px; text-align: center; color: var(--text-muted);">Nenhum parceiro registado ainda.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

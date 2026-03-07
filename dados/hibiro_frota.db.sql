@@ -442,7 +442,9 @@ INSERT INTO "fin_plano_contas" VALUES (52,'3.2.1','Despesa','Não Operacionais',
 INSERT INTO "fin_plano_contas" VALUES (53,'3.2.2','Despesa','Não Operacionais','Depreciações dos Veículos');
 INSERT INTO "fin_plano_contas" VALUES (54,'3.2.3','Despesa','Não Operacionais','Móveis e Equipamentos do Escritório');
 INSERT INTO "fin_plano_contas" VALUES (55,'3.2.4','Despesa','Não Operacionais','Reformas no Imóvel do Escritório');
-INSERT INTO "login_usuarios" VALUES (1,'Israel Augusto','gbizz.idi@gmail.com','$2b$12$xAUhGjt3b8MWxziW91kKnerw3c/nrH5Ttu7TN6/nVTjj5iDZmegAC','','2026-03-03 01:34:05');
+INSERT INTO "login_usuarios" VALUES (1,'Nonato','jna@gmail.com','$2b$12$jCqj8EWum/AQgE4bAdWGSODZH9emeeRL1/YQ6ieD9.9mjGag2DMDW','','2026-03-06 23:11:58');
+INSERT INTO "login_usuarios" VALUES (2,'jna','jna_novo@gmail.com','$2b$12$eStCh5Avo.3jSx67ZT3Ok.c/4yW6DLi9otmrQBV5dKxhWllfCT3ye','','2026-03-06 23:20:14');
+INSERT INTO "login_usuarios" VALUES (3,'Israel Augusto','gbizz.idi@gmail.com','$2b$12$ZyU2BpVyOFx9HOVzzY/5auk93yoK2lUPfX3jdb15oeRyoCNnjjxvm','','2026-03-07 18:45:40');
 INSERT INTO "vei_combustivel" VALUES (1,'Gasolina Comum');
 INSERT INTO "vei_combustivel" VALUES (2,'Gasolina Aditivada');
 INSERT INTO "vei_combustivel" VALUES (3,'Gasolina Premium');

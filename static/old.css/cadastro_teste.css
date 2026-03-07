@@ -1,0 +1,113 @@
+/* =========================================
+   static/css/cadastro_teste.css - Estilos específicos da página de Cadastro de Teste
+========================================= */
+
+/* Container principal da página de cadastro de teste */
+.feature-grid .card-funcionalidade { /* Seletor mais específico */
+    background-color: var(--card-bg); /* Cor de fundo do seu tema */
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 95%;
+    max-width: 450px; /* <--- LARGURA MÁXIMA PARA O CARD DO FORMULÁRIO */
+    margin: 60px auto; /* Centraliza horizontalmente e dá margem superior */
+    box-sizing: border-box;
+    text-align: left; /* Alinha o texto do formulário à esquerda */
+}
+
+.feature-grid .card-funcionalidade h3 {
+    color: var(--accent); /* Cor do título "Seus Dados" */
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    text-align: center; /* Centraliza o título */
+}
+
+/* Estilos para os grupos de input */
+.feature-grid .card-funcionalidade .input-group {
+    margin-bottom: 15px;
+    text-align: left;
+    position: relative; /* <--- ESSENCIAL para posicionar o ícone da senha */
+}
+
+.feature-grid .card-funcionalidade .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-color-light);
+}
+
+.feature-grid .card-funcionalidade .input-group label i {
+    margin-right: 8px;
+    color: var(--accent);
+}
+
+.feature-grid .card-funcionalidade input[type="text"],
+.feature-grid .card-funcionalidade input[type="email"],
+.feature-grid .card-funcionalidade input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--text-color-primary);
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+    display: block;
+}
+
+.feature-grid .card-funcionalidade input:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.3);
+}
+
+/* Adaptação para o input de senha para dar espaço ao ícone */
+.feature-grid .card-funcionalidade .input-group input[type="password"],
+.feature-grid .card-funcionalidade .input-group input[type="text"] {
+    padding-right: 45px; /* Mais padding para o texto não ficar por baixo do ícone */
+}
+
+/* Estilo para o ícone "olhinho" dentro do input-group */
+.feature-grid .card-funcionalidade .input-group .toggle-password {
+    position: absolute;
+    right: 15px; /* Posição ajustada dentro do campo */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-color-secondary);
+    font-size: 1.1em;
+    transition: color 0.2s ease;
+    z-index: 10; /* Garante que o ícone esteja acima do input */
+}
+
+.feature-grid .card-funcionalidade .input-group .toggle-password:hover {
+    color: var(--accent);
+}
+
+/* Estilo para o botão "Criar Conta de Teste" */
+#createAccountButton { /* Usando ID para especificidade máxima */
+    width: auto;
+    min-width: 250px;
+    max-width: 100%;
+    display: block;
+    margin: 1.5rem auto 0 auto;
+    padding: 15px 35px;
+    font-size: 1.5rem;
+}
+    
+@media (max-width: 480px) {
+    .feature-grid .card-funcionalidade {
+        padding: 1rem;
+    }
+    .feature-grid .card-funcionalidade h3 {
+        font-size: 1.5rem;
+    }
+    #createAccountButton { /* Ajustes para mobile */
+        min-width: unset;
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}

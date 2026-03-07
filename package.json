@@ -1,0 +1,16 @@
+{
+  "name": "hibiro_frota_tailwind",
+  "version": "1.0.0",
+  "description": "Desenvolvimento de um Site do Aplicativo Hibiro/Fleet",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^4.2.1"
+  }
+}

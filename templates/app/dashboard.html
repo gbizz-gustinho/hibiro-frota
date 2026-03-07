@@ -1,87 +1,37 @@
 {% extends "base_app.html" %}
 
-{% block title %}Dashboard - Hibiro 2026{% endblock %}
-{% block page_title %}Visão Geral da Frota{% endblock %}
-
 {% block content %}
-<div class="dashboard-grid">
-    <div class="stat-card">
-        <h3 style="margin-top: 0; color: var(--text-muted);">🚚 Veículos Ativos</h3>
-        <p style="font-size: 2.5rem; font-weight: 800; color: var(--accent); margin: 10px 0;">{{ total_veiculos }}</p>
-        <small style="color: #2ecc71; font-weight: bold;">● Frota monitorada</small>
-    </div>
-
-    <div class="stat-card">
-        <h3 style="margin-top: 0; color: var(--text-muted);">👤 Motoristas</h3>
-        <p style="font-size: 2.5rem; font-weight: 800; color: var(--accent); margin: 10px 0;">{{ total_motoristas }}</p>
-        <small style="color: var(--text-muted);">Colaboradores ativos</small>
-    </div>
-
-    <div class="stat-card">
-        <h3 style="margin-top: 0; color: var(--text-muted);">⚠️ Alertas</h3>
-        <p style="font-size: 2.5rem; font-weight: 800; color: #f1c40f; margin: 10px 0;">0</p>
-        <small style="color: var(--text-muted);">Manutenções pendentes</small>
-    </div>
-</div>
-
-<div class="dashboard-grid">
-    <div class="stat-card">
-        <h3 style="text-align: center; margin-top: 0;">Composição por Tipo</h3>
-        <div class="chart-container">
-            <canvas id="chartTipos"></canvas>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">🚚 Veículos Ativos</h3>
+        <p class="text-4xl font-extrabold text-blue-600 dark:text-blue-400">{{ total_veiculos }}</p>
+        <div class="mt-4 flex items-center text-xs text-green-500 font-bold">
+            <i class="fa-solid fa-check-double mr-1"></i> Operação Normal
         </div>
     </div>
 
-    <div class="stat-card">
-        <h3 style="text-align: center; margin-top: 0;">Veículos por Marca</h3>
-        <div class="chart-container">
-            <canvas id="chartMarcas"></canvas>
-        </div>
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">👤 Equipe</h3>
+        <p class="text-4xl font-extrabold text-indigo-600 dark:text-indigo-400">{{ total_motoristas }}</p>
+        <p class="mt-4 text-xs text-slate-500">Motoristas registrados</p>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">⚠️ Alertas</h3>
+        <p class="text-4xl font-extrabold text-amber-500">0</p>
+        <p class="mt-4 text-xs text-slate-500">Manutenções preventivas</p>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const chartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { 
-                legend: { position: 'bottom', labels: { color: getComputedStyle(document.body).getPropertyValue('--text-main') } } 
-            }
-        };
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h4 class="text-sm font-bold mb-6 text-center">Distribuição de Carroceria</h4>
+        <div class="h-64"><canvas id="chartTipos"></canvas></div>
+    </div>
 
-        new Chart(document.getElementById('chartTipos'), {
-            type: 'doughnut',
-            data: {
-                labels: {{ labels_tipos | tojson }},
-                datasets: [{
-                    data: {{ values_tipos | tojson }},
-                    backgroundColor: ['#8A05BE', '#00c6ff', '#2ecc71', '#f1c40f', '#e74c3c'],
-                    borderWidth: 0
-                }]
-            },
-            options: chartOptions
-        });
-
-        new Chart(document.getElementById('chartMarcas'), {
-            type: 'bar',
-            data: {
-                labels: {{ labels_marcas | tojson }},
-                datasets: [{
-                    label: 'Quantidade',
-                    data: {{ values_marcas | tojson }},
-                    backgroundColor: '#00c6ff',
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                ...chartOptions,
-                scales: {
-                    y: { beginAtZero: true, ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-main') } },
-                    x: { ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-main') } }
-                }
-            }
-        });
-    });
-</script>
+    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h4 class="text-sm font-bold mb-6 text-center">Veículos por Marca</h4>
+        <div class="h-64"><canvas id="chartMarcas"></canvas></div>
+    </div>
+</div>
 {% endblock %}

@@ -1,62 +1,34 @@
 {% extends "base_app.html" %}
 
-{% block title %}Modelos - Configurações{% endblock %}
-{% block page_title %}Gerenciar Modelos{% endblock %}
-
 {% block content %}
-<div class="stat-card" style="margin-bottom: 25px;">
-    <h3 style="margin-top: 0; margin-bottom: 20px;">➕ Adicionar Novo Modelo</h3>
-    <form method="POST" action="{{ url_for('configuracoes.config_modelos') }}" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
-        
-        <div style="flex: 1; min-width: 200px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem; color: var(--text-muted);">Marca</label>
-            <select name="id_marca" class="input-standard" required>
-                <option value="">Selecione uma marca...</option>
-                {% for m in marcas %}
-                    <option value="{{ m.id_marca }}">{{ m.nome_marca }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div style="flex: 2; min-width: 250px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem; color: var(--text-muted);">Nome do Modelo</label>
-            <input type="text" name="nome_modelo" class="input-standard" placeholder="Ex: FH 540, Constellation..." required>
-        </div>
-
-        <button type="submit" style="background-color: var(--accent); color: white; border: none; padding: 0 25px; height: 45px; border-radius: 8px; font-weight: bold; cursor: pointer; min-width: 120px;">
-            Salvar
-        </button>
-    </form>
-</div>
-
-<div class="stat-card">
-    <h3 style="margin-top: 0; margin-bottom: 20px;">🚘 Modelos Registrados</h3>
-    <div style="overflow-x: auto; width: 100%;">
-        <table style="width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap;">
-            <thead>
-                <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
-                    <th style="padding: 15px;">ID</th>
-                    <th style="padding: 15px;">Marca</th>
-                    <th style="padding: 15px;">Modelo</th>
-                    <th style="padding: 15px; text-align: right;">Ações</th>
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white">🚘 Modelos Registrados</h3>
+        <span class="text-xs font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-lg">
+            {{ modelos|length }} Modelos
+        </span>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-gray-50 dark:bg-slate-900/50 text-gray-500 dark:text-gray-400 text-xs uppercase font-bold">
+                <tr>
+                    <th class="px-6 py-4">Marca</th>
+                    <th class="px-6 py-4">Modelo</th>
+                    <th class="px-6 py-4 text-right">Ações</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
                 {% for mo in modelos %}
-                <tr style="border-bottom: 1px solid var(--border); transition: 0.2s;">
-                    <td style="padding: 15px;">#{{ mo.id_modelo }}</td>
-                    <td style="padding: 15px; font-weight: bold; color: var(--accent);">{{ mo.nome_marca }}</td>
-                    <td style="padding: 15px; font-weight: bold;">{{ mo.nome_modelo }}</td>
-                    <td style="padding: 15px; text-align: right;">
-                        <form method="POST" action="#" style="display:inline;">
-                            <button type="submit" onclick="return confirm('Excluir este modelo?');" style="background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; cursor: pointer;">
-                                🗑️ Excluir
-                            </button>
-                        </form>
+                <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition group">
+                    <td class="px-6 py-4">
+                        <span class="text-xs font-black text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 rounded uppercase">
+                            {{ mo.nome_marca }}
+                        </span>
                     </td>
+                    <td class="px-6 py-4 font-bold text-gray-700 dark:text-white">{{ mo.nome_modelo }}</td>
+                    <td class="px-6 py-4 text-right">
+                        </td>
                 </tr>
-                {% else %}
-                <tr><td colspan="4" style="padding: 25px; text-align: center; color: var(--text-muted);">Nenhum modelo registado ainda.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

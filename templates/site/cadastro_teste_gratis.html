@@ -2,48 +2,48 @@
 
 {% block title %}Hibiro - Teste Grátis{% endblock %}
 
-{% block extra_css %}
-    {# Carrega os estilos específicos da página de cadastro de teste #}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_teste.css') }}">
-{% endblock %}
-
 {% block content %}
-<section class="section-title">
-    <h1><i class="fa-solid fa-user-plus"></i> Inicie Seu Teste Grátis</h1>
-    <p>Preencha os campos abaixo para criar sua conta de teste e começar a otimizar sua frota hoje mesmo!</p>
+<section class="text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-hibiroBlue dark:text-blue-400">
+        <i class="fa-solid fa-user-plus"></i> Inicie Seu Teste Grátis
+    </h1>
+    <p class="text-gray-500 dark:text-gray-400 mt-2">Crie sua conta em segundos e otimize sua frota.</p>
 </section>
 
-<div class="feature-grid">
-    <div class="card-funcionalidade"> {# Sua div do formulário #}
-        <h3>Seus Dados</h3>
-        <form action="{{ url_for('site_bp.processar_cadastro_teste') }}" method="POST">
-            <div class="input-group">
-                <label for="nome"><i class="fa-solid fa-user"></i> Seu Nome</label>
-                <input type="text" id="nome" name="nome" placeholder="Nome Completo" required>
-            </div>
-            <div class="input-group">
-                <label for="email"><i class="fa-solid fa-envelope"></i> Email</label>
-                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
-            </div>
-            {# CAMPO DE SENHA COM OLHINHO ADICIONADO AQUI #}
-            <div class="input-group">
-                <label for="senha"><i class="fa-solid fa-lock"></i> Senha</label>
-                <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
-                <i class="fa-solid fa-eye toggle-password" data-target="senha"></i> {# <--- ÍCONE DO OLHINHO #}
-            </div>
-            {# Você pode adicionar mais campos aqui, como Nome da Empresa, Telefone, etc. #}
-            <button type="submit" class="cta-primary hero-main-cta" id="createAccountButton">Criar Conta de Teste</button> 
-        </form>
-    </div>
+<div class="max-w-md mx-auto bg-white dark:bg-slate-800 p-10 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 mb-12">
+    <h3 class="text-2xl font-bold text-center mb-8">Seus Dados</h3>
+    
+    <form action="{{ url_for('site_bp.processar_cadastro_teste') }}" method="POST" class="space-y-6">
+        <div>
+            <label for="nome" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Seu Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Nome Completo" required
+                class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
+        </div>
+
+        <div>
+            <label for="email" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Email</label>
+            <input type="email" id="email" name="email" placeholder="seu@email.com" required
+                class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
+        </div>
+
+        <div class="relative">
+            <label for="senha" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required
+                class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
+            <i class="fa-solid fa-eye absolute right-4 top-[42px] cursor-pointer text-gray-400 hover:text-blue-500 toggle-password" data-target="senha"></i>
+        </div>
+
+        <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white text-xl font-bold rounded-xl shadow-lg transition transform hover:scale-105 active:scale-95">
+            Criar Conta de Teste
+        </button> 
+    </form>
 </div>
 
-<section class="section-title" style="margin-top: 50px;">
-    <p>Já tem uma conta? <a href="{{ url_for('auth.login') }}">Faça seu Login aqui!</a></p>
-</section>
-
+<div class="text-center pb-20">
+    <p class="text-gray-500">Já tem uma conta? <a href="{{ url_for('auth.login') }}" class="text-hibiroBlue font-bold hover:underline">Faça seu Login aqui!</a></p>
+</div>
 {% endblock %}
 
 {% block extra_js %}
-    {# Carrega o JS que contém a lógica do "olhinho" #}
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}

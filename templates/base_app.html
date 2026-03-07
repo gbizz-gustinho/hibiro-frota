@@ -1,72 +1,144 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hibiro - 2026{% endblock %}</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vscode: {
+                            sidebar: '#252526',
+                            main: '#1e1e1e',
+                            header: '#323233',
+                            active: '#37373d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body data-theme="light">
-    <div class="vscode-layout">
-        <aside class="vscode-sidebar">
-            <div class="sidebar-brand">
-                <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Hibiro" style="width: 100px; height: auto;">
+<body class="h-full bg-slate-50 dark:bg-vscode-main text-slate-900 dark:text-slate-100 transition-colors duration-300 overflow-hidden">
+
+    <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
+
+    <div class=\"flex h-full\">
+        
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 transform -translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:w-20 md:hover:w-64 group bg-white dark:bg-vscode-sidebar border-r border-slate-200 dark:border-slate-800 flex flex-col">
+            
+            <div class="h-16 flex items-center justify-center border-b border-slate-100 dark:border-slate-800 overflow-hidden">
+                <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo" class="min-w-[40px] w-10 h-auto">
             </div>
-            <nav class="sidebar-nav">
-                <a href="{{ url_for('frota.dashboard') }}" class="nav-link"><i class="fa-solid fa-chart-pie"></i> <span>Visão Geral</span></a>
-                <a href="{{ url_for('frota.lista_frota') }}" class="nav-link"><i class="fa-solid fa-truck-fast"></i> <span>Minha Frota</span></a>
+            
+            <nav class="flex-grow overflow-y-auto py-4 space-y-2 px-3 custom-scrollbar">
                 
-                <div class="nav-section">
-                    <!--<span class="section-title">CONFIGURAÇÕES</span>-->
-                    
-                    <a href="{{ url_for('configuracoes.config_parceiros') }}" class="nav-link"><i class="fa-solid fa-handshake"></i> <span>Parceiros</span></a>
-                    <a href="{{ url_for('configuracoes.config_marcas_veiculo') }}" class="nav-link"><i class="fa-solid fa-copyright"></i> <span>Marcas</span></a>
-                    <a href="{{ url_for('configuracoes.config_combustivel') }}" class="nav-link"><i class="fa-solid fa-gas-pump"></i> <span>Combustíveis</span></a>
-                    <a href="{{ url_for('configuracoes.config_tipo_veiculo') }}" class="nav-link"><i class="fa-solid fa-truck-ramp-box"></i> <span>Tipos de Veículos</span></a>
+                <a href="{{ url_for('frota.dashboard') }}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all">
+                    <i class="fa-solid fa-chart-pie text-xl min-w-[32px] text-center text-blue-400"></i>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Visão Geral</span>
+                </a>
 
-                    <a href="{{ url_for('configuracoes.config_marca_pneu') }}" class="nav-link"><i class="fa-solid fa-circle-dot"></i> <span>Marca dos Pneus</span></a>
-                    <a href="{{ url_for('configuracoes.config_servico_pneu') }}" class="nav-link"><i class="fa-solid fa-screwdriver-wrench"></i> <span>Serviço no Pneus</span></a>
-                    <a href="{{ url_for('configuracoes.config_situacao_pneu') }}" class="nav-link"><i class="fa-solid fa-dharmachakra"></i> <span>Situação dos Pneus</span></a>
+                <a href="{{ url_for('frota.lista_frota') }}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all">
+                    <i class="fa-solid fa-truck-fast text-xl min-w-[32px] text-center text-green-400"></i>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Minha Frota</span>
+                </a>
 
-                    <a href="{{ url_for('configuracoes.config_orgao_emissor') }}" class="nav-link"><i class="fa-solid fa-building-shield"></i> <span>Órgão Emissor</span></a>
-                    <a href="{{ url_for('configuracoes.config_gravidade_multa') }}" class="nav-link"><i class="fa-solid fa-triangle-exclamation"></i> <span>Gravidade da Multa</span></a>
-                    <a href="{{ url_for('configuracoes.config_status_documento') }}" class="nav-link"><i class="fa-solid fa-file-shield"></i> <span>Status do Documento</span></a>
+                <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
+                    <span class="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest hidden md:group-hover:block">Configurações</span>
                     
-                    <a href="{{ url_for('configuracoes.config_status_manutencao') }}" class="nav-link"><i class="fa-solid fa-calendar-check"></i> <span>Status Manutenção</span></a>
-                    <a href="{{ url_for('configuracoes.config_tipo_manutencao') }}" class="nav-link"><i class="fa-solid fa-gears"></i> <span>Tipo Manutenção</span></a>
-                    <a href="{{ url_for('configuracoes.config_status_frete') }}" class="nav-link"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Status do Frete</span></a>
+                    <a href="{{ url_for('configuracoes.config_parceiros') }}" class="flex items-center gap-4 p-3 mt-2 rounded-xl hover:bg-blue-50 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all">
+                        <i class="fa-solid fa-handshake text-xl min-w-[32px] text-center"></i>
+                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Parceiros</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_combustivel') }}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all">
+                        <i class="fa-solid fa-gas-pump text-xl min-w-[32px] text-center"></i>
+                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Combustíveis</span>
+                    </a>
                 </div>
             </nav>
+
+            <div class="p-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                <button onclick="toggleTheme()" class="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 transition-all">
+                    <i id="theme-icon" class="fa-solid fa-moon text-xl min-w-[32px] text-center"></i>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Alternar Tema</span>
+                </button>
+
+                <a href="{{ url_for('auth.logout') }}" class="flex items-center gap-4 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 transition-all">
+                    <i class="fa-solid fa-power-off text-xl min-w-[32px] text-center"></i>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold transition-opacity">Sair do App</span>
+                </a>
+            </div>
         </aside>
 
-        <main class="vscode-main">
-            <header class="vscode-header">
-                <h2 style="margin: 0; font-size: 1.1rem; color: var(--text-main);">{% block page_title %}Painel{% endblock %}</h2>
-                <div class="header-right">
-                    <span class="user-info"><i class="fa-solid fa-circle-user"></i> {{ username }}</span>
-                    <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer;">🌓</button>
-                    <a href="{{ url_for('auth.logout') }}" class="btn-logout"><i class="fa-solid fa-power-off"></i> Sair</a>
+        <main class="flex-grow flex flex-col min-w-0 overflow-hidden">
+            
+            <header class="h-16 bg-white/80 dark:bg-vscode-header backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 flex-shrink-0">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-slate-600 dark:text-slate-300 text-2xl p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                        {% block page_title %}Visão Geral{% endblock %}
+                    </h2>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="hidden sm:flex items-center space-x-3 text-sm border-r border-slate-200 dark:border-slate-700 pr-4 font-bold text-slate-700 dark:text-slate-200">
+                        <span>{{ username }}</span>
+                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shadow-lg">
+                            {{ username[0]|upper if username else 'U' }}
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            <section class="vscode-content">
+            <section class="flex-grow overflow-y-auto p-6 bg-slate-50 dark:bg-vscode-main">
                 {% block content %}{% endblock %}
             </section>
         </main>
     </div>
 
     <script>
-        function toggleTheme() {
-            const body = document.body;
-            const theme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            body.setAttribute('data-theme', theme);
-            localStorage.setItem('hibiro-theme', theme);
+        // Função para Abrir/Fechar Menu Mobile
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
         }
+
+        // Função Alternar Tema
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('hibiro-theme', 'light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('hibiro-theme', 'dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+
+        // Carregamento inicial do tema
         document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('hibiro-theme') || 'light';
-            document.body.setAttribute('data-theme', savedTheme);
+            const savedTheme = localStorage.getItem('hibiro-theme') || 'dark';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                const icon = document.getElementById('theme-icon');
+                if(icon) icon.classList.replace('fa-moon', 'fa-sun');
+            }
         });
     </script>
 </body>
