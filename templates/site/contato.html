@@ -1,44 +1,45 @@
-{% extends "base_site.html" %}
+    {% extends "base_site.html" %}
 
-{% block title %}Hibiro - Contato{% endblock %}
+    {% block title %}Hibiro - Contato{% endblock %}
 
-{% block content %}
-<section class="section-title">
-    <h1><i class="fa-solid fa-comments"></i> Fale Conosco</h1>
-    <p>Estamos prontos para atender sua frota.</p>
-</section>
+    {% block content %}
+    <section class="section-title">
+        <h1><i class="fa-solid fa-comments"></i> Fale Conosco</h1>
+        <p>Estamos prontos para atender sua frota.</p>
+    </section>
 
-<div class="feature-grid" style="align-items: start;">
-    <form class="card-funcionalidade" style="text-align: left;" method="POST">
-        <div class="input-group">
-            <label><i class="fa-solid fa-user"></i> Nome</label>
-            <input type="text" name="nome" placeholder="Seu nome completo" required>
-        </div>
-        <div class="input-group">
-            <label><i class="fa-solid fa-envelope"></i> E-mail</label>
-            <input type="email" name="email" placeholder="seu@email.com" required>
-        </div>
-        <div class="input-group">
-            <label><i class="fa-solid fa-comment-dots"></i> Mensagem</label>
-            <textarea name="mensagem" rows="4" placeholder="Como podemos ajudar?" required></textarea>
-        </div>
-        <button type="submit" class="cta-primary" style="width: 100%;">Enviar Agora</button>
-    </form>
+    <div class="feature-grid" style="align-items: start;">
+        {# ALTERADO: Adicionado action para a rota 'site_bp.contato' #}
+        <form class="card-funcionalidade" style="text-align: left;" method="POST" action="{{ url_for('site_bp.contato') }}">
+            <div class="input-group">
+                <label><i class="fa-solid fa-user"></i> Nome</label>
+                <input type="text" name="nome" placeholder="Seu nome completo" required>
+            </div>
+            <div class="input-group">
+                <label><i class="fa-solid fa-envelope"></i> E-mail</label>
+                <input type="email" name="email" placeholder="seu@email.com" required>
+            </div>
+            <div class="input-group">
+                <label><i class="fa-solid fa-comment-dots"></i> Mensagem</label>
+                <textarea name="mensagem" rows="4" placeholder="Como podemos ajudar?" required></textarea>
+            </div>
+            <button type="submit" class="cta-primary" style="width: 100%;">Enviar Agora</button>
+        </form>
 
-    <div class="card-funcionalidade" style="text-align: left;">
-        <h3>Canais Diretos</h3>
-        <p><i class="fa-solid fa-phone" style="color: var(--accent);"></i> (11) 99257-4664</p> {# Ajustado para usar variável de tema #}
-        <p><i class="fa-solid fa-location-dot" style="color: var(--accent);"></i> Barueri - SP</p> {# Ajustado para usar variável de tema #}
-        
-        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;"> {# Ajustado para usar variável de tema #}
-        
-        <h3>Nossas Redes</h3>
-        <div class="social-links" style="justify-content: flex-start;">
-            <a href="https://facebook.com/xmei.pj/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-            <a href="https://instagram.com/meix.pj/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://linkedin.com/in/israel-bizzarri-142343347/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-            <a href="https://youtube.com/@meixpj/" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        <div class="card-funcionalidade" style="text-align: left;">
+            <h3>Canais Diretos</h3>
+            <p><i class="fa-solid fa-phone" style="color: var(--accent);"></i> (11) 99257-4664</p>
+            <p><i class="fa-solid fa-location-dot" style="color: var(--accent);"></i> Barueri - SP</p>
+            
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+            
+            <h3>Nossas Redes</h3>
+            <div class="social-links" style="justify-content: flex-start;">
+                <a href="https://facebook.com/xmei.pj/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://instagram.com/meix.pj/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://linkedin.com/in/israel-bizzarri-142343347/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://youtube.com/@meixpj/" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+            </div>
         </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}

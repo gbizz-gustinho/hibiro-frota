@@ -2,16 +2,21 @@
 
 {% block title %}Hibiro - Teste Grátis{% endblock %}
 
+{% block extra_css %}
+    {# Carrega os estilos específicos da página de cadastro de teste #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_teste.css') }}">
+{% endblock %}
+
 {% block content %}
 <section class="section-title">
     <h1><i class="fa-solid fa-user-plus"></i> Inicie Seu Teste Grátis</h1>
     <p>Preencha os campos abaixo para criar sua conta de teste e começar a otimizar sua frota hoje mesmo!</p>
 </section>
 
-<div class="feature-grid"> {# Usei feature-grid para centralizar como um card #}
-    <div class="card-funcionalidade" style="text-align: left;">
+<div class="feature-grid">
+    <div class="card-funcionalidade"> {# Sua div do formulário #}
         <h3>Seus Dados</h3>
-        <form action="{{ url_for('site_bp.processar_cadastro_teste') }}" method="POST"> {# CORRIGIDO #}
+        <form action="{{ url_for('site_bp.processar_cadastro_teste') }}" method="POST">
             <div class="input-group">
                 <label for="nome"><i class="fa-solid fa-user"></i> Seu Nome</label>
                 <input type="text" id="nome" name="nome" placeholder="Nome Completo" required>
@@ -20,12 +25,14 @@
                 <label for="email"><i class="fa-solid fa-envelope"></i> Email</label>
                 <input type="email" id="email" name="email" placeholder="seu@email.com" required>
             </div>
+            {# CAMPO DE SENHA COM OLHINHO ADICIONADO AQUI #}
             <div class="input-group">
                 <label for="senha"><i class="fa-solid fa-lock"></i> Senha</label>
                 <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
+                <i class="fa-solid fa-eye toggle-password" data-target="senha"></i> {# <--- ÍCONE DO OLHINHO #}
             </div>
             {# Você pode adicionar mais campos aqui, como Nome da Empresa, Telefone, etc. #}
-            <button type="submit" class="cta-primary" style="width: 100%;">Criar Conta de Teste</button>
+            <button type="submit" class="cta-primary hero-main-cta" id="createAccountButton">Criar Conta de Teste</button> 
         </form>
     </div>
 </div>
@@ -34,4 +41,9 @@
     <p>Já tem uma conta? <a href="{{ url_for('auth.login') }}">Faça seu Login aqui!</a></p>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+    {# Carrega o JS que contém a lógica do "olhinho" #}
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}
