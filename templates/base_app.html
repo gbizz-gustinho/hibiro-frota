@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hibiro - 2026{% endblock %}</title>
     
+    <style>
+        html { background-color: #1e1e1e; color: #ffffff; }
+        html:not(.dark) { background-color: #f8fafc; color: #0f172a; }
+        body { opacity: 0; transition: opacity 0.3s ease-in; }
+        body.loaded { opacity: 1; }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3e3e42; border-radius: 10px; }
+    </style>
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('hibiro-theme') || 'dark';
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -31,70 +51,67 @@
 
     <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
-    <div class=\"flex h-full\">
-        
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 transform -translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:w-20 md:hover:w-64 group bg-white dark:bg-vscode-sidebar border-r border-slate-200 dark:border-slate-800 flex flex-col">
+    <div class="flex h-full">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 transform -translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:w-20 md:hover:w-64 group bg-white dark:bg-slate-700 border-r border-slate-200 dark:border-slate-600 flex flex-col">
             
-            <div class="h-16 flex items-center justify-center border-b border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div class="h-16 flex items-center justify-center border-b border-slate-100 dark:border-slate-600 overflow-hidden">
                 <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo" class="min-w-[40px] w-10 h-auto">
             </div>
             
             <nav class="flex-grow overflow-y-auto py-4 space-y-2 px-3 custom-scrollbar">
-                
-                <a href="{{ url_for('frota.dashboard') }}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all">
+                <a href="{{ url_for('frota.dashboard') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
                     <i class="fa-solid fa-chart-pie text-xl min-w-[32px] text-center text-blue-400"></i>
-                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Visão Geral</span>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">VISÃO GERAL</span>
                 </a>
 
-                <a href="{{ url_for('frota.lista_frota') }}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all">
+                <a href="{{ url_for('frota.lista_frota') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
                     <i class="fa-solid fa-truck-fast text-xl min-w-[32px] text-center text-green-400"></i>
-                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Minha Frota</span>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">MINHA FROTA</span>
                 </a>
 
-                <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
-                    <span class="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest hidden md:group-hover:block">Configurações</span>
+                <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-600">
+                    <span class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest hidden md:group-hover:block mb-2">Configurações</span>
                     
-                    <a href="{{ url_for('configuracoes.config_parceiros') }}" class="flex items-center gap-4 p-3 mt-2 rounded-xl hover:bg-blue-50 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all">
-                        <i class="fa-solid fa-handshake text-xl min-w-[32px] text-center"></i>
-                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Parceiros</span>
+                    <a href="{{ url_for('configuracoes.config_parceiros') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-handshake text-xl min-w-[32px] text-center text-orange-400"></i>
+                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">PARCEIROS</span>
                     </a>
 
-                    <a href="{{ url_for('configuracoes.config_combustivel') }}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all">
-                        <i class="fa-solid fa-gas-pump text-xl min-w-[32px] text-center"></i>
-                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Combustíveis</span>
+                    <a href="{{ url_for('configuracoes.config_combustivel') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-gas-pump text-xl min-w-[32px] text-center text-purple-400"></i>
+                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">COMBUSTÍVEIS</span>
                     </a>
                 </div>
             </nav>
 
-            <div class="p-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
-                <button onclick="toggleTheme()" class="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-vscode-active text-slate-500 dark:text-slate-400 transition-all">
-                    <i id="theme-icon" class="fa-solid fa-moon text-xl min-w-[32px] text-center"></i>
-                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-medium transition-opacity">Alternar Tema</span>
+            <div class="p-3 border-t border-slate-100 dark:border-slate-600 space-y-2">
+                <button onclick="toggleTheme()" class="w-full flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-600">
+                    <i id="theme-icon" class="fa-solid fa-sun text-xl min-w-[32px] text-center text-amber-400"></i>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">ALTERNAR TEMA</span>
                 </button>
 
-                <a href="{{ url_for('auth.logout') }}" class="flex items-center gap-4 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 transition-all">
+                <a href="{{ url_for('auth.logout') }}" class="flex items-center gap-4 p-3 rounded-xl bg-red-50 dark:bg-red-900/40 text-red-600 dark:text-red-100 hover:bg-red-100 transition-all shadow-sm">
                     <i class="fa-solid fa-power-off text-xl min-w-[32px] text-center"></i>
-                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold transition-opacity">Sair do App</span>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">SAIR DO APP</span>
                 </a>
             </div>
         </aside>
 
         <main class="flex-grow flex flex-col min-w-0 overflow-hidden">
-            
             <header class="h-16 bg-white/80 dark:bg-vscode-header backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 flex-shrink-0">
                 <div class="flex items-center gap-4">
                     <button onclick="toggleMobileMenu()" class="md:hidden text-slate-600 dark:text-slate-300 text-2xl p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
                         <i class="fa-solid fa-bars"></i>
                     </button>
-                    <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                    <h2 class="text-sm font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                         {% block page_title %}Visão Geral{% endblock %}
                     </h2>
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <div class="hidden sm:flex items-center space-x-3 text-sm border-r border-slate-200 dark:border-slate-700 pr-4 font-bold text-slate-700 dark:text-slate-200">
+                    <div class="hidden sm:flex items-center space-x-3 text-sm border-r border-slate-200 dark:border-slate-700 pr-4 font-black text-slate-700 dark:text-slate-200">
                         <span>{{ username }}</span>
-                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shadow-lg">
+                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-lg">
                             {{ username[0]|upper if username else 'U' }}
                         </div>
                     </div>
@@ -108,7 +125,6 @@
     </div>
 
     <script>
-        // Função para Abrir/Fechar Menu Mobile
         function toggleMobileMenu() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -116,7 +132,6 @@
             overlay.classList.toggle('hidden');
         }
 
-        // Função Alternar Tema
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -131,14 +146,22 @@
             }
         }
 
-        // Carregamento inicial do tema
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('hibiro-theme') || 'dark';
+            const icon = document.getElementById('theme-icon');
+            
             if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
-                const icon = document.getElementById('theme-icon');
                 if(icon) icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                if(icon) icon.classList.replace('fa-sun', 'fa-moon');
             }
+
+            // Revela a página suavemente após 50ms
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 50);
         });
     </script>
 </body>

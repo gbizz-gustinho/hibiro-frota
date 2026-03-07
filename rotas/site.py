@@ -26,6 +26,10 @@ def funcionalidades():
 def beneficios():
     return render_template('beneficios.html', username=session.get('username'))
 
+@site_bp.route('/precos')
+def precos():
+    return render_template('precos.html')
+
 # --------------------------------------------------------------------------
 # ROTA DE CONTATO (RECEBE E PROCESSA MENSAGENS)
 # --------------------------------------------------------------------------
@@ -120,3 +124,4 @@ def processar_cadastro_teste():
         return redirect(url_for('site_bp.cadastro_teste_gratis'))
     finally:
         db.close()
+        

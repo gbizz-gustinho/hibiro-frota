@@ -2,28 +2,29 @@
 
 {% block content %}
 <section class="text-center mb-16">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-blue-600 dark:text-blue-400 mb-4 tracking-tight">
-        Descubra o Poder do Hibiro
+    <h1 class="text-4xl md:text-6xl font-black text-blue-600 dark:text-blue-400 uppercase tracking-tighter">
+        TECNOLOGIA <span class="text-amber-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">HIBIRO</span>
     </h1>
-    <p class="text-gray-500 dark:text-gray-400 text-lg">Tecnologia avançada para otimizar sua operação diária.</p>
+    <p class="text-gray-500 dark:text-gray-300 mt-4 font-bold text-xl uppercase tracking-widest">Poder bruto para sua operação diária</p>
 </section>
 
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24 px-4 max-w-7xl mx-auto">
     {% set funcs = [
-        {'icon': 'fa-chart-line', 'title': 'Monitoramento', 'desc': 'Acompanhe seus veículos e motoristas com precisão cirúrgica.'},
-        {'icon': 'fa-satellite-dish', 'title': 'Telemetria', 'desc': 'Localização, velocidade e consumo em tempo real.'},
-        {'icon': 'fa-video', 'title': 'Vídeo Telemetria', 'desc': 'Imagens de alta resolução integradas aos dados de condução.'},
-        {'icon': 'fa-calculator', 'title': 'Controle Contábil', 'desc': 'Gestão de ativos com cálculo automático de depreciação.'},
-        {'icon': 'fa-users-gear', 'title': 'Gestão de Parceiros', 'desc': 'Base unificada para Clientes, Fornecedores e Colaboradores.'}
+        {'icon': 'fa-chart-line', 'title': 'Monitoramento', 'desc': 'Acompanhe seus veículos e motoristas com precisão cirúrgica no mapa.'},
+        {'icon': 'fa-satellite-dish', 'title': 'Telemetria', 'desc': 'Localização, velocidade e consumo real direto na sua tela.'},
+        {'icon': 'fa-video', 'title': 'Vídeo Telemetria', 'desc': 'Imagens de alta resolução integradas aos dados reais de condução.'},
+        {'icon': 'fa-calculator', 'title': 'Controle Contábil', 'desc': 'Gestão de ativos com cálculo automático de depreciação e custos.'},
+        {'icon': 'fa-users-gear', 'title': 'Gestão de Parceiros', 'desc': 'Base unificada para Clientes, Fornecedores e Colaboradores.'},
+        {'icon': 'fa-gas-pump', 'title': 'Consumo Médio', 'desc': 'Métricas precisas de gasto por KM para cada veículo da frota.'}
     ] %}
 
     {% for item in funcs %}
-    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 hover:shadow-blue-500/10 transition duration-300">
-        <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 text-2xl mb-6">
+    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl border-4 border-gray-100 dark:border-slate-700 hover:border-amber-400 transition-all duration-300 group">
+        <div class="w-16 h-16 bg-blue-100 dark:bg-slate-700 rounded-2xl flex items-center justify-center text-blue-600 dark:text-amber-400 text-3xl mb-6 border-2 border-blue-500 dark:border-slate-500 group-hover:dark:border-amber-400 transition-colors">
             <i class="fa-solid {{ item.icon }}"></i>
         </div>
-        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">{{ item.title }}</h3>
-        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{{ item.desc }}</p>
+        <h3 class="text-2xl font-black mb-3 text-blue-600 dark:text-blue-400 uppercase tracking-tight">{{ item.title }}</h3>
+        <p class="text-gray-600 dark:text-slate-100 leading-relaxed font-bold text-lg">{{ item.desc }}</p>
     </div>
     {% endfor %}
 </section>
