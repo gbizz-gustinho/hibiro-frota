@@ -1,0 +1,83 @@
+{% extends "base_app.html" %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto space-y-6">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-lg font-black uppercase tracking-tighter mb-4 text-green-500">Vincular Novo Modelo</h3>
+        <form method="POST" action="{{ url_for('config_frota.modelos') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <select name="id_marca" required class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-green-500 outline-none font-bold text-sm text-slate-700 dark:text-white">
+                <option value="" disabled selected>SELECIONE A MARCA</option>
+                {% for marca in marcas %}
+                <option value="{{ marca.id_marca }}">{{ marca.nome_marca }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="nome_modelo" placeholder="EX: FH 540, R 440..." required
+                class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-green-500 outline-none font-bold uppercase text-sm text-slate-700 dark:text-white">
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-black transition-all shadow-lg text-xs tracking-tighter">
+                SALVAR
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+        <div class="p-6 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white">🚘 Modelos Registrados</h3>
+            <span class="text-xs font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-lg">
+                {{ modelos|length }} Modelos
+            </span>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 dark:bg-slate-900/50 text-gray-500 dark:text-gray-400 text-xs uppercase font-bold">
+                    <tr>
+                        <th class="px-6 py-4">Marca</th>
+                        <th class="px-6 py-4">Modelo</th>
+                        <th class="px-6 py-4 text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
+                    {% for mo in modelos %}
+                    <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition group">
+                        <td class="px-6 py-4">
+                            <span class="text-xs font-black text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 rounded uppercase">
+                                {{ mo.nome_marca }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 font-bold text-gray-700 dark:text-white uppercase">{{ mo.nome_modelo }}</td>
+                        
+                        <td class="px-6 py-4 text-right flex justify-end gap-2">
+                            <button onclick="document.getElementById('modal-edit-{{ mo.id_modelo }}').classList.remove('hidden')" 
+                                    class="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+
+                            <div id="modal-edit-{{ mo.id_modelo }}" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 text-left">
+                                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-700">
+                                    <h3 class="text-lg font-black uppercase text-blue-500 mb-4">Editar Modelo</h3>
+                                    <form action="{{ url_for('config_frota.editar_modelo', id=mo.id_modelo) }}" method="POST" class="space-y-4">
+                                        <select name="id_marca" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none font-bold text-sm text-slate-700 dark:text-white">
+                                            {% for marca in marcas %}
+                                            <option value="{{ marca.id_marca }}" {% if marca.id_marca == mo.id_marca %}selected{% endif %}>
+                                                {{ marca.nome_marca }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <input type="text" name="nome_modelo" value="{{ mo.nome_modelo }}" required
+                                            class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none font-bold uppercase text-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                        <div class="flex gap-3 pt-2">
+                                            <button type="button" onclick="document.getElementById('modal-edit-{{ mo.id_modelo }}').classList.add('hidden')" 
+                                                    class="flex-1 p-3 bg-slate-200 dark:bg-slate-700 rounded-xl font-bold text-xs">Cancelar</button>
+                                            <button type="submit" class="flex-1 p-3 bg-blue-600 text-white rounded-xl font-black text-xs uppercase shadow-lg">Salvar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

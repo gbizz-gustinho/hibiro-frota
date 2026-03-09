@@ -1,0 +1,273 @@
+AS MODIFICAÇÕES QUE TEREMOS DE FAZER É SEGUINTE  AQUI VAI os Itens: 
+
+- PERFIL DA EMPRESA - Cadastro da Empresa com os inputs CRUD, os dados gravam-se mas ficam fixo na tela, não aceita outro input ela é única poderá mas poderá ter usuários cadastrados com controle pelo (id_empresa) e (login_usuario id)
+cad_empresa
+
+
+PARCEIROS
+cad_clifor
+cad_clifor_pessoa
+cad_clifor_tipo" (
+
+
+- MINHA FROTA
+Imobilizado - Veículos da Frota 
+Configuração/Tabelas auxiliares
+vei_combustivel
+vei_doc_status
+vei_doc_tipo
+vei_imobilizado
+vei_manut_status
+vei_manut_tipo
+vei_marca
+vei_modelo
+vei_multa_gravidade
+vei_orgao_emissor
+vei_pneu_marca
+vei_pneu_servico(
+vei_pneu_situacao
+vei_servico_tipo
+vei_tipo 
+
+
+- OPERAÇIONAL 
+Receitas/Fretes
+Despesas Gerais
+Configuração/Tabelas auxiliares
+aux_categoria
+aux_centro_custo
+aux_doc_fiscal_tipo
+aux_historico_tipo
+aux_natureza_custo
+aux_recpag_condicao
+aux_recpag_metodos" (
+aux_recpag_status
+cad_uf
+
+
+- FINANCEIRO
+Contas a Receber
+Contas a Pagar
+Caixa
+Bancos
+fin_banco
+fin_combustivel_abast
+fin_fluxo_cxbc
+fin_frete_status
+fin_mov_operacional
+fin_mov_recpag
+fin_plano_contas
+
+
+login_usuarios
+
+
+
+INSERT INTO "aux_categoria" VALUES (1,'Receitas');
+INSERT INTO "aux_categoria" VALUES (2,'Despesas');
+INSERT INTO "aux_categoria" VALUES (3,'Ativo');
+INSERT INTO "aux_categoria" VALUES (4,'Passivo');
+INSERT INTO "aux_centro_custo" VALUES (1,'Operacional');
+INSERT INTO "aux_centro_custo" VALUES (2,'Administração');
+INSERT INTO "aux_centro_custo" VALUES (3,'Financeiro');
+INSERT INTO "aux_centro_custo" VALUES (4,'Diretoria');
+INSERT INTO "aux_centro_custo" VALUES (5,'Estoques');
+INSERT INTO "aux_centro_custo" VALUES (6,'Investimentos');
+INSERT INTO "aux_centro_custo" VALUES (7,'Impostos');
+INSERT INTO "aux_centro_custo" VALUES (8,'Frotas');
+INSERT INTO "aux_centro_custo" VALUES (9,'Geral');
+INSERT INTO "aux_doc_fiscal_tipo" VALUES (1,'NFSE');
+INSERT INTO "aux_doc_fiscal_tipo" VALUES (2,'NFE');
+INSERT INTO "aux_doc_fiscal_tipo" VALUES (3,'Sem NF');
+INSERT INTO "aux_doc_fiscal_tipo" VALUES (4,'Recibo');
+INSERT INTO "aux_doc_fiscal_tipo" VALUES (5,'Fatura');
+INSERT INTO "aux_historico_tipo" VALUES (1,'Entrada_Recebimento_Débito_Haver');
+INSERT INTO "aux_historico_tipo" VALUES (2,'Saída_Pagamento_Crédito_Deve');
+INSERT INTO "aux_natureza_custo" VALUES (1,'Custo Fixo');
+INSERT INTO "aux_natureza_custo" VALUES (2,'Custo Variável');
+INSERT INTO "aux_natureza_custo" VALUES (3,'Geral');
+INSERT INTO "aux_recpag_condicao" VALUES (1,'A vista');
+INSERT INTO "aux_recpag_condicao" VALUES (2,'Parcelado');
+INSERT INTO "aux_recpag_condicao" VALUES (3,'Permuta');
+INSERT INTO "aux_recpag_metodos" VALUES (1,'Dinheiro');
+INSERT INTO "aux_recpag_metodos" VALUES (2,'Pix');
+INSERT INTO "aux_recpag_metodos" VALUES (3,'Transferências');
+INSERT INTO "aux_recpag_metodos" VALUES (4,'Cheque');
+INSERT INTO "aux_recpag_metodos" VALUES (5,'Boleto');
+INSERT INTO "aux_recpag_metodos" VALUES (6,'Fatura');
+INSERT INTO "aux_recpag_metodos" VALUES (7,'Débito em Conta');
+INSERT INTO "aux_recpag_metodos" VALUES (8,'Crédito em Conta');
+INSERT INTO "aux_recpag_metodos" VALUES (9,'Cartão de Crédito');
+INSERT INTO "aux_recpag_metodos" VALUES (10,'Cartão de Débito');
+INSERT INTO "aux_recpag_metodos" VALUES (11,'Ted');
+INSERT INTO "aux_recpag_status" VALUES (1,'Aberto','Documento ainda não iniciado');
+INSERT INTO "aux_recpag_status" VALUES (2,'À vencer','Documento/obrigação próximo do vencimento');
+INSERT INTO "aux_recpag_status" VALUES (3,'Liquidado','Documento/obrigação pago/concluído');
+INSERT INTO "cad_clifor" VALUES (1,NULL,NULL,NULL,'239.720.929-20','Israel Augusto',NULL,'Rua Guarujá','191','Jardim Maria Helena','Barueri','06445070','11992574664','israelbizzarri@gmail.com','FORNECEDOR','JURIDICA');
+INSERT INTO "cad_clifor" VALUES (2,2,1,25,'17.968.335/0001-09','Bruno Augusto de Matos da Silva','Maria','Rua Guarujá','191','Jardim Maria Helena','Barueri','06445-070','11992574664','gbizz.idi@gmail.com','FORNECEDOR','JURIDICA');
+INSERT INTO "cad_clifor" VALUES (3,NULL,NULL,NULL,'50.118.354/0001-03','Gbizz Incubadora de ideias','Maria','Rua Guarujá','191','Jardim Maria Helena','Barueri','06445070','11992574664','gbizz.idi@gmail.com','FORNECEDOR','JURIDICA');
+INSERT INTO "cad_clifor_pessoa" VALUES (1,'Pessoa Física');
+INSERT INTO "cad_clifor_pessoa" VALUES (2,'Pessoa Jurídica');
+INSERT INTO "cad_clifor_pessoa" VALUES (3,'Governos');
+INSERT INTO "cad_clifor_tipo" VALUES (1,'Cliente');
+INSERT INTO "cad_clifor_tipo" VALUES (2,'Fornecedor');
+INSERT INTO "cad_clifor_tipo" VALUES (3,'Funcionário');
+INSERT INTO "cad_clifor_tipo" VALUES (4,'Motorista');
+INSERT INTO "cad_empresa" VALUES (1,'Israel Augusto','54.653.131/0001-05','06445-070','Rua Guarujá','191','Jardim Maria Helena','Barueri','SP','11992574664','gbizz.idi@gmail.com','2025-01-01',3000,'2699-9-99','Assessoria',25);
+INSERT INTO "cad_uf" VALUES (1,'Acre','AC','Norte');
+INSERT INTO "cad_uf" VALUES (2,'Alagoas','AL','Nordeste');
+INSERT INTO "cad_uf" VALUES (3,'Amapá','AP','Norte');
+INSERT INTO "cad_uf" VALUES (4,'Amazonas','AM','Norte');
+INSERT INTO "cad_uf" VALUES (5,'Bahia','BA','Nordeste');
+INSERT INTO "cad_uf" VALUES (6,'Ceará','CE','Nordeste');
+INSERT INTO "cad_uf" VALUES (7,'Distrito Federal','DF','Centro-Oeste');
+INSERT INTO "cad_uf" VALUES (8,'Espírito Santo','ES','Sudeste');
+INSERT INTO "cad_uf" VALUES (9,'Goiás','GO','Centro-Oeste');
+INSERT INTO "cad_uf" VALUES (10,'Maranhão','MA','Nordeste');
+INSERT INTO "cad_uf" VALUES (11,'Mato Grosso','MT','Centro-Oeste');
+INSERT INTO "cad_uf" VALUES (12,'Mato Grosso do Sul','MS','Centro-Oeste');
+INSERT INTO "cad_uf" VALUES (13,'Minas Gerais','MG','Sudeste');
+INSERT INTO "cad_uf" VALUES (14,'Pará','PA','Norte');
+INSERT INTO "cad_uf" VALUES (15,'Paraíba','PB','Nordeste');
+INSERT INTO "cad_uf" VALUES (16,'Paraná','PR','Sul');
+INSERT INTO "cad_uf" VALUES (17,'Pernambuco','PE','Nordeste');
+INSERT INTO "cad_uf" VALUES (18,'Piauí','PI','Nordeste');
+INSERT INTO "cad_uf" VALUES (19,'Rio de Janeiro','RJ','Sudeste');
+INSERT INTO "cad_uf" VALUES (20,'Rio Grande do Norte','RN','Nordeste');
+INSERT INTO "cad_uf" VALUES (21,'Rio Grande do Sul','RS','Sul');
+INSERT INTO "cad_uf" VALUES (22,'Rondônia','RO','Norte');
+INSERT INTO "cad_uf" VALUES (23,'Roraima','RR','Norte');
+INSERT INTO "cad_uf" VALUES (24,'Santa Catarina','SC','Sul');
+INSERT INTO "cad_uf" VALUES (25,'São Paulo','SP','Sudeste');
+INSERT INTO "cad_uf" VALUES (26,'Sergipe','SE','Nordeste');
+INSERT INTO "cad_uf" VALUES (27,'Tocantins','TO','Norte');
+INSERT INTO "fin_frete_status" VALUES (1,'Pendente');
+INSERT INTO "fin_frete_status" VALUES (2,'Em Transito');
+INSERT INTO "fin_frete_status" VALUES (3,'Concluido');
+INSERT INTO "fin_frete_status" VALUES (4,'Cancelado');
+INSERT INTO "fin_plano_contas" VALUES (1,'1.1.1','Receita','Receitas Operacionais','Fretes');
+INSERT INTO "fin_plano_contas" VALUES (2,'1.1.2','Receita','Receitas Operacionais','Serviços');
+INSERT INTO "fin_plano_contas" VALUES (3,'1.2.1','Receita','Receitas Não Operacionais','Aportes');
+INSERT INTO "fin_plano_contas" VALUES (4,'1.2.2','Receita','Receitas Não Operacionais','Empréstimos');
+INSERT INTO "fin_plano_contas" VALUES (5,'1.2.3','Receita','Receitas Não Operacionais','Venda de Veículos');
+INSERT INTO "fin_plano_contas" VALUES (6,'2.1.1','Despesa','Com Veículos','Combustíveis');
+INSERT INTO "fin_plano_contas" VALUES (7,'2.1.2','Despesa','Com Veículos','Arla - Agente Redutor Liquido');
+INSERT INTO "fin_plano_contas" VALUES (8,'2.1.3','Despesa','Com Veículos','Óleos Lubrificantes');
+INSERT INTO "fin_plano_contas" VALUES (9,'2.1.4','Despesa','Com Veículos','Manutenção');
+INSERT INTO "fin_plano_contas" VALUES (10,'2.1.5','Despesa','Com Veículos','Pneus, Câmaras e Recapagens');
+INSERT INTO "fin_plano_contas" VALUES (11,'2.1.6','Despesa','Com Veículos','Lavagem');
+INSERT INTO "fin_plano_contas" VALUES (12,'2.1.7','Despesa','Com Veículos','Seguro da Carga');
+INSERT INTO "fin_plano_contas" VALUES (13,'2.2.1','Despesa','Na Estrada','Frete de Terceiros');
+INSERT INTO "fin_plano_contas" VALUES (14,'2.2.2','Despesa','Na Estrada','Chapas');
+INSERT INTO "fin_plano_contas" VALUES (15,'2.2.3','Despesa','Na Estrada','Pedágios');
+INSERT INTO "fin_plano_contas" VALUES (16,'3.1.1.1','Despesa','Operacionais - Com o Imóvel','Aluguel');
+INSERT INTO "fin_plano_contas" VALUES (17,'3.1.1.2','Despesa','Operacionais - Com o Imóvel','Energia Elétrica');
+INSERT INTO "fin_plano_contas" VALUES (18,'3.1.1.3','Despesa','Operacionais - Com o Imóvel','Água');
+INSERT INTO "fin_plano_contas" VALUES (19,'3.1.1.4','Despesa','Operacionais - Com o Imóvel','Materiais de Limpeza');
+INSERT INTO "fin_plano_contas" VALUES (20,'3.1.1.5','Despesa','Operacionais - Com o Imóvel','Segurança e Monitoramento');
+INSERT INTO "fin_plano_contas" VALUES (21,'3.1.2.1','Despesa','Operacionais - Com a Administração','Materiais de Escritório');
+INSERT INTO "fin_plano_contas" VALUES (22,'3.1.2.2','Despesa','Operacionais - Com a Administração','Telefonia');
+INSERT INTO "fin_plano_contas" VALUES (23,'3.1.2.3','Despesa','Operacionais - Com a Administração','Marketing');
+INSERT INTO "fin_plano_contas" VALUES (24,'3.1.2.4','Despesa','Operacionais - Com a Administração','Informática');
+INSERT INTO "fin_plano_contas" VALUES (25,'3.1.2.5','Despesa','Operacionais - Com a Administração','Contabilidade');
+INSERT INTO "fin_plano_contas" VALUES (26,'3.1.2.6','Despesa','Operacionais - Com a Administração','Seguro dos Veículos');
+INSERT INTO "fin_plano_contas" VALUES (27,'3.1.2.7','Despesa','Operacionais - Com a Administração','Monitoramento Rodoviário');
+INSERT INTO "fin_plano_contas" VALUES (28,'3.1.2.8','Despesa','Operacionais - Com a Administração','Despesas Bancárias');
+INSERT INTO "fin_plano_contas" VALUES (29,'3.1.3.1','Despesa','Operacionais - Recursos Humanos','Salários e Adiantamentos');
+INSERT INTO "fin_plano_contas" VALUES (30,'3.1.3.2','Despesa','Operacionais - Recursos Humanos','Pró-Labore');
+INSERT INTO "fin_plano_contas" VALUES (31,'3.1.3.3','Despesa','Operacionais - Recursos Humanos','Vale Transporte');
+INSERT INTO "fin_plano_contas" VALUES (32,'3.1.3.4','Despesa','Operacionais - Recursos Humanos','Vale Refeição');
+INSERT INTO "fin_plano_contas" VALUES (33,'3.1.3.5','Despesa','Operacionais - Recursos Humanos','Gratificações');
+INSERT INTO "fin_plano_contas" VALUES (34,'3.1.3.6','Despesa','Operacionais - Recursos Humanos','Horas Extras');
+INSERT INTO "fin_plano_contas" VALUES (35,'3.1.3.7','Despesa','Operacionais - Recursos Humanos','Rescisões');
+INSERT INTO "fin_plano_contas" VALUES (36,'3.1.3.8','Despesa','Operacionais - Recursos Humanos','Férias');
+INSERT INTO "fin_plano_contas" VALUES (37,'3.1.3.9','Despesa','Operacionais - Recursos Humanos','13º Salário');
+INSERT INTO "fin_plano_contas" VALUES (38,'3.1.3.10','Despesa','Operacionais - Recursos Humanos','Plano de Saúde');
+INSERT INTO "fin_plano_contas" VALUES (39,'3.1.3.11','Despesa','Operacionais - Recursos Humanos','Encargos');
+INSERT INTO "fin_plano_contas" VALUES (40,'3.1.3.12','Despesa','Operacionais - Recursos Humanos','FGTS');
+INSERT INTO "fin_plano_contas" VALUES (41,'3.1.3.13','Despesa','Operacionais - Recursos Humanos','GPS');
+INSERT INTO "fin_plano_contas" VALUES (42,'3.1.3.14','Despesa','Operacionais - Recursos Humanos','IR Funcionários');
+INSERT INTO "fin_plano_contas" VALUES (43,'3.1.3.15','Despesa','Operacionais - Recursos Humanos','Sindicato');
+INSERT INTO "fin_plano_contas" VALUES (44,'3.1.4.1','Despesa','Impostos','Simples Federal');
+INSERT INTO "fin_plano_contas" VALUES (45,'3.1.4.2','Despesa','Impostos','ISS');
+INSERT INTO "fin_plano_contas" VALUES (46,'3.1.4.3','Despesa','Impostos','ICMS');
+INSERT INTO "fin_plano_contas" VALUES (47,'3.1.4.4','Despesa','Impostos','PIS');
+INSERT INTO "fin_plano_contas" VALUES (48,'3.1.4.5','Despesa','Impostos','COFINS');
+INSERT INTO "fin_plano_contas" VALUES (49,'3.1.4.6','Despesa','Impostos','CSLL');
+INSERT INTO "fin_plano_contas" VALUES (50,'3.1.4.7','Despesa','Impostos','IRPJ');
+INSERT INTO "fin_plano_contas" VALUES (51,'3.1.4.8','Despesa','Impostos','INSS');
+INSERT INTO "fin_plano_contas" VALUES (52,'3.2.1','Despesa','Não Operacionais','Financiamento de Veículos');
+INSERT INTO "fin_plano_contas" VALUES (53,'3.2.2','Despesa','Não Operacionais','Depreciações dos Veículos');
+INSERT INTO "fin_plano_contas" VALUES (54,'3.2.3','Despesa','Não Operacionais','Móveis e Equipamentos do Escritório');
+INSERT INTO "fin_plano_contas" VALUES (55,'3.2.4','Despesa','Não Operacionais','Reformas no Imóvel do Escritório');
+INSERT INTO "login_usuarios" VALUES (1,'Nonato','jna@gmail.com','$2b$12$jCqj8EWum/AQgE4bAdWGSODZH9emeeRL1/YQ6ieD9.9mjGag2DMDW','','2026-03-06 23:11:58');
+INSERT INTO "login_usuarios" VALUES (2,'jna','jna_novo@gmail.com','$2b$12$eStCh5Avo.3jSx67ZT3Ok.c/4yW6DLi9otmrQBV5dKxhWllfCT3ye','','2026-03-06 23:20:14');
+INSERT INTO "login_usuarios" VALUES (3,'Israel Augusto','gbizz.idi@gmail.com','$2b$12$ZyU2BpVyOFx9HOVzzY/5auk93yoK2lUPfX3jdb15oeRyoCNnjjxvm','','2026-03-07 18:45:40');
+INSERT INTO "vei_combustivel" VALUES (1,'Gasolina Comum');
+INSERT INTO "vei_combustivel" VALUES (2,'Gasolina Aditivada');
+INSERT INTO "vei_combustivel" VALUES (3,'Gasolina Premium');
+INSERT INTO "vei_combustivel" VALUES (4,'Etanol Hidratado');
+INSERT INTO "vei_combustivel" VALUES (5,'Etanol Aditivado');
+INSERT INTO "vei_combustivel" VALUES (6,'Diesel S10');
+INSERT INTO "vei_combustivel" VALUES (7,'Diesel S500');
+INSERT INTO "vei_combustivel" VALUES (8,'Biodiesel	');
+INSERT INTO "vei_combustivel" VALUES (9,'Eletricidade');
+INSERT INTO "vei_combustivel" VALUES (10,'Gás Natural Veicular');
+INSERT INTO "vei_doc_status" VALUES (1,'Regularizado');
+INSERT INTO "vei_doc_status" VALUES (2,'Atrasado');
+INSERT INTO "vei_doc_status" VALUES (3,'Vencido');
+INSERT INTO "vei_doc_tipo" VALUES (1,'CRLV');
+INSERT INTO "vei_doc_tipo" VALUES (2,'CNH');
+INSERT INTO "vei_doc_tipo" VALUES (3,'ANTT');
+INSERT INTO "vei_doc_tipo" VALUES (4,'IPVA');
+INSERT INTO "vei_doc_tipo" VALUES (5,'licenciamento');
+INSERT INTO "vei_doc_tipo" VALUES (6,'seguro_obrigatorio');
+INSERT INTO "vei_doc_tipo" VALUES (7,'seguro_carga');
+INSERT INTO "vei_doc_tipo" VALUES (8,'seguro_veiculo');
+INSERT INTO "vei_manut_status" VALUES (1,'Agendada');
+INSERT INTO "vei_manut_status" VALUES (2,'Em Andamento');
+INSERT INTO "vei_manut_status" VALUES (3,'Concluida');
+INSERT INTO "vei_manut_status" VALUES (4,'Cancelada');
+INSERT INTO "vei_manut_tipo" VALUES (1,'Preventiva');
+INSERT INTO "vei_manut_tipo" VALUES (2,'Corretiva');
+INSERT INTO "vei_manut_tipo" VALUES (3,'Revisão');
+INSERT INTO "vei_marca" VALUES (1,'Nissan');
+INSERT INTO "vei_marca" VALUES (2,'Chevrolet');
+INSERT INTO "vei_marca" VALUES (3,'Scania');
+INSERT INTO "vei_marca" VALUES (4,'Volvo');
+INSERT INTO "vei_marca" VALUES (5,'Mercedes');
+INSERT INTO "vei_marca" VALUES (6,'Vw');
+INSERT INTO "vei_marca" VALUES (7,'Ford');
+INSERT INTO "vei_marca" VALUES (8,'Fiat');
+INSERT INTO "vei_modelo" VALUES (1,'COBALT',2);
+INSERT INTO "vei_modelo" VALUES (2,'M2323',4);
+INSERT INTO "vei_modelo" VALUES (3,'MB-3569',5);
+INSERT INTO "vei_modelo" VALUES (4,'BYD234',6);
+INSERT INTO "vei_multa_gravidade" VALUES (1,'Leve');
+INSERT INTO "vei_multa_gravidade" VALUES (2,'Média');
+INSERT INTO "vei_multa_gravidade" VALUES (3,'Grave');
+INSERT INTO "vei_multa_gravidade" VALUES (4,'Gravíssima');
+INSERT INTO "vei_multa_gravidade" VALUES (5,'Não possui multa');
+INSERT INTO "vei_orgao_emissor" VALUES (1,'Detran-SP');
+INSERT INTO "vei_pneu_marca" VALUES (1,'Bridgestone');
+INSERT INTO "vei_pneu_marca" VALUES (2,'Goodyear');
+INSERT INTO "vei_pneu_marca" VALUES (3,'Michelin');
+INSERT INTO "vei_pneu_marca" VALUES (4,'Pirelli');
+INSERT INTO "vei_pneu_servico" VALUES (1,'Recapagem');
+INSERT INTO "vei_pneu_servico" VALUES (2,'Balanceamento');
+INSERT INTO "vei_pneu_servico" VALUES (3,'Remoldagem');
+INSERT INTO "vei_pneu_servico" VALUES (4,'Rodízio');
+INSERT INTO "vei_pneu_situacao" VALUES (1,'Em uso');
+INSERT INTO "vei_pneu_situacao" VALUES (2,'Recapado');
+INSERT INTO "vei_pneu_situacao" VALUES (3,'Em estoque');
+INSERT INTO "vei_pneu_situacao" VALUES (4,'Descartado');
+INSERT INTO "vei_servico_tipo" VALUES (1,'Bateria');
+INSERT INTO "vei_servico_tipo" VALUES (2,'Tacografo');
+INSERT INTO "vei_servico_tipo" VALUES (3,'Cambio');
+INSERT INTO "vei_servico_tipo" VALUES (4,'Motor');
+INSERT INTO "vei_servico_tipo" VALUES (5,'Cabine');
+INSERT INTO "vei_servico_tipo" VALUES (6,'Porta');
+INSERT INTO "vei_servico_tipo" VALUES (7,'Bau');
+INSERT INTO "vei_servico_tipo" VALUES (8,'Km_atual');
+INSERT INTO "vei_servico_tipo" VALUES (9,'Peca trocada');
+COMMIT;

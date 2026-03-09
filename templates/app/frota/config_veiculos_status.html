@@ -1,0 +1,41 @@
+{% extends "base_app.html" %}
+{% block page_title %}Status do Veículo{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-lg font-black uppercase text-blue-500 mb-4 tracking-tighter">Novo Status (Ex: Ativo, Manutenção)</h3>
+        <form method="POST" action="{{ url_for('config_frota.veiculo_status') }}" class="flex gap-4">
+            <input type="text" name="nome_status" placeholder="EX: DISPONÍVEL, EM ROTA, OFICINA..." required
+                class="flex-grow p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 outline-none font-bold uppercase text-sm text-slate-700 dark:text-white">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-black transition-all shadow-lg text-xs">
+                SALVAR STATUS
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-slate-50 dark:bg-slate-900/50">
+                <tr>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest">ID</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest">Descrição do Status</th>
+                    <th class="px-6 py-4 text-right text-[10px] font-black uppercase text-slate-400 tracking-widest">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                {% for s in status_list %}
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/30">
+                    <td class="px-6 py-4 text-xs font-bold text-slate-400">#{{ s.id_status }}</td>
+                    <td class="px-6 py-4 text-sm font-black text-slate-700 dark:text-white uppercase">{{ s.nome_status }}</td>
+                    <td class="px-6 py-4 text-right flex justify-end gap-2">
+                        <button class="p-2 text-slate-400 hover:text-blue-500"><i class="fa-solid fa-pen"></i></button>
+                        <button class="p-2 text-slate-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

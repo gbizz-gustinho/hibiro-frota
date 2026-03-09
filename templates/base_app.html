@@ -12,16 +12,15 @@
         body.loaded { opacity: 1; }
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #3e3e42; border-radius: 10px; }
+        .dropdown-arrow { transition: transform 0.2s ease; }
+        .rotate-180 { transform: rotate(180deg); }
     </style>
 
     <script>
         (function() {
             const theme = localStorage.getItem('hibiro-theme') || 'dark';
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
+            if (theme === 'dark') { document.documentElement.classList.add('dark'); }
+            else { document.documentElement.classList.remove('dark'); }
         })();
     </script>
     
@@ -35,12 +34,7 @@
             theme: {
                 extend: {
                     colors: {
-                        vscode: {
-                            sidebar: '#252526',
-                            main: '#1e1e1e',
-                            header: '#323233',
-                            active: '#37373d'
-                        }
+                        vscode: { sidebar: '#252526', main: '#1e1e1e', header: '#323233', active: '#37373d' }
                     }
                 }
             }
@@ -52,66 +46,100 @@
     <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
     <div class="flex h-full">
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 transform -translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:w-20 md:hover:w-64 group bg-white dark:bg-slate-700 border-r border-slate-200 dark:border-slate-600 flex flex-col">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 transform -translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:w-20 md:hover:w-64 group bg-white dark:bg-slate-700 border-r border-slate-200 dark:border-slate-600 flex flex-col shadow-2xl">
             
-            <div class="h-16 flex items-center justify-center border-b border-slate-100 dark:border-slate-600 overflow-hidden">
-                <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo" class="min-w-[40px] w-10 h-auto">
+            <div class="h-16 flex items-center justify-center border-b border-slate-100 dark:border-slate-600 overflow-hidden bg-slate-50 dark:bg-slate-800">
+                <i class="fa-solid fa-truck-moving text-2xl text-amber-400 drop-shadow-md"></i>
             </div>
             
-            <nav class="flex-grow overflow-y-auto py-4 space-y-2 px-3 custom-scrollbar">
-                <a href="{{ url_for('frota.dashboard') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
+            <nav class="flex-grow overflow-y-auto py-4 space-y-1 px-3 custom-scrollbar">
+                
+                <a href="{{ url_for('frota.dashboard') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600 group/item">
                     <i class="fa-solid fa-chart-pie text-xl min-w-[32px] text-center text-blue-400"></i>
-                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">VISÃO GERAL</span>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide text-xs uppercase text-slate-500 dark:text-slate-300">Visão Geral</span>
                 </a>
 
-                <a href="{{ url_for('frota.lista_frota') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
-                    <i class="fa-solid fa-truck-fast text-xl min-w-[32px] text-center text-green-400"></i>
-                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">MINHA FROTA</span>
+                <a href="{{ url_for('config_parceiros.perfil_empresa') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600 group/item">
+                    <i class="fa-solid fa-building text-xl min-w-[32px] text-center text-blue-400"></i>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide text-xs uppercase text-slate-500 dark:text-slate-300">Perfil Empresa</span>
                 </a>
 
-                <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-600">
-                    <span class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest hidden md:group-hover:block mb-2">Configurações</span>
-                    
-                    <a href="{{ url_for('configuracoes.config_parceiros') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('drop-parceiros', 'arrow-parceiros')" class="w-full flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
                         <i class="fa-solid fa-handshake text-xl min-w-[32px] text-center text-orange-400"></i>
-                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">PARCEIROS</span>
-                    </a>
-
-                    <a href="{{ url_for('configuracoes.config_combustivel') }}" class="flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
-                        <i class="fa-solid fa-gas-pump text-xl min-w-[32px] text-center text-purple-400"></i>
-                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">COMBUSTÍVEIS</span>
-                    </a>
+                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide text-xs uppercase text-slate-500 dark:text-slate-300">Parceiros</span>
+                        <i id="arrow-parceiros" class="fa-solid fa-chevron-down ml-auto text-[10px] dropdown-arrow md:hidden md:group-hover:block"></i>
+                    </button>
+                    <div id="drop-parceiros" class="hidden pl-12 space-y-1">
+                        <a href="{{ url_for('config_parceiros.lista') }}" class="block p-2 text-[10px] font-bold text-slate-500 hover:text-orange-400 uppercase">Cadastro (Cli/For)</a>
+                    </div>
                 </div>
+
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('drop-frota', 'arrow-frota')" class="w-full flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-truck-fast text-xl min-w-[32px] text-center text-green-400"></i>
+                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide text-xs uppercase text-slate-500 dark:text-slate-300">Minha Frota</span>
+                        <i id="arrow-frota" class="fa-solid fa-chevron-down ml-auto text-[10px] dropdown-arrow md:hidden md:group-hover:block"></i>
+                    </button>
+                    <div id="drop-frota" class="hidden pl-12 space-y-1 border-l border-green-400/20 ml-4">
+                        <a href="{{ url_for('frota.lista_frota') }}" class="block p-2 text-[10px] font-black text-green-500 uppercase">Veículos</a>
+                        
+                        <div class="py-1 text-[9px] font-black text-slate-400 uppercase tracking-tighter">Configurações Auxiliares</div>
+                        <a href="{{ url_for('config_frota.marcas') }}" class="block p-2 text-[9px] font-bold text-slate-500 hover:text-green-400 uppercase">Marcas</a>
+                        <a href="{{ url_for('config_frota.modelos') }}" class="block p-2 text-[9px] font-bold text-slate-500 hover:text-green-400 uppercase">Modelos</a>
+                        <a href="{{ url_for('config_frota.config_tipo_veiculo') }}" class="block p-2 text-[9px] font-bold text-slate-500 hover:text-green-400 uppercase">Tipos de Carroceria</a>
+                        <a href="{{ url_for('config_frota.combustivel') }}" class="block p-2 text-[9px] font-bold text-slate-500 hover:text-green-400 uppercase">Combustível</a>
+                        <a href="{{ url_for('config_frota.pneu_marca') }}" class="block p-2 text-[9px] font-bold text-slate-500 hover:text-green-400 uppercase">Pneus (Marcas)</a>
+                        <a href="{{ url_for('config_frota.pneu_situacao') }}" class="block p-2 text-[9px] font-bold text-slate-500 hover:text-green-400 uppercase">Pneus (Situação)</a>
+                    </div>
+
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('drop-financeiro', 'arrow-financeiro')" class="w-full flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-white dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-file-invoice-dollar text-xl min-w-[32px] text-center text-amber-400"></i>
+                        <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide text-xs uppercase text-slate-500 dark:text-slate-300">Financeiro</span>
+                        <i id="arrow-financeiro" class="fa-solid fa-chevron-down ml-auto text-[10px] dropdown-arrow md:hidden md:group-hover:block"></i>
+                    </button>
+                    <div id="drop-financeiro" class="hidden pl-12 space-y-1 border-l border-amber-400/20 ml-4">
+                        <a href="{{ url_for('config_financeiro.plano_contas') }}" class="block p-2 text-[10px] font-bold text-slate-500 hover:text-amber-400 uppercase">Plano de Contas</a>
+                        <a href="{{ url_for('config_financeiro.bancos') }}" class="block p-2 text-[10px] font-bold text-slate-500 hover:text-amber-400 uppercase">Bancos</a>
+                    </div>
+                </div>
+
             </nav>
 
             <div class="p-3 border-t border-slate-100 dark:border-slate-600 space-y-2">
                 <button onclick="toggleTheme()" class="w-full flex items-center gap-4 p-3 rounded-xl transition-all text-slate-700 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-600">
                     <i id="theme-icon" class="fa-solid fa-sun text-xl min-w-[32px] text-center text-amber-400"></i>
-                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">ALTERNAR TEMA</span>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide text-xs">ALTERNAR TEMA</span>
                 </button>
 
                 <a href="{{ url_for('auth.logout') }}" class="flex items-center gap-4 p-3 rounded-xl bg-red-50 dark:bg-red-900/40 text-red-600 dark:text-red-100 hover:bg-red-100 transition-all shadow-sm">
                     <i class="fa-solid fa-power-off text-xl min-w-[32px] text-center"></i>
-                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide">SAIR DO APP</span>
+                    <span class="md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-black tracking-wide text-xs">SAIR</span>
                 </a>
             </div>
         </aside>
 
         <main class="flex-grow flex flex-col min-w-0 overflow-hidden">
-            <header class="h-16 bg-white/80 dark:bg-vscode-header backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 flex-shrink-0">
-                <div class="flex items-center gap-4">
+            <header class="h-20 bg-white/80 dark:bg-vscode-header backdrop-blur-md shadow-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 flex-shrink-0">
+                <div class="flex items-center gap-6">
                     <button onclick="toggleMobileMenu()" class="md:hidden text-slate-600 dark:text-slate-300 text-2xl p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
                         <i class="fa-solid fa-bars"></i>
                     </button>
-                    <h2 class="text-sm font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
-                        {% block page_title %}Visão Geral{% endblock %}
-                    </h2>
+                    
+                    <div class="flex items-center gap-4">
+                        <img src="{{ url_for('static', filename='img/hibiro-t.png') }}" alt="Logo" class="h-10 w-auto drop-shadow-md">
+                        <div class="hidden lg:block h-8 w-[2px] bg-slate-300 dark:bg-slate-600"></div>
+                        <h2 class="hidden lg:block text-xs font-black uppercase tracking-widest text-blue-600 dark:text-blue-400">
+                            {% block page_title %}Visão Geral{% endblock %}
+                        </h2>
+                    </div>
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <div class="hidden sm:flex items-center space-x-3 text-sm border-r border-slate-200 dark:border-slate-700 pr-4 font-black text-slate-700 dark:text-slate-200">
+                    <div class="flex items-center space-x-3 text-sm font-black text-slate-700 dark:text-slate-200 uppercase tracking-tighter">
                         <span>{{ username }}</span>
-                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-lg">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 border-2 border-white dark:border-slate-500 flex items-center justify-center text-white text-xs font-black shadow-lg">
                             {{ username[0]|upper if username else 'U' }}
                         </div>
                     </div>
@@ -132,6 +160,13 @@
             overlay.classList.toggle('hidden');
         }
 
+        function toggleDropdown(id, arrowId) {
+            const drop = document.getElementById(id);
+            const arrow = document.getElementById(arrowId);
+            drop.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -149,7 +184,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('hibiro-theme') || 'dark';
             const icon = document.getElementById('theme-icon');
-            
             if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
                 if(icon) icon.classList.replace('fa-moon', 'fa-sun');
@@ -157,11 +191,7 @@
                 document.documentElement.classList.remove('dark');
                 if(icon) icon.classList.replace('fa-sun', 'fa-moon');
             }
-
-            // Revela a página suavemente após 50ms
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 50);
+            setTimeout(() => { document.body.classList.add('loaded'); }, 50);
         });
     </script>
 </body>

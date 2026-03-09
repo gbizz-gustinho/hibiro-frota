@@ -1,0 +1,99 @@
+{% extends "base_app.html" %}
+
+{% block title %}Frota Ativa - Hibiro 2026{% endblock %}
+{% block page_title %}Gestão de Frota Imobilizada{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto space-y-6">
+    
+    <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="flex items-center gap-4">
+            <div class="bg-blue-500/10 p-3 rounded-2xl text-blue-500 text-xl">
+                <i class="fa-solid fa-truck-ramp-box"></i>
+            </div>
+            <div>
+                <h3 class="font-black uppercase tracking-tighter text-slate-700 dark:text-white">Inventário de Veículos</h3>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Controle contábil e operacional</p>
+            </div>
+        </div>
+        <a href="{{ url_for('frota.adicionar_veiculo') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2">
+            <i class="fa-solid fa-plus"></i> Novo Veículo
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+                        <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest">Veículo</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest text-center">Aquisição</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest text-right">Valor Original</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest text-right text-emerald-500">Valor Contábil</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest text-right text-orange-500">Valor FIPE</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest text-center">Docs</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 tracking-widest text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                    {% for v in veiculos %}
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors">
+                        <td class="px-6 py-5">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-slate-100 dark:bg-slate-900 p-2 rounded-xl border border-slate-200 dark:border-slate-700 font-black text-slate-700 dark:text-white text-xs">
+                                    {{ v.placa }}
+                                </div>
+                                <div>
+                                    <p class="text-xs font-black text-slate-700 dark:text-slate-200 uppercase">{{ v.nome_marca }} {{ v.nome_modelo }}</p>
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{{ v.nome_tipo }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5 text-center">
+                            <span class="text-xs font-bold text-slate-500">{{ v.data_formatada }}</span>
+                        </td>
+                        <td class="px-6 py-5 text-right font-bold text-xs text-slate-400">
+                            R$ {{ "{:,.2f}".format(v.valor_aquisicao).replace(',', 'X').replace('.', ',').replace('X', '.') }}
+                        </td>
+                        <td class="px-6 py-5 text-right font-black text-xs text-emerald-600 dark:text-emerald-400">
+                            R$ {{ "{:,.2f}".format(v.valor_contabil_atual).replace(',', 'X').replace('.', ',').replace('X', '.') }}
+                        </td>
+                        <td class="px-6 py-5 text-right font-black text-xs text-orange-600 dark:text-orange-400">
+                            R$ {{ "{:,.2f}".format(v.valor_fipe or 0).replace(',', 'X').replace('.', ',').replace('X', '.') }}
+                        </td>
+                        <td class="px-6 py-5 text-center">
+                            {% if v.nf_caminho %}
+                            <a href="{{ url_for('static', filename='uploads/nfs/' + v.nf_caminho) }}" target="_blank" class="text-blue-500 hover:text-blue-700 transition-colors text-lg" title="Ver Nota Fiscal">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </a>
+                            {% else %}
+                            <span class="text-slate-300 dark:text-slate-700"><i class="fa-solid fa-file-circle-xmark"></i></span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-5 text-right">
+                            <div class="flex justify-end gap-2">
+                                <button class="p-2 bg-slate-100 dark:bg-slate-900 text-slate-400 hover:text-blue-500 rounded-lg transition-all border border-slate-200 dark:border-slate-700">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="p-2 bg-slate-100 dark:bg-slate-900 text-slate-400 hover:text-red-500 rounded-lg transition-all border border-slate-200 dark:border-slate-700">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-20 text-center">
+                            <div class="flex flex-col items-center gap-3">
+                                <i class="fa-solid fa-truck-dot text-4xl text-slate-200 dark:text-slate-700"></i>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest italic">Nenhum veículo encontrado no pátio.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

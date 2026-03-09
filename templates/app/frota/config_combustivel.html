@@ -1,0 +1,79 @@
+{% extends "base_app.html" %}
+
+{% block title %}Combustíveis - Configurações{% endblock %}
+{% block page_title %}Tipos de Combustível{% endblock %}
+
+{% block content %}
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 mb-8">
+    <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-slate-800 dark:text-white">
+        <span class="text-blue-500">➕</span> Adicionar Combustível
+    </h3>
+    <form method="POST" action="{{ url_for('config_frota.combustivel') }}" class="flex flex-wrap gap-4 items-center">
+        <input type="text" name="nome_combustivel" placeholder="Ex: Diesel S10, Arla 32..." required 
+            class="flex-1 min-w-[250px] p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition uppercase font-bold text-sm">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-blue-500/20 uppercase text-xs tracking-tighter">
+            Salvar
+        </button>
+    </form>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 dark:border-slate-700">
+        <h3 class="text-lg font-bold flex items-center gap-2 text-slate-800 dark:text-white">
+            <span class="text-yellow-500">⛽</span> Combustíveis Registrados
+        </h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-gray-50 dark:bg-slate-900/50 text-gray-500 dark:text-gray-400 text-xs uppercase font-bold">
+                <tr>
+                    <th class="px-6 py-4">ID</th>
+                    <th class="px-6 py-4">Nome do Combustível</th>
+                    <th class="px-6 py-4 text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
+                {% for c in combustiveis %}
+                <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition">
+                    <td class="px-6 py-4 text-sm font-bold text-slate-400">#{{ c.id_tipo_combustivel }}</td>
+                    <td class="px-6 py-4 font-black uppercase text-slate-700 dark:text-white">{{ c.nome_combustivel }}</td>
+                    
+                    <td class="px-6 py-4 text-right flex justify-end gap-2">
+                        <button onclick="document.getElementById('modal-edit-fuel-{{ c.id_tipo_combustivel }}').classList.remove('hidden')" 
+                                class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-yellow-200 transition">
+                            ✏️ Editar
+                        </button>
+                        
+                        <form method="POST" action="{{ url_for('config_frota.excluir_combustivel', id=c.id_tipo_combustivel) }}" class="inline">
+                            <button type="submit" onclick="return confirm('Excluir este combustível?');" 
+                                class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-1.5 rounded-lg hover:bg-red-200 transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+
+                        <div id="modal-edit-fuel-{{ c.id_tipo_combustivel }}" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 text-left">
+                            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-700">
+                                <h3 class="text-lg font-black uppercase text-blue-500 mb-4">Editar Combustível</h3>
+                                <form action="{{ url_for('config_frota.editar_combustivel', id=c.id_tipo_combustivel) }}" method="POST" class="space-y-4">
+                                    <input type="text" name="nome_combustivel" value="{{ c.nome_combustivel }}" required
+                                        class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none font-bold uppercase text-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                    <div class="flex gap-3 pt-2">
+                                        <button type="button" onclick="document.getElementById('modal-edit-fuel-{{ c.id_tipo_combustivel }}').classList.add('hidden')" 
+                                                class="flex-1 p-3 bg-slate-200 dark:bg-slate-700 rounded-xl font-bold text-xs uppercase">Voltar</button>
+                                        <button type="submit" class="flex-1 p-3 bg-blue-600 text-white rounded-xl font-black text-xs uppercase shadow-lg transition-all">Salvar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-10 text-center text-gray-400 italic font-medium">Nenhum combustível registrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -41,26 +41,7 @@ CREATE TABLE IF NOT EXISTS "aux_recpag_status" (
 	PRIMARY KEY("id_status" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS "cad_clifor" (
-	"id_colaborador"	INTEGER,
-	"id_pessoa"	INTEGER,
-	"id_clifor"	INTEGER,
-	"id_unifed"	INTEGER,
-	"cpf_cnpj"	TEXT NOT NULL UNIQUE,
-	"nome_colaborador"	TEXT NOT NULL,
-	"contato_responsavel"	TEXT,
-	"logradouro"	TEXT,
-	"numero"	TEXT,
-	"bairro"	TEXT,
-	"municipio"	TEXT,
-	"cep"	TEXT,
-	"telefone"	TEXT,
-	"email"	TEXT,
-	"tipo_clifor"	TEXT DEFAULT 'FORNECEDOR',
-	"tipo_pessoa"	TEXT DEFAULT 'JURIDICA',
-	PRIMARY KEY("id_colaborador" AUTOINCREMENT),
-	FOREIGN KEY("id_clifor") REFERENCES "cad_clifor_tipo"("Id_clifor"),
-	FOREIGN KEY("id_pessoa") REFERENCES "cad_clifor_pessoa"("id_pessoa"),
-	FOREIGN KEY("id_unifed") REFERENCES "cad_uf"("id_unifed")
+
 );
 CREATE TABLE IF NOT EXISTS "cad_clifor_pessoa" (
 	"id_pessoa"	INTEGER,

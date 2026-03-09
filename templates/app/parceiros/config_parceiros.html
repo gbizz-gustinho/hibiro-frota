@@ -1,0 +1,82 @@
+{% extends "base_app.html" %}
+
+{% block title %}Parceiros - Configurações{% endblock %}
+{% block page_title %}Gerenciar Parceiros{% endblock %}
+
+{% block content %}
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 mb-8">
+    <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-gray-800 dark:text-white">
+        <span class="text-blue-500">➕</span> Adicionar Parceiro
+    </h3>
+    <form method="POST" action="{{ url_for('configuracoes.config_parceiros') }}" class="flex flex-wrap gap-4 items-end">
+        <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">Nome Completo / Empresa</label>
+            <input type="text" name="nome_clifor" placeholder="Nome do parceiro..." required 
+                class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
+        </div>
+
+        <div class="w-full sm:w-64">
+            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">Tipo</label>
+            <select name="tipo_clifor" required class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition cursor-pointer">
+                <option value="MOTORISTA">Motorista</option>
+                <option value="FORNECEDOR">Fornecedor (Oficina/Posto)</option>
+            </select>
+        </div>
+
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-blue-500/20">
+            Salvar
+        </button>
+    </form>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 dark:divide-slate-700">
+        <h3 class="text-lg font-bold flex items-center gap-2 text-gray-800 dark:text-white">
+            <span class="text-indigo-500">🤝</span> Equipe e Fornecedores
+        </h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-gray-50 dark:bg-slate-900/50 text-gray-500 dark:text-gray-400 text-xs uppercase font-bold">
+                <tr>
+                    <th class="px-6 py-4">ID</th>
+                    <th class="px-6 py-4">Nome</th>
+                    <th class="px-6 py-4">Tipo</th>
+                    <th class="px-6 py-4 text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
+                {% for p in parceiros %}
+                <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition">
+                    <td class="px-6 py-4 text-sm text-gray-400">#{{ p.id_clifor }}</td>
+                    <td class="px-6 py-4 font-bold text-gray-700 dark:text-white">{{ p.nome_clifor }}</td>
+                    <td class="px-6 py-4">
+                        {% if p.tipo_clifor == 'MOTORISTA' %}
+                        <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-bold tracking-wide">
+                            <i class="fa-solid fa-user-tie mr-1"></i> {{ p.tipo_clifor }}
+                        </span>
+                        {% else %}
+                        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-bold tracking-wide">
+                            <i class="fa-solid fa-truck-field mr-1"></i> {{ p.tipo_clifor }}
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 text-right flex justify-end gap-2">
+                        <a href="{{ url_for('configuracoes.editar_parceiro', id_colaborador=p.id_colaborador) }}" 
+                        class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-yellow-200 transition">
+                            ✏️ Editar
+                        </a>
+                        <form method="POST" action="{{ url_for('configuracoes.excluir_parceiro', id_colaborador=p.id_colaborador) }}" class="inline">
+                            <button type="submit" onclick="return confirm('Excluir este parceiro?');" 
+                                class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-1.5 rounded-lg hover:bg-red-200 transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

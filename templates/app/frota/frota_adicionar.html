@@ -1,0 +1,101 @@
+{% extends "base_app.html" %}
+
+{% block title %}Novo Veículo - Hibiro 2026{% endblock %}
+{% block page_title %}Cadastrar Novo Veículo{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto pb-10">
+    <div class="mb-6">
+        <a href="{{ url_for('frota.lista_frota') }}" class="text-slate-500 hover:text-blue-500 transition-colors flex items-center gap-2 font-bold text-[10px] uppercase">
+            <i class="fa-solid fa-arrow-left"></i> Voltar para a lista
+        </a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div class="bg-blue-600 p-4 flex items-center gap-3">
+                <i class="fa-solid fa-id-card text-white text-lg"></i>
+                <h3 class="text-white font-black uppercase text-xs tracking-tighter">Identificação e Documentação</h3>
+            </div>
+            <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Placa</label>
+                    <input type="text" name="placa" placeholder="ABC1D23" required maxlength="7" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 font-black text-lg uppercase text-slate-700 dark:text-white transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Renavam</label>
+                    <input type="text" name="renavam" placeholder="00000000000" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 font-bold text-slate-700 dark:text-white transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Chassi</label>
+                    <input type="text" name="chassi_veiculo" placeholder="NÚMERO DO CHASSI" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 font-bold uppercase text-slate-700 dark:text-white transition-all">
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div class="bg-emerald-600 p-4 flex items-center gap-3">
+                <i class="fa-solid fa-truck-gear text-white text-lg"></i>
+                <h3 class="text-white font-black uppercase text-xs tracking-tighter">Especificações Técnicas</h3>
+            </div>
+            <div class="p-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Modelo</label>
+                    <select name="id_modelo" required class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700 dark:text-white appearance-none transition-all">
+                        <option value="" disabled selected>Selecionar...</option>
+                        {% for m in modelos %}<option value="{{ m.id_modelo }}">{{ m.nome_marca }} - {{ m.nome_modelo }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Carroceria</label>
+                    <select name="id_tipo" required class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700 dark:text-white appearance-none transition-all">
+                        <option value="" disabled selected>Selecionar...</option>
+                        {% for t in tipos %}<option value="{{ t.id_tipo }}">{{ t.nome_tipo }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Combustível</label>
+                    <select name="id_combustivel" required class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700 dark:text-white appearance-none transition-all">
+                        {% for c in combustiveis %}<option value="{{ c.id_tipo_combustivel }}">{{ c.nome_combustivel }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">KM Inicial</label>
+                    <input type="number" name="km_inicial" value="0" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700 dark:text-white transition-all">
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div class="bg-orange-600 p-4 flex items-center gap-3">
+                <i class="fa-solid fa-hand-holding-dollar text-white text-lg"></i>
+                <h3 class="text-white font-black uppercase text-xs tracking-tighter">Financeiro e Digitalização</h3>
+            </div>
+            <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Data de Aquisição</label>
+                    <input type="date" name="data_aquisicao" required class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-orange-500 font-bold text-slate-700 dark:text-white transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Valor de Compra (R$)</label>
+                    <input type="text" name="valor_aquisicao" placeholder="0,00" required class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-orange-500 font-black text-slate-700 dark:text-white transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Valor FIPE (R$)</label>
+                    <input type="text" name="valor_fipe" placeholder="0,00" class="w-full p-4 rounded-2xl bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-800/30 focus:ring-2 focus:ring-orange-500 font-black text-orange-600 transition-all outline-none">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Anexar NF (PDF/JPG)</label>
+                    <input type="file" name="nf_digitalizada" class="w-full text-[10px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-black file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-4 pt-4">
+            <button type="reset" class="flex-1 py-5 rounded-3xl bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-black text-xs uppercase tracking-widest hover:bg-slate-300 transition-all">Limpar</button>
+            <button type="submit" class="flex-[2] py-5 rounded-3xl bg-blue-600 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-700 shadow-xl shadow-blue-500/30 transition-all">Finalizar e Cadastrar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
