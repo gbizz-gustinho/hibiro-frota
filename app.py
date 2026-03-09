@@ -60,14 +60,19 @@ def create_app():
     app.register_blueprint(config_frota_bp)
     app.register_blueprint(config_fin_bp)
 
-# --- Rota Raiz ---
-@app.route('/')
-def root_redirect():
-    return redirect(url_for('site_bp.index'))
+# ... (resto do código anterior dentro da create_app)
 
-# --- ADICIONE ESTA LINHA FORA DE QUALQUER FUNÇÃO ---
-app = create_app() # O Gunicorn vai achar o 'app' aqui agora!
+    # --- Rota Raiz (MOVIDA PARA DENTRO DA FUNÇÃO) ---
+    @app.route('/')
+    def root_redirect():
+        return redirect(url_for('site_bp.index'))
+
+    return app  # Final da função create_app
+
+# --- AGORA SIM, FORA DA FUNÇÃO ---
+# Essa linha cria a instância global que o Gunicorn (Render) vai ler
+app = create_app() 
 
 if __name__ == '__main__':
-    # Remova a linha 'app = create_app()' daqui de dentro
+    # No seu PC, ele roda em modo debug
     app.run(debug=True, host='0.0.0.0', port=5000)
