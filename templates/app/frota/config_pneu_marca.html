@@ -5,7 +5,7 @@
 <div class="max-w-4xl mx-auto space-y-6">
     <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
         <h3 class="text-lg font-black uppercase tracking-tighter mb-4 text-cyan-500">Nova Marca de Pneu</h3>
-        <form method="POST" action="{{ url_for('config_frota.pneu_marca') }}" class="flex gap-4">
+        <form method="POST" action="{{ url_for('frota_bases.pneu_marca') }}" class="flex gap-4">
             <input type="text" name="nome_marca_pneu" placeholder="EX: MICHELIN, BRIDGESTONE..." required
                 class="flex-grow p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-cyan-500 outline-none font-bold uppercase text-sm text-slate-700 dark:text-white">
             <button type="submit" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-xl font-black transition-all shadow-lg text-xs tracking-tighter">
@@ -38,7 +38,7 @@
                         <div id="modal-edit-pneu-{{ m.id_marca_pneu }}" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 text-left">
                             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
                                 <h3 class="text-lg font-black uppercase text-cyan-500 mb-4">Editar Marca Pneu</h3>
-                                <form action="{{ url_for('config_frota.editar_pneu_marca', id=m.id_marca_pneu) }}" method="POST" class="space-y-4">
+                                <form action="{{ url_for('frota_bases.editar_pneu_marca', id=m.id_marca_pneu) }}" method="POST" class="space-y-4">
                                     <input type="text" name="nome_marca_pneu" value="{{ m.nome_marca_pneu }}" required
                                         class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none font-bold uppercase text-slate-700 dark:text-white focus:ring-2 focus:ring-cyan-500 outline-none">
                                     <div class="flex gap-3 pt-2">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                        <form action="{{ url_for('config_frota.excluir_pneu_marca', id=m.id_marca_pneu) }}" method="POST" onsubmit="return confirm('Excluir esta marca?');">
+                        <form action="{{ url_for('frota_bases.excluir_pneu_marca', id=m.id_marca_pneu) }}" method="POST" onsubmit="return confirm('Excluir esta marca?');">
                             <button type="submit" class="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition">
                                 <i class="fa-solid fa-trash"></i>
                             </button>

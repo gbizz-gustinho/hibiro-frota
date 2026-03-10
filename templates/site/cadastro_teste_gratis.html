@@ -1,45 +1,84 @@
 {% extends "base_site.html" %}
 
-{% block title %}Hibiro - Teste Grátis{% endblock %}
-
 {% block content %}
-<section class="text-center mb-12">
-    <h1 class="text-4xl font-black text-blue-600 dark:text-blue-400 uppercase tracking-tighter">
-        <i class="fa-solid fa-user-plus"></i> Inicie Seu Teste Grátis
-    </h1>
-    <p class="text-gray-500 dark:text-gray-300 mt-2 font-bold text-lg">Crie sua conta em segundos e otimize sua frota.</p>
-</section>
+<div class="min-h-[70vh] flex items-center justify-center py-12 px-4">
+    <div class="max-w-md w-full space-y-8 bg-white dark:bg-slate-800 p-10 rounded-3xl shadow-2xl border-4 border-gray-100 dark:border-slate-700 relative overflow-hidden">
+        
+        <div class="text-center">
+            <img class="mx-auto h-16 w-auto" src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo Hibiro">
+            <h2 class="mt-6 text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tighter">
+                <span class="text-blue-600">INICIE SEU</span> 
+                <span class="text-amber-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">TESTE GRÁTIS</span>
+            </h2>
+            <p class="text-[10px] font-black text-gray-400 uppercase mt-2 tracking-widest">Configuração instantânea em 30 segundos</p>
+        </div>
 
-<div class="max-w-md mx-auto bg-white dark:bg-slate-800 p-10 rounded-3xl shadow-2xl border-4 border-gray-100 dark:border-slate-600 mb-12">
-    <h3 class="text-2xl font-black text-center mb-8 text-gray-800 dark:text-white uppercase">Seus Dados</h3>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="space-y-2">
+              {% for category, message in messages %}
+                <div class="p-4 rounded-xl border-l-4 shadow-sm flex items-center gap-3 animate-bounce
+                  {% if category == 'danger' %} bg-red-50 border-red-500 text-red-700 
+                  {% elif category == 'warning' %} bg-amber-50 border-amber-500 text-amber-700
+                  {% else %} bg-blue-50 border-blue-500 text-blue-700 {% endif %}">
+                  <i class="fas {% if category == 'danger' %}fa-circle-xmark{% else %}fa-circle-exclamation{% endif %}"></i>
+                  <span class="text-[10px] font-black uppercase">{{ message }}</span>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <form class="mt-8 space-y-6" action="{{ url_for('auth.register') }}" method="POST">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">Seu Nome / Empresa</label>
+                    <input type="text" name="nome" required placeholder="EX: JOÃO DA SILVA LOG"
+                        class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 rounded-xl text-gray-900 dark:text-white font-black focus:ring-4 focus:ring-blue-500 outline-none transition">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">E-mail Profissional</label>
+                    <input type="email" name="email" required placeholder="NOME@EMPRESA.COM"
+                        class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 rounded-xl text-gray-900 dark:text-white font-black focus:ring-4 focus:ring-blue-500 outline-none transition">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">Crie uma Senha</label>
+                    <div class="relative">
+                        <input type="password" id="senha_teste" name="senha" required placeholder="********"
+                            class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 rounded-xl text-gray-900 dark:text-white font-black focus:ring-4 focus:ring-blue-500 outline-none transition">
+                        <button type="button" onclick="toggleSenha('senha_teste', 'olho_teste')" class="absolute right-4 top-4 text-gray-400 hover:text-blue-600 transition">
+                            <i id="olho_teste" class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white font-black text-xl rounded-2xl shadow-xl shadow-blue-500/40 transition transform hover:scale-[1.02] uppercase tracking-widest">
+                Criar Minha Conta Grátis
+            </button>
+        </form>
+
+        <p class="text-center text-sm text-gray-600 font-bold">
+            Já tem acesso? <a href="{{ url_for('auth.login') }}" class="text-blue-600 font-black hover:underline">Fazer Login</a>
+        </p>
+    </div>
+</div>
+
+<script>
+// FUNÇÃO DO OLHO MÁGICO (ID EXCLUSIVO)
+function toggleSenha(inputId, iconeId) {
+    const input = document.getElementById(inputId);
+    const icone = document.getElementById(iconeId);
     
-    <form action="{{ url_for('site_bp.processar_cadastro_teste') }}" method="POST" class="space-y-6">
-        <div>
-            <label for="nome" class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Seu Nome</label>
-            <input type="text" id="nome" name="nome" placeholder="NOME COMPLETO" required
-                class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold">
-        </div>
-
-        <div>
-            <label for="email" class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Email</label>
-            <input type="email" id="email" name="email" placeholder="SEU@EMAIL.COM" required
-                class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold">
-        </div>
-
-        <div class="relative">
-            <label for="senha" class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Senha</label>
-            <input type="password" id="senha" name="senha" placeholder="CRIE UMA SENHA" required
-                class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold">
-            <i class="fa-solid fa-eye absolute right-4 top-[46px] cursor-pointer text-gray-400 dark:text-slate-200 hover:text-blue-500 toggle-password text-xl" data-target="senha"></i>
-        </div>
-
-        <button type="submit" class="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white text-xl font-black rounded-xl shadow-lg shadow-blue-500/40 transition transform hover:scale-105 active:scale-95 uppercase tracking-widest">
-            Criar Conta de Teste
-        </button> 
-    </form>
-</div>
-
-<div class="text-center pb-20">
-    <p class="text-gray-500 dark:text-gray-400 font-bold">Já tem uma conta? <a href="{{ url_for('auth.login') }}" class="text-blue-600 dark:text-blue-400 font-black hover:underline">Faça seu Login aqui!</a></p>
-</div>
+    if (input.type === 'password') {
+        input.type = 'text';
+        icone.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icone.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+}
+</script>
 {% endblock %}

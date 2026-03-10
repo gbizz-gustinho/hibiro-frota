@@ -5,7 +5,7 @@
 <div class="max-w-4xl mx-auto space-y-6">
     <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
         <h3 class="text-lg font-black uppercase tracking-tighter mb-4 text-emerald-500">Nova Situação (Ex: Novo, Recapado)</h3>
-        <form method="POST" action="{{ url_for('config_frota.pneu_situacao') }}" class="flex gap-4">
+        <form method="POST" action="{{ url_for('frota_bases.pneu_situacao') }}" class="flex gap-4">
             <input type="text" name="nome_situacao" placeholder="EX: NOVO, RECAPADO, USADO..." required
                 class="flex-grow p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-emerald-500 outline-none font-bold uppercase text-sm text-slate-700 dark:text-white">
             <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-black transition-all shadow-lg text-xs">

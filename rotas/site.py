@@ -1,14 +1,11 @@
-# rotas/site.py
-from flask import Blueprint, render_template, request, flash, redirect, url_for, session, current_app
-from database import get_db  # Necessário se processar_cadastro_teste for para o DB real
-from extensions import bcrypt  # Necessário se processar_cadastro_teste for para o DB real
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 import logging
-from flask_mail import Message # Importar Message para criar o objeto da mensagem de email
+from flask_mail import Message 
+# Importamos o objeto 'mail' das extensões para ele funcionar aqui
+from extensions import mail 
 
-# O Blueprint é definido com 'template_folder' apontando para 'templates/site'.
-# Isso significa que, dentro das rotas deste Blueprint, você pode chamar
-# render_template('nome_do_arquivo.html') sem precisar do prefixo 'site/'.
-site_bp = Blueprint('site_bp', __name__, template_folder='../templates/site')
+# Padronizamos o nome do Blueprint para 'site' para bater com seus url_for
+site_bp = Blueprint('site', __name__, template_folder='../templates/site')
 
 # --------------------------------------------------------------------------
 # ROTAS PÚBLICAS DO SITE
@@ -31,97 +28,38 @@ def precos():
     return render_template('precos.html')
 
 # --------------------------------------------------------------------------
-# ROTA DE CONTATO (RECEBE E PROCESSA MENSAGENS)
+# ROTA DE CONTATO
 # --------------------------------------------------------------------------
-
 @site_bp.route('/contato', methods=['GET', 'POST'])
 def contato():
     if request.method == 'POST':
         nome = request.form.get('nome')
-        email = request.form.get('email')
+        email_cliente = request.form.get('email')
         mensagem = request.form.get('mensagem')
 
-        # Validação básica dos campos
-        if not nome or not email or not mensagem:
-            flash('Por favor, preencha todos os campos do formulário de contato.', 'danger')
-            return render_template('contato.html', username=session.get('username'))
-
-        # Lógica de ENVIO DE E-MAIL
         try:
-            # Cria o objeto Message com os detalhes do e-mail
-            msg = Message(
-                subject="Nova Mensagem de Contato Hibiro 2026",
-                recipients=[current_app.config['MAIL_DEFAULT_SENDER']], # Para quem o e-mail será enviado
-                sender=current_app.config['MAIL_DEFAULT_SENDER'] # O remetente do e-mail
-            )
-            msg.body = f"""
-            Você recebeu uma nova mensagem do site Hibiro 2026:
+            # O objeto 'mail' agora está disponível via importação acima
+            msg = Message(subject=f"Novo Contato: {nome}",
+                          recipients=['gbizz.idi@gmail.com'],
+                          body=f"De: {nome} <{email_cliente}>\n\n{mensagem}")
+            mail.send(msg)
 
-            Nome: {nome}
-            E-mail: {email}
-            Mensagem:
-            {mensagem}
-            """
-            # Envia o e-mail usando a instância do Flask-Mail acessada via current_app
-            current_app.extensions['mail'].send(msg)
-
-            logging.info(f"E-mail de contato enviado com sucesso de {email}")
-            flash('Sua mensagem foi enviada com sucesso! Entraremos em contato em breve.', 'success')
-            return redirect(url_for('site_bp.contato')) # Redireciona para a mesma página
-
+            # Agora o flash vai aparecer pois o HTML tem o receptor
+            flash("✅ Sua mensagem foi enviada com sucesso! Responderemos em breve.", "success")
+            
         except Exception as e:
-            # Loga o erro completo para depuração
-            logging.error(f"ERRO ao enviar e-mail de contato de {email}: {e}", exc_info=True)
-            flash('Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente mais tarde.', 'danger')
-            return render_template('contato.html', username=session.get('username'))
-    
-    # Se a requisição for GET, apenas exibe a página de contato
-    return render_template('contato.html', username=session.get('username'))
+            logging.error(f"Erro e-mail: {e}")
+            flash(f"❌ Erro ao enviar mensagem. Tente novamente mais tarde.", "danger")
+
+        # Usamos 'site.contato' pois o Blueprint agora se chama 'site'
+        return redirect(url_for('site.contato'))
+
+    return render_template('contato.html')
 
 # --------------------------------------------------------------------------
-# ROTAS DE CADASTRO DE TESTE GRÁTIS
+# ROTAS DE CADASTRO
 # --------------------------------------------------------------------------
 
-@site_bp.route('/cadastro-teste-gratis', methods=['GET'])
+@site_bp.route('/cadastro-teste-gratis')
 def cadastro_teste_gratis():
-    """Exibe o formulário de cadastro de teste grátis."""
     return render_template('cadastro_teste_gratis.html')
-
-@site_bp.route('/processar-cadastro-teste', methods=['POST'])
-def processar_cadastro_teste():
-    """Processa o envio do formulário de cadastro de teste grátis."""
-    nome = request.form.get('nome')
-    email = request.form.get('email')
-    senha = request.form.get('senha')
-    cnpj = request.form.get('cnpj', '') # Assumindo que pode ter CNPJ
-
-    if not nome or not email or not senha:
-        flash('Todos os campos (Nome, E-mail, Senha) são obrigatórios!', 'danger')
-        return redirect(url_for('site_bp.cadastro_teste_gratis'))
-
-    db = get_db()
-    
-    # 1. Verificar se o e-mail já existe no banco de dados REAL
-    if db.execute('SELECT id FROM login_usuarios WHERE email = ?', (email,)).fetchone():
-        flash('Este e-mail já está cadastrado. Tente fazer login.', 'danger')
-        db.close()
-        return redirect(url_for('site_bp.cadastro_teste_gratis'))
-
-    # 2. Criar o novo usuário no banco de dados REAL
-    try:
-        hashed_password = bcrypt.generate_password_hash(senha).decode('utf-8')
-        db.execute(
-            'INSERT INTO login_usuarios (nome, email, senha, cnpj) VALUES (?,?,?,?)',
-            (nome, email, hashed_password, cnpj)
-        )
-        db.commit()
-        logging.info(f"Usuário {email} cadastrado com sucesso via Teste Grátis.")
-        flash(f'Olá, {nome}! Sua conta foi criada com sucesso! Faça login para começar.', 'success')
-        return redirect(url_for('auth.login')) # Redireciona para o login real
-    except Exception as e:
-        logging.error(f"Erro ao cadastrar usuário {email} via Teste Grátis: {e}", exc_info=True)
-        flash(f'Ocorreu um erro ao criar sua conta. Tente novamente. ({e})', 'danger')
-        return redirect(url_for('site_bp.cadastro_teste_gratis'))
-    finally:
-        db.close()
-        

@@ -1,0 +1,78 @@
+{% extends "base_app.html" %}
+
+{% block title %}Checklist de Pneus - Hibiro Elite{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto pb-10">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-700">
+        <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
+            <div>
+                <h3 class="font-black uppercase text-lg tracking-tighter">Inspeção de Sulcos</h3>
+                <p class="text-xs text-slate-400 font-bold uppercase">Veículo: {{ veiculo.placa }} - {{ veiculo.nome_modelo }}</p>
+            </div>
+            <i class="fa-solid fa-gauge-high text-3xl text-blue-500"></i>
+        </div>
+
+        <div class="p-8">
+            <div class="flex flex-col items-center gap-8 bg-slate-50 dark:bg-slate-900/50 py-10 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-700">
+                
+                <div class="flex gap-20 items-center">
+                    <button onclick="abrirMedicao('D1', 'Dianteiro Esq')" class="w-16 h-24 bg-slate-800 rounded-lg border-4 border-blue-500 flex items-center justify-center text-white font-black hover:scale-110 transition-transform">D1</button>
+                    <div class="w-32 h-4 bg-slate-300 dark:bg-slate-700 rounded-full"></div> <button onclick="abrirMedicao('D2', 'Dianteiro Dir')" class="w-16 h-24 bg-slate-800 rounded-lg border-4 border-blue-500 flex items-center justify-center text-white font-black hover:scale-110 transition-transform">D2</button>
+                </div>
+
+                <div class="w-1 h-16 bg-slate-200 dark:bg-slate-800"></div>
+
+                <div class="flex gap-4 items-center">
+                    <div class="flex flex-col gap-1">
+                        <button onclick="abrirMedicao('T1', 'Tração Ext Esq')" class="w-16 h-24 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center text-white font-black hover:bg-blue-600 transition-colors">T1</button>
+                        <button onclick="abrirMedicao('T2', 'Tração Int Esq')" class="w-16 h-24 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center text-white font-black hover:bg-blue-600 transition-colors">T2</button>
+                    </div>
+                    <div class="w-32 h-6 bg-slate-400 dark:bg-slate-700 rounded-full"></div> <div class="flex flex-col gap-1">
+                        <button onclick="abrirMedicao('T3', 'Tração Int Dir')" class="w-16 h-24 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center text-white font-black hover:bg-blue-600 transition-colors">T3</button>
+                        <button onclick="abrirMedicao('T4', 'Tração Ext Dir')" class="w-16 h-24 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center text-white font-black hover:bg-blue-600 transition-colors">T4</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-2 gap-4">
+                <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800">
+                    <p class="text-[10px] font-black uppercase text-blue-500">Média de Consumo</p>
+                    <p class="text-xl font-black text-slate-700 dark:text-white">8.500 KM / mm</p>
+                </div>
+                <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-800">
+                    <p class="text-[10px] font-black uppercase text-emerald-500">Projeção de Troca</p>
+                    <p class="text-xl font-black text-slate-700 dark:text-white">Outubro/2026</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalMedicao" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <form action="{{ url_for('frota.salvar_medicao') }}" method="POST" class="bg-white dark:bg-slate-800 p-8 rounded-3xl w-full max-w-sm shadow-2xl">
+        <h4 id="modalTitulo" class="font-black uppercase text-slate-700 dark:text-white mb-4">Medir Pneu</h4>
+        <input type="hidden" name="posicao" id="inputPosicao">
+        <input type="hidden" name="id_veiculo" value="{{ veiculo.id_veiculo }}">
+        
+        <label class="block text-[10px] font-black uppercase text-slate-400 mb-2">Sulco Atual (mm)</label>
+        <input type="number" step="0.1" name="sulco" required class="w-full p-4 bg-slate-100 dark:bg-slate-900 rounded-2xl border-none focus:ring-2 focus:ring-blue-500 font-black text-xl mb-6">
+        
+        <div class="flex gap-2">
+            <button type="button" onclick="fecharModal()" class="flex-1 py-4 font-black text-xs uppercase text-slate-400">Cancelar</button>
+            <button type="submit" class="flex-1 py-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase shadow-lg shadow-blue-500/30">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function abrirMedicao(pos, nome) {
+        document.getElementById('modalTitulo').innerText = 'Pneu: ' + nome;
+        document.getElementById('inputPosicao').value = pos;
+        document.getElementById('modalMedicao').classList.remove('hidden');
+    }
+    function fecharModal() {
+        document.getElementById('modalMedicao').classList.add('hidden');
+    }
+</script>
+{% endblock %}

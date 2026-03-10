@@ -4,7 +4,7 @@
 <div class="max-w-5xl mx-auto space-y-6">
     <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
         <h3 class="text-lg font-black uppercase tracking-tighter mb-4 text-green-500">Vincular Novo Modelo</h3>
-        <form method="POST" action="{{ url_for('config_frota.modelos') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <form method="POST" action="{{ url_for('frota_bases.modelos') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <select name="id_marca" required class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-green-500 outline-none font-bold text-sm text-slate-700 dark:text-white">
                 <option value="" disabled selected>SELECIONE A MARCA</option>
                 {% for marca in marcas %}
@@ -54,7 +54,7 @@
                             <div id="modal-edit-{{ mo.id_modelo }}" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 text-left">
                                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-700">
                                     <h3 class="text-lg font-black uppercase text-blue-500 mb-4">Editar Modelo</h3>
-                                    <form action="{{ url_for('config_frota.editar_modelo', id=mo.id_modelo) }}" method="POST" class="space-y-4">
+                                    <form action="{{ url_for('frota_bases.editar_modelo', id=mo.id_modelo) }}" method="POST" class="space-y-4">
                                         <select name="id_marca" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none font-bold text-sm text-slate-700 dark:text-white">
                                             {% for marca in marcas %}
                                             <option value="{{ marca.id_marca }}" {% if marca.id_marca == mo.id_marca %}selected{% endif %}>

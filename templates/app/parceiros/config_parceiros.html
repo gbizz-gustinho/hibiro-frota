@@ -4,74 +4,109 @@
 {% block page_title %}Gerenciar Parceiros{% endblock %}
 
 {% block content %}
-<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 mb-8">
-    <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-gray-800 dark:text-white">
-        <span class="text-blue-500">➕</span> Adicionar Parceiro
+<div class="mb-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="p-4 rounded-xl mb-4 shadow-sm font-bold flex items-center gap-2 {% if category == 'success' %}bg-emerald-100 text-emerald-700 border-l-4 border-emerald-500{% else %}bg-rose-100 text-rose-700 border-l-4 border-rose-500{% endif %}">
+                    <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-triangle-exclamation{% endif %}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 mb-8 transition-all hover:shadow-md">
+    <h3 class="text-lg font-black mb-6 flex items-center gap-2 text-gray-800 dark:text-white uppercase tracking-tighter">
+        <span class="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs">
+            <i class="fas fa-plus"></i>
+        </span> 
+        Novo Parceiro / Colaborador
     </h3>
-    <form method="POST" action="{{ url_for('configuracoes.config_parceiros') }}" class="flex flex-wrap gap-4 items-end">
-        <div class="flex-1 min-w-[250px]">
-            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">Nome Completo / Empresa</label>
-            <input type="text" name="nome_clifor" placeholder="Nome do parceiro..." required 
-                class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
+    <form method="POST" action="{{ url_for('parceiros_bases.lista') }}" class="grid grid-cols-1 md:grid-cols-12 gap-5 items-end">
+        
+        <div class="md:col-span-4">
+            <label class="block text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest">Nome Completo / Razão Social</label>
+            <input type="text" name="nome_colaborador" placeholder="Ex: JOÃO DA SILVA" required 
+                class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition uppercase font-semibold">
         </div>
 
-        <div class="w-full sm:w-64">
-            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">Tipo</label>
-            <select name="tipo_clifor" required class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition cursor-pointer">
-                <option value="MOTORISTA">Motorista</option>
-                <option value="FORNECEDOR">Fornecedor (Oficina/Posto)</option>
+        <div class="md:col-span-2">
+            <label class="block text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest">Tipo</label>
+            <select name="id_pessoa" id="tipo_pessoa_select" required class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                <option value="">SELECIONE...</option>
+                {% for tp in tipos_pessoa %}
+                    <option value="{{ tp.id_pessoa }}">{{ tp.tipo_pessoa }}</option>
+                {% endfor %}
             </select>
         </div>
 
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-blue-500/20">
-            Salvar
-        </button>
+        <div class="md:col-span-3">
+            <label class="block text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest">CPF / CNPJ</label>
+            <input type="text" name="cpf_cnpj" id="cpf_cnpj_input" placeholder="000.000.000-00" required
+                class="w-full p-3 bg-blue-50/50 dark:bg-slate-900 border border-blue-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-mono text-blue-700">
+        </div>
+
+        <div class="md:col-span-2">
+            <label class="block text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest">Vínculo</label>
+            <select name="id_clifor" required class="w-full p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-indigo-600">
+                <option value="">SELECIONE...</option>
+                {% for tc in tipos_parceiro %}
+                    <option value="{{ tc.Id_clifor }}">{{ tc.tipo_clifor }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="md:col-span-1">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl transition shadow-lg shadow-blue-500/20 uppercase text-xs tracking-widest">
+                Salvar
+            </button>
+        </div>
     </form>
 </div>
 
 <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
-    <div class="p-6 border-b border-gray-100 dark:divide-slate-700">
-        <h3 class="text-lg font-bold flex items-center gap-2 text-gray-800 dark:text-white">
-            <span class="text-indigo-500">🤝</span> Equipe e Fornecedores
+    <div class="p-6 border-b border-gray-100 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-900/50">
+        <h3 class="text-sm font-black flex items-center gap-2 text-gray-800 dark:text-white uppercase tracking-tighter">
+            <span class="text-indigo-500"><i class="fas fa-users"></i></span> Equipe e Fornecedores Cadastrados
         </h3>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
-            <thead class="bg-gray-50 dark:bg-slate-900/50 text-gray-500 dark:text-gray-400 text-xs uppercase font-bold">
+            <thead class="bg-gray-50 dark:bg-slate-900/50 text-gray-400 text-[10px] uppercase font-black tracking-widest">
                 <tr>
                     <th class="px-6 py-4">ID</th>
-                    <th class="px-6 py-4">Nome</th>
-                    <th class="px-6 py-4">Tipo</th>
-                    <th class="px-6 py-4 text-right">Ações</th>
+                    <th class="px-6 py-4">Nome / Razão</th>
+                    <th class="px-6 py-4">Documento</th>
+                    <th class="px-6 py-4">Categoria / Pessoa</th>
+                    <th class="px-6 py-4 text-right">Gestão</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
+            <tbody class="divide-y divide-gray-100 dark:divide-slate-700 text-xs">
                 {% for p in parceiros %}
-                <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition">
-                    <td class="px-6 py-4 text-sm text-gray-400">#{{ p.id_clifor }}</td>
-                    <td class="px-6 py-4 font-bold text-gray-700 dark:text-white">{{ p.nome_clifor }}</td>
+                <tr class="hover:bg-blue-50/30 dark:hover:bg-slate-700/30 transition group">
+                    <td class="px-6 py-4 text-gray-400 font-mono">#{{ p.id_colaborador }}</td>
+                    <td class="px-6 py-4 font-black text-gray-700 dark:text-white">{{ p.nome_colaborador }}</td>
+                    <td class="px-6 py-4 text-gray-500 font-mono">{{ p.cpf_cnpj or '---' }}</td>
                     <td class="px-6 py-4">
-                        {% if p.tipo_clifor == 'MOTORISTA' %}
-                        <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-bold tracking-wide">
-                            <i class="fa-solid fa-user-tie mr-1"></i> {{ p.tipo_clifor }}
+                        <span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded-md font-black uppercase text-[9px] tracking-tighter">
+                            {{ p.nome_tipo }}
                         </span>
-                        {% else %}
-                        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-bold tracking-wide">
-                            <i class="fa-solid fa-truck-field mr-1"></i> {{ p.tipo_clifor }}
-                        </span>
-                        {% endif %}
+                        <span class="block text-[9px] text-gray-400 mt-1 uppercase">{{ p.nome_pessoa }}</span>
                     </td>
-                    <td class="px-6 py-4 text-right flex justify-end gap-2">
-                        <a href="{{ url_for('configuracoes.editar_parceiro', id_colaborador=p.id_colaborador) }}" 
-                        class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-yellow-200 transition">
-                            ✏️ Editar
-                        </a>
-                        <form method="POST" action="{{ url_for('configuracoes.excluir_parceiro', id_colaborador=p.id_colaborador) }}" class="inline">
-                            <button type="submit" onclick="return confirm('Excluir este parceiro?');" 
-                                class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-1.5 rounded-lg hover:bg-red-200 transition">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </form>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="{{ url_for('parceiros_bases.editar_parceiro', id=p.id_colaborador) }}" class="bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('parceiros_bases.excluir_parceiro', id=p.id_colaborador) }}" class="inline">
+                                <button type="submit" onclick="return confirm('Excluir este parceiro?');" 
+                                    class="bg-rose-50 text-rose-600 p-2 rounded-lg hover:bg-rose-100 transition" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -79,4 +114,22 @@
         </table>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputDoc = document.getElementById('cpf_cnpj_input');
+        const selectPessoa = document.getElementById('tipo_pessoa_select');
+
+        inputDoc.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '');
+            // Se for Pessoa Jurídica (ID 2 geralmente) ou mais de 11 dígitos, aplica CNPJ
+            if (v.length > 11 || selectPessoa.value == "2") {
+                v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+            } else {
+                v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            }
+            e.target.value = v;
+        });
+    });
+</script>
 {% endblock %}

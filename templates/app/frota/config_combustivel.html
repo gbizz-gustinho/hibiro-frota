@@ -8,7 +8,7 @@
     <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-slate-800 dark:text-white">
         <span class="text-blue-500">➕</span> Adicionar Combustível
     </h3>
-    <form method="POST" action="{{ url_for('config_frota.combustivel') }}" class="flex flex-wrap gap-4 items-center">
+    <form method="POST" action="{{ url_for('frota_bases.combustivel') }}" class="flex flex-wrap gap-4 items-center">
         <input type="text" name="nome_combustivel" placeholder="Ex: Diesel S10, Arla 32..." required 
             class="flex-1 min-w-[250px] p-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition uppercase font-bold text-sm">
         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-blue-500/20 uppercase text-xs tracking-tighter">
@@ -44,7 +44,7 @@
                             ✏️ Editar
                         </button>
                         
-                        <form method="POST" action="{{ url_for('config_frota.excluir_combustivel', id=c.id_tipo_combustivel) }}" class="inline">
+                        <form method="POST" action="{{ url_for('frota_bases.excluir_combustivel', id=c.id_tipo_combustivel) }}" class="inline">
                             <button type="submit" onclick="return confirm('Excluir este combustível?');" 
                                 class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-1.5 rounded-lg hover:bg-red-200 transition">
                                 <i class="fa-solid fa-trash-can"></i>
@@ -54,7 +54,7 @@
                         <div id="modal-edit-fuel-{{ c.id_tipo_combustivel }}" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 text-left">
                             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-700">
                                 <h3 class="text-lg font-black uppercase text-blue-500 mb-4">Editar Combustível</h3>
-                                <form action="{{ url_for('config_frota.editar_combustivel', id=c.id_tipo_combustivel) }}" method="POST" class="space-y-4">
+                                <form action="{{ url_for('frota_bases.editar_combustivel', id=c.id_tipo_combustivel) }}" method="POST" class="space-y-4">
                                     <input type="text" name="nome_combustivel" value="{{ c.nome_combustivel }}" required
                                         class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none font-bold uppercase text-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
                                     <div class="flex gap-3 pt-2">

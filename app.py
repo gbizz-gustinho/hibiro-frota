@@ -1,78 +1,56 @@
 import os
 import logging
-from flask import Flask, redirect, url_for
-from flask_mail import Mail
+from flask import Flask, session
+from extensions import bcrypt, mail
+from database import init_app_db # Agora o nome vai bater!
 
-# --- Importações de Extensões e Banco ---
-from extensions import bcrypt
-from database import close_connection
-
-# --- Importação dos Blueprints (O Comboio) ---
-from rotas.site import site_bp
+# IMPORTAÇÃO DOS BLUEPRINTS
 from rotas.auth import auth_bp
 from rotas.frota import frota_bp
-from rotas.config_parceiros import config_parceiros_bp
-from rotas.config_frota import config_frota_bp
-from rotas.config_financeiro import config_fin_bp
+from rotas.frota_bases import frota_bases_bp
+from rotas.parceiros_bases import config_parceiros_bp
+from rotas.site import site_bp
 
-# Configuração de logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+app = Flask(__name__)
 
-def create_app():
-    app = Flask(__name__)
+# CONFIGURAÇÕES GERAIS
+app.secret_key = 'hibiro_secret_key_2026'
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
-    # --- Configurações da Máquina ---
-    app.config.update(
-        SECRET_KEY=os.getenv('FLASK_SECRET_KEY', 'hibiro_2026_secret_gold'),
-        STATIC_FOLDER='static',
-        MAIL_SERVER='smtp.gmail.com',
-        MAIL_PORT=587,
-        MAIL_USE_TLS=True,
-        MAIL_USERNAME='gbizz.idi@gmail.com',
-        MAIL_PASSWORD='fyzd rmaq elkh wrga',
-        MAIL_DEFAULT_SENDER='gbizz.idi@gmail.com'
+# CONFIGURAÇÕES DE E-MAIL (O que estava faltando)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'gbizz.idi@gmail.com' # Seu e-mail
+app.config['MAIL_PASSWORD'] = 'skuw oeqa kqug pmtl' # Senha de 16 dígitos do Google
+app.config['MAIL_DEFAULT_SENDER'] = 'gbizz.idi@gmail.com' # AQUI resolve o erro do log!
+
+# INICIALIZAÇÃO DAS EXTENSÕES E BANCO
+bcrypt.init_app(app)
+mail.init_app(app) # DESCOMENTE ESTA LINHA para o e-mail funcionar
+init_app_db(app)
+
+# INICIALIZAÇÃO DAS EXTENSÕES E BANCO
+bcrypt.init_app(app)
+# Se você não for usar e-mail agora, pode comentar a linha abaixo
+# mail.init_app(app) 
+init_app_db(app)
+
+# REGISTRO DE BLUEPRINTS
+app.register_blueprint(site_bp)
+app.register_blueprint(auth_bp)
+app.register_blueprint(frota_bp)
+app.register_blueprint(frota_bases_bp)
+app.register_blueprint(config_parceiros_bp)
+
+# PROCESSADOR DE CONTEXTO (Trava de segurança da Sidebar)
+@app.context_processor
+def inject_user_status():
+    return dict(
+        perfil_completo=session.get('perfil_completo', False),
+        username=session.get('username')
     )
 
-    # --- Inicialização de Extensões ---
-    bcrypt.init_app(app)
-    Mail(app)
-
-    # --- Gerenciamento de Banco de Dados ---
-    @app.teardown_appcontext
-    def teardown_db(exception):
-        close_connection(exception)
-
-    # --- Filtros Jinja2 ---
-    @app.template_filter('format_currency')
-    def format_currency(value):
-        try:
-            return f"R$ {float(value):,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
-        except (ValueError, TypeError):
-            return "R$ 0,00"
-
-    # --- Registro dos Blueprints (Engatando as Carretas) ---
-    app.register_blueprint(site_bp)
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-    app.register_blueprint(frota_bp, url_prefix='/frota')
-    
-    # Blueprints de Configuração Separados
-    app.register_blueprint(config_parceiros_bp)
-    app.register_blueprint(config_frota_bp)
-    app.register_blueprint(config_fin_bp)
-
-# ... (resto do código anterior dentro da create_app)
-
-    # --- Rota Raiz (MOVIDA PARA DENTRO DA FUNÇÃO) ---
-    @app.route('/')
-    def root_redirect():
-        return redirect(url_for('site_bp.index'))
-
-    return app  # Final da função create_app
-
-# --- AGORA SIM, FORA DA FUNÇÃO ---
-# Essa linha cria a instância global que o Gunicorn (Render) vai ler
-app = create_app() 
-
 if __name__ == '__main__':
-    # No seu PC, ele roda em modo debug
+    logging.basicConfig(level=logging.INFO)
     app.run(debug=True, host='0.0.0.0', port=5000)

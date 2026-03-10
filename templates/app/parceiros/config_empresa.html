@@ -1,0 +1,188 @@
+{% extends "base_app.html" %}
+
+{% block title %}Configuração da Empresa - Hibiro 2026{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-5xl mx-auto bg-white dark:bg-slate-800 shadow-2xl rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-700">
+        
+        <div class="bg-gradient-to-r from-blue-800 to-indigo-900 px-8 py-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-3xl font-black text-white tracking-tighter flex items-center uppercase">
+                        <i class="fas fa-gears mr-4 opacity-50"></i> Configuração da Empresa
+                    </h2>
+                    <p class="text-blue-200 text-sm font-medium mt-1 uppercase tracking-widest">Identidade do Emitente e Localização</p>
+                </div>
+                <div class="hidden md:block">
+                    <i class="fas fa-building-circle-check text-white/20 text-6xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-8 pt-6">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="p-4 rounded-xl border flex items-center shadow-sm mb-4 {% if category == 'success' %}bg-emerald-50 border-emerald-200 text-emerald-700{% else %}bg-rose-50 border-rose-200 text-rose-700{% endif %}">
+                        <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %} mr-3"></i>
+                        <span class="font-bold text-sm uppercase">{{ message }}</span>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>            
+
+        <form action="{{ url_for('parceiros_bases.perfil_empresa') }}" method="POST" class="p-8 space-y-10">
+            
+            <section>
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-100 dark:border-slate-700 pb-2">
+                    <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-lg flex items-center justify-center font-bold">01</span>
+                    <h3 class="text-lg font-black text-gray-800 dark:text-white uppercase tracking-tight">Dados Jurídicos</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Razão Social</label>
+                        <input type="text" name="razao_social" value="{{ empresa.razao_social or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3 uppercase font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">CNPJ</label>
+                        <input type="text" name="CNPJ" id="cnpj_input" value="{{ empresa.CNPJ or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3 font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Capital Social</label>
+                        <input type="text" id="capital_input" name="capital_social" value="{{ empresa.capital_social or '0,00' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3 text-right font-bold text-emerald-600">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">CNAE Principal</label>
+                        <input type="text" name="cnae_principal" value="{{ empresa.cnae_principal or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Atividade Econômica</label>
+                        <input type="text" name="ocupacao_principal" value="{{ empresa.ocupacao_principal or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3 uppercase">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Data de Abertura</label>
+                        <input type="date" name="data_abertura" value="{{ empresa.data_abertura or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3">
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-10">
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-100 dark:border-slate-700 pb-2">
+                    <span class="bg-amber-100 text-amber-600 w-8 h-8 rounded-lg flex items-center justify-center font-bold">02</span>
+                    <h3 class="text-lg font-black text-gray-800 dark:text-white uppercase tracking-tight">Localização e Contato</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">CEP</label>
+                        <input type="text" name="Cep" id="Cep" value="{{ empresa.Cep or '' }}" oninput="buscarCep(this.value)" maxlength="9" class="w-full border-2 border-amber-100 rounded-xl p-3 font-bold text-amber-700">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Logradouro</label>
+                        <input type="text" name="logradouro" id="logradouro" value="{{ empresa.logradouro or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3 uppercase">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Número</label>
+                        <input type="text" name="numero" id="numero" value="{{ empresa.numero or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3">
+                    </div>
+                                                         
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Bairro</label>
+                        <input type="text" name="bairro" id="bairro" value="{{ empresa.bairro or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3 uppercase">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Município</label>
+                        <input type="text" name="municipio" id="municipio" value="{{ empresa.municipio or '' }}" class="w-full bg-gray-100 dark:bg-slate-900 border-gray-200 rounded-xl p-3 font-bold" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">UF</label>
+                        <input type="text" name="uf" id="uf" value="{{ empresa.uf or '' }}" class="w-full bg-gray-100 dark:bg-slate-900 border-gray-200 rounded-xl p-3 font-bold text-center" readonly>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">Telefone</label>
+                        <input type="text" name="telefone" id="tel_input" value="{{ empresa.telefone or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3">
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-black text-gray-500 uppercase mb-2">E-mail Corporativo</label>
+                        <input type="email" name="email" value="{{ empresa.email or '' }}" class="w-full bg-gray-50 dark:bg-slate-700 border-gray-200 rounded-xl p-3 lowercase">
+                    </div>
+                </div>
+            </section>
+
+            <div class="pt-10 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-[10px] text-gray-400 font-medium italic">
+                    * O preenchimento do CNPJ libera o acesso total às ferramentas de frota.
+                </p>
+                <button type="submit" class="w-full md:w-auto bg-blue-700 hover:bg-blue-800 text-white font-black uppercase text-sm py-4 px-12 rounded-2xl shadow-xl transition duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fas fa-save"></i> Salvar Configurações
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// OBJETO DE MÁSCARAS
+const Mascaras = {
+    aplicar(id, format) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', e => {
+            let v = e.target.value.replace(/\D/g, '');
+            if (format === 'cnpj') v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/, "$1.$2.$3/$4-$5");
+            if (format === 'cep') v = v.replace(/^(\d{5})(\d{3}).*/, "$1-$2");
+            if (format === 'moeda') {
+                v = (v / 100).toFixed(2).replace(".", ",");
+                v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+                v = "R$ " + v;
+            }
+            e.target.value = v;
+        });
+    }
+};
+
+// BUSCA CEP (Front-end: preenche a tela instantaneamente)
+function buscarCep(valor) {
+    let cep = valor.replace(/\D/g, '');
+    if (cep.length === 8) {
+        const campoCep = document.getElementById('Cep');
+        campoCep.classList.add('animate-pulse', 'border-blue-500');
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(res => res.json())
+            .then(data => {
+                campoCep.classList.remove('animate-pulse', 'border-blue-500');
+                if (!data.erro) {
+                    // Preenchimento forçado (Funciona mesmo com readonly)
+                    document.getElementById('logradouro').value = data.logradouro.toUpperCase();
+                    document.getElementById('bairro').value = data.bairro.toUpperCase();
+                    document.getElementById('municipio').value = data.localidade.toUpperCase();
+                    document.getElementById('uf').value = data.uf.toUpperCase();
+                    
+                    // Foca no número
+                    document.getElementById('numero').focus();
+                } else {
+                    alert("CEP não encontrado.");
+                }
+            })
+            .catch(err => {
+                campoCep.classList.remove('animate-pulse');
+                console.error("Erro na busca:", err);
+            });
+    }
+}
+
+// Inicialização das Máscaras
+document.addEventListener('DOMContentLoaded', () => {
+    Mascaras.aplicar('cnpj_input', 'cnpj');
+    Mascaras.aplicar('Cep', 'cep');
+    Mascaras.aplicar('capital_input', 'moeda');
+});
+</script>
+{% endblock %}

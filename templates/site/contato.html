@@ -9,7 +9,22 @@
 </section>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto pb-20">
-    <form class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl border-4 border-gray-100 dark:border-slate-600" method="POST" action="{{ url_for('site_bp.contato') }}">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="p-4 mb-6 rounded-xl border flex items-center shadow-sm {% if category == 'success' %}bg-emerald-50 border-emerald-200 text-emerald-700{% else %}bg-rose-50 border-rose-200 text-rose-700{% endif %}">
+                <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %} mr-3"></i>
+                <span class="font-bold text-sm uppercase">{{ message }}</span>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    <form class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl border-4 border-gray-100 dark:border-slate-600" 
+      method="POST" 
+      action="{{ url_for('site.contato') }}">
+      
         <div class="space-y-6">
             <div>
                 <label class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Nome</label>
