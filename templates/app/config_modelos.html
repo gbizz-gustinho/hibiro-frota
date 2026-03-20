@@ -1,0 +1,77 @@
+{% extends "base_app.html" %}
+
+{% block title %}Modelos - Hibiro 2026{% endblock %}
+{% block page_title %}Gerenciar Marcas e Modelos{% endblock %}
+
+{% block content %}
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8">
+    <h3 class="text-sm font-black mb-4 flex items-center gap-2 text-slate-400 uppercase tracking-widest">
+        <i class="fa-solid fa-plus-circle text-blue-500"></i> Adicionar Novo Modelo
+    </h3>
+    <form method="POST" action="{{ url_for('configuracoes.config_modelos') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+        <div>
+            <label class="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">Marca</label>
+            <select name="id_marca" required class="w-full p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold appearance-none cursor-pointer outline-none">
+                <option value="">Selecione a Marca...</option>
+                {% for ma in marcas %}
+                    <option value="{{ ma.id_marca }}">{{ ma.nome_marca }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="flex-1">
+            <label class="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">Nome do Modelo</label>
+            <input type="text" name="nome_modelo" placeholder="Ex: R440, FH 540..." required 
+                class="w-full p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-bold uppercase">
+        </div>
+
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 px-8 rounded-xl transition shadow-lg shadow-blue-500/20 uppercase text-[10px] tracking-widest">
+            Salvar Modelo
+        </button>
+    </form>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+    <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
+        <h3 class="text-sm font-black flex items-center gap-2 text-slate-500 uppercase tracking-widest">
+            <i class="fa-solid fa-car-side text-indigo-500"></i> Modelos Registrados
+        </h3>
+        <span class="text-[10px] font-black text-blue-600 bg-blue-100 dark:bg-blue-900/40 px-3 py-1 rounded-lg uppercase">
+            {{ modelos|length }} Registros
+        </span>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-[10px] uppercase font-black tracking-widest">
+                <tr>
+                    <th class="px-6 py-4">Marca</th>
+                    <th class="px-6 py-4">Modelo</th>
+                    <th class="px-6 py-4 text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                {% for mo in modelos %}
+                <tr class="hover:bg-blue-50/30 dark:hover:bg-slate-700/30 transition group">
+                    <td class="px-6 py-4">
+                        <span class="text-[10px] font-black text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 rounded uppercase border border-blue-200 dark:border-blue-800">
+                            {{ mo.nome_marca }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 font-bold text-slate-700 dark:text-white text-sm uppercase">{{ mo.nome_modelo }}</td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="text-slate-300 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-10 text-center text-slate-400 italic text-xs font-medium">Nenhum modelo registrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hibiro - 2026{% endblock %}</title>
+
+    <script src="https://unpkg.com/imask"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    
+    <style>
+        html { background-color: #1e1e1e; color: #ffffff; }
+        html:not(.dark) { background-color: #f8fafc; color: #0f172a; }
+        body { opacity: 0; transition: opacity 0.3s ease-in; }
+        body.loaded { opacity: 1; }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3e3e42; border-radius: 10px; }
+    </style>
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('hibiro-theme') || 'dark';
+            if (theme === 'dark') { document.documentElement.classList.add('dark'); } 
+            else { document.documentElement.classList.remove('dark'); }
+        })();
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vscode: { sidebar: '#252526', main: '#1e1e1e', header: '#323233', active: '#37373d' }
+                    }
+                }
+            }
+        }
+    </script>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="h-full bg-slate-50 dark:bg-vscode-main text-slate-900 dark:text-slate-100 transition-colors duration-300 overflow-hidden">
+
+    <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
+
+    <div class="flex h-full">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 transform -translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:w-20 md:hover:w-64 group bg-white dark:bg-slate-700 border-r border-slate-200 dark:border-slate-600 flex flex-col shadow-xl">
+            
+            <div class="h-16 flex items-center justify-center border-b border-slate-100 dark:border-slate-600 overflow-hidden">
+                <img src="{{ url_for('static', filename='img/hibiro150transp.png') }}" alt="Logo" class="min-w-[32px] w-8 h-auto">
+            </div>
+            
+            <nav class="flex-grow overflow-y-auto py-2 space-y-1 px-3 custom-scrollbar">
+                <div class="mb-4">
+                    <span class="px-4 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hidden md:group-hover:block mb-2">Principal</span>
+                    
+                    <a href="{{ url_for('frota.dashboard') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-chart-pie text-lg min-w-[30px] text-center text-blue-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Dashboard</span>
+                    </a>
+
+                    <a href="{{ url_for('frota.lista_frota') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-truck-fast text-lg min-w-[30px] text-center text-green-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Minha Frota</span>
+                    </a>
+                </div>
+
+                <div class="mb-4">
+                    <span class="px-4 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hidden md:group-hover:block mb-2">Operacional</span>
+                    
+                    <a href="{{ url_for('configuracoes.config_parceiros') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-handshake text-lg min-w-[30px] text-center text-orange-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Parceiros</span>
+                    </a>
+                </div>
+
+                <div class="mb-4">
+                    <span class="px-4 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hidden md:group-hover:block mb-2 tracking-tighter">Apoio - Cadastros</span>
+                    
+                    <a href="{{ url_for('configuracoes.config_modelos') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-car-side text-lg min-w-[30px] text-center text-indigo-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Modelos do Veículo</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='marcas') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-tags text-lg min-w-[30px] text-center text-emerald-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Marcas do Veículo</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='carroceria') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-truck-ramp-box text-lg min-w-[30px] text-center text-rose-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Tipo da Carroceria</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='combustivel') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-gas-pump text-lg min-w-[30px] text-center text-purple-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Tipo do Combustível</span>
+                    </a>
+                    
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='servico_veiculo') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-list-check text-lg min-w-[30px] text-center text-blue-500"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Serviços no Veículo</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='pneu_marca') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Marca do Pneu</span>
+                    </a>
+                    
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='pneu_situacao') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Situação do Pneus</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='pneu_servico') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Tipo de Serviço no Pneu</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='manut_tipo') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Tipo de Manutenção</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='manut_status') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Status da Manutenção</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='multa_gravidade') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Pontuação das Multas</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='doc_tipo') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Documento do Veículo</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='doc_status') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Status do Documento</span>
+                    </a>
+
+                    <a href="{{ url_for('configuracoes.config_auxiliar', slug='orgao_emissor') }}" class="flex items-center gap-3 p-2.5 rounded-xl transition-all text-slate-700 hover:bg-blue-50 dark:text-slate-200 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-circle-dot text-lg min-w-[30px] text-center text-slate-400"></i>
+                        <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">Orgão Emissor</span>
+                    </a>
+                    
+                    
+                </div>
+            </nav>
+
+            <div class="p-3 border-t border-slate-100 dark:border-slate-600 space-y-2">
+                <button onclick="toggleTheme()" class="w-full flex items-center gap-3 p-2 rounded-xl transition-all text-slate-700 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-600">
+                    <i id="theme-icon" class="fa-solid fa-sun text-lg min-w-[30px] text-center text-amber-400"></i>
+                    <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap transition-opacity">TEMA</span>
+                </button>
+
+                <a href="{{ url_for('auth.logout') }}" class="flex items-center gap-3 p-2 rounded-xl bg-red-50 dark:bg-red-900/40 text-red-600 dark:text-red-100 hover:bg-red-100 transition-all shadow-sm">
+                    <i class="fa-solid fa-power-off text-lg min-w-[30px] text-center"></i>
+                    <span class="text-[11px] font-bold md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap tracking-tight uppercase">SAIR</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-grow flex flex-col min-w-0 overflow-hidden">
+            <header class="h-16 bg-white/80 dark:bg-vscode-header backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 flex-shrink-0">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-slate-600 dark:text-slate-300 text-2xl p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                        {% block page_title %}Painel Operacional{% endblock %}
+                    </h2>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3 text-[11px] font-black text-slate-700 dark:text-slate-200">
+                        <span class="hidden sm:inline uppercase tracking-widest">{{ username if username else 'USUÁRIO' }}</span>
+                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-lg">
+                            {{ username[0]|upper if username else 'U' }}
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="flex-grow overflow-y-auto p-6 bg-slate-50 dark:bg-vscode-main">
+                {% block content %}{% endblock %}
+            </section>
+        </main>
+    </div>
+
+    <!-- Seção: Cadastros Base -->
+<div class="mb-6">
+    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-4">Cadastros Base</p>
+    
+    <!-- Link para Colaboradores (que já fizemos) -->
+    <a href="{{ url_for('frota.lista_colaboradores') }}" class="flex items-center gap-3 p-4 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-2xl transition group">
+        <i class="fa-solid fa-users text-slate-400 group-hover:text-blue-500"></i>
+        <span class="text-sm font-bold text-slate-600 dark:text-slate-300">Colaboradores</span>
+    </a>
+
+    <!-- Link para Veículos -->
+    <a href="{{ url_for('frota.lista_frota') }}" class="flex items-center gap-3 p-4 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-2xl transition group">
+        <i class="fa-solid fa-truck-moving text-slate-400 group-hover:text-blue-500"></i>
+        <span class="text-sm font-bold text-slate-600 dark:text-slate-300">Frota</span>
+    </a>
+</div>
+
+<!-- Seção: Tabelas Auxiliares (O que vamos focar agora) -->
+<div class="mb-6">
+    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-4">Configurações / Tabelas</p>
+    
+    <a href="{{ url_for('config.lista_auxiliares') }}" class="flex items-center gap-3 p-4 hover:bg-amber-50 dark:hover:bg-amber-500/10 rounded-2xl transition group">
+        <i class="fa-solid fa-gears text-slate-400 group-hover:text-amber-500"></i>
+        <span class="text-sm font-bold text-slate-600 dark:text-slate-300">Tabelas Auxiliares</span>
+    </a>
+</div>
+
+
+    <script>
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('hibiro-theme', 'light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('hibiro-theme', 'dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('hibiro-theme') || 'dark';
+            const icon = document.getElementById('theme-icon');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if(icon) icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                if(icon) icon.classList.replace('fa-sun', 'fa-moon');
+            }
+            setTimeout(() => { document.body.classList.add('loaded'); }, 50);
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends "base_app.html" %}
+
+{% block title %}Multas - Hibiro 2026{% endblock %}
+{% block page_title %}Configurações de Multas{% endblock %}
+
+{% block content %}
+<div class="space-y-8 pb-10">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-sm font-black mb-6 flex items-center gap-2 text-slate-400 uppercase tracking-widest">
+            <i class="fa-solid fa-building-shield text-indigo-500"></i> Órgão Emissor
+        </h3>
+        <form method="POST" action="{{ url_for('configuracoes.config_orgao_emissor') }}" class="flex flex-col sm:flex-row gap-4">
+            <input type="text" name="nome_orgao" placeholder="Ex: DETRAN, PRF, DNIT..." required 
+                class="flex-1 p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm font-bold uppercase">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2.5 px-10 rounded-xl transition shadow-lg shadow-indigo-500/20 uppercase text-[10px] tracking-widest">
+                Adicionar Órgão
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-sm font-black mb-6 flex items-center gap-2 text-slate-400 uppercase tracking-widest">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Gravidade da Infração
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="p-4 border border-slate-100 dark:border-slate-700 rounded-2xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-lg text-[10px] font-black uppercase tracking-tighter border border-blue-200 dark:border-blue-800">Leve</span>
+                <p class="mt-3 text-lg font-black text-slate-700 dark:text-white">3 <span class="text-[10px] text-slate-400 uppercase">Pontos</span></p>
+            </div>
+            <div class="p-4 border border-slate-100 dark:border-slate-700 rounded-2xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-lg text-[10px] font-black uppercase tracking-tighter border border-yellow-200 dark:border-yellow-800">Média</span>
+                <p class="mt-3 text-lg font-black text-slate-700 dark:text-white">4 <span class="text-[10px] text-slate-400 uppercase">Pontos</span></p>
+            </div>
+            <div class="p-4 border border-slate-100 dark:border-slate-700 rounded-2xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-lg text-[10px] font-black uppercase tracking-tighter border border-orange-200 dark:border-orange-800">Grave</span>
+                <p class="mt-3 text-lg font-black text-slate-700 dark:text-white">5 <span class="text-[10px] text-slate-400 uppercase">Pontos</span></p>
+            </div>
+            <div class="p-4 border border-slate-100 dark:border-slate-700 rounded-2xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                <span class="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg text-[10px] font-black uppercase tracking-tighter border border-red-200 dark:border-red-800">Gravíssima</span>
+                <p class="mt-3 text-lg font-black text-slate-700 dark:text-white">7 <span class="text-[10px] text-slate-400 uppercase">Pontos</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

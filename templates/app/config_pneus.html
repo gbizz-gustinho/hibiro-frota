@@ -1,0 +1,71 @@
+{% extends "base_app.html" %}
+
+{% block title %}Pneus - Hibiro 2026{% endblock %}
+{% block page_title %}Configurações de Pneus{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-sm font-black mb-4 text-slate-400 uppercase tracking-widest flex items-center gap-2">
+            <i class="fa-solid fa-circle-dot text-blue-500"></i> Marca de Pneus
+        </h3>
+        <form method="POST" action="{{ url_for('configuracoes.config_pneus') }}" class="flex gap-2">
+            <input type="text" name="nome_marca_pneu" placeholder="Ex: Michelin, Bridgestone..." required 
+                class="flex-1 p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-bold uppercase">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-6 rounded-xl transition shadow-lg shadow-blue-500/20 uppercase text-[10px] tracking-widest">
+                Salvar
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h3 class="text-sm font-black mb-4 text-slate-400 uppercase tracking-widest flex items-center gap-2">
+            <i class="fa-solid fa-dharmachakra text-emerald-500"></i> Situação (Estado)
+        </h3>
+        <form method="POST" action="{{ url_for('configuracoes.config_situacao_pneu') }}" class="flex gap-2">
+            <input type="text" name="nome_situacao" placeholder="Ex: Novo, Recapado, Sucata..." required 
+                class="flex-1 p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm font-bold uppercase">
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-6 rounded-xl transition shadow-lg shadow-emerald-500/20 uppercase text-[10px] tracking-widest">
+                Salvar
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+    <div class="p-6 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50">
+        <h3 class="text-sm font-black flex items-center gap-2 text-slate-500 uppercase tracking-widest">
+            <i class="fa-solid fa-screwdriver-wrench text-orange-500"></i> Tipos de Serviço de Pneus
+        </h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-[10px] uppercase font-black tracking-widest">
+                <tr>
+                    <th class="px-6 py-4">Nome do Serviço</th>
+                    <th class="px-6 py-4 text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                {% for s in servicos_pneu %}
+                <tr class="hover:bg-blue-50/30 dark:hover:bg-slate-700/30 transition">
+                    <td class="px-6 py-4 font-bold text-slate-700 dark:text-white text-sm uppercase">{{ s.nome_servico }}</td>
+                    <td class="px-6 py-4 text-right">
+                        <form method="POST" action="#" class="inline">
+                            <button type="submit" onclick="return confirm('Excluir este serviço?');" 
+                                class="p-2 text-red-500 hover:bg-red-100 dark:hover:bg-red-500/10 rounded-lg transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="2" class="px-6 py-10 text-center text-slate-400 italic text-xs font-medium">Nenhum serviço registrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base_app.html" %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-3xl font-black text-slate-800 dark:text-white uppercase tracking-tighter">
+            <i class="fa-solid fa-user-plus text-blue-500 mr-2"></i> Cadastro de Colaborador
+        </h1>
+        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Tabela: cad_clifor_colab</p>
+    </div>
+
+    <form method="POST" class="bg-white dark:bg-vscode-sidebar p-8 rounded-[2.5rem] shadow-2xl border-4 border-slate-50 dark:border-slate-800">
+        
+        <!-- Identificação Direta -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="md:col-span-2 space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">nome_colaborador</label>
+                <input type="text" name="nome_colaborador" required class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">cpf_cnpj</label>
+                <input type="text" name="cpf_cnpj" required class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+            </div>
+        </div>
+
+        <!-- Chaves Estrangeiras (IDs) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">id_pessoa (Física/Jurídica)</label>
+                <select name="id_pessoa" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500">
+                    {% for p in tipos_pessoa %}
+                    <option value="{{ p.id_pessoa }}">{{ p.tipo_pessoa }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">id_clifor (Tipo)</label>
+                <select name="id_clifor" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500">
+                    {% for t in tipos_clifor %}
+                    <option value="{{ t.Id_clifor }}">{{ t.tipo_clifor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">id_unifed (Estado)</label>
+                <select name="id_unifed" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500">
+                    {% for est in estados %}
+                    <option value="{{ est.id_unifed }}">{{ est.sigla }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Contato e Endereço -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">email</label>
+                <input type="email" name="email" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 outline-none">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">telefone</label>
+                <input type="text" name="telefone" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 outline-none">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">municipio</label>
+                <input type="text" name="municipio" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 outline-none">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">bairro</label>
+                <input type="text" name="bairro" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 outline-none">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase text-slate-400">cep</label>
+                <input type="text" name="cep" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 outline-none">
+            </div>
+        </div>
+
+        <div class="mt-10 flex gap-4">
+            <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase py-4 rounded-2xl shadow-lg transition-all hover:scale-[1.01]">
+                Executar INSERT INTO cad_clifor_colab
+            </button>
+            <a href="{{ url_for('frota.lista_colaboradores') }}" class="px-8 bg-slate-100 dark:bg-slate-800 text-slate-500 font-black uppercase py-4 rounded-2xl hover:bg-slate-200 transition text-center">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

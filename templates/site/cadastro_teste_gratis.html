@@ -1,0 +1,45 @@
+{% extends "base_site.html" %}
+
+{% block title %}Hibiro - Teste Grátis{% endblock %}
+
+{% block content %}
+<section class="text-center mb-12">
+    <h1 class="text-4xl font-black text-blue-600 dark:text-blue-400 uppercase tracking-tighter">
+        <i class="fa-solid fa-user-plus"></i> Inicie Seu Teste Grátis
+    </h1>
+    <p class="text-gray-500 dark:text-gray-300 mt-2 font-bold text-lg">Crie sua conta em segundos e otimize sua frota.</p>
+</section>
+
+<div class="max-w-md mx-auto bg-white dark:bg-slate-800 p-10 rounded-3xl shadow-2xl border-4 border-gray-100 dark:border-slate-600 mb-12">
+    <h3 class="text-2xl font-black text-center mb-8 text-gray-800 dark:text-white uppercase">Seus Dados</h3>
+    
+    <form action="{{ url_for('site_bp.processar_cadastro_teste') }}" method="POST" class="space-y-6">
+        <div>
+            <label for="nome" class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Seu Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="NOME COMPLETO" required
+                class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold">
+        </div>
+
+        <div>
+            <label for="email" class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Email</label>
+            <input type="email" id="email" name="email" placeholder="SEU@EMAIL.COM" required
+                class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold">
+        </div>
+
+        <div class="relative">
+            <label for="senha" class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="CRIE UMA SENHA" required
+                class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold">
+            <i class="fa-solid fa-eye absolute right-4 top-[46px] cursor-pointer text-gray-400 dark:text-slate-200 hover:text-blue-500 toggle-password text-xl" data-target="senha"></i>
+        </div>
+
+        <button type="submit" class="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white text-xl font-black rounded-xl shadow-lg shadow-blue-500/40 transition transform hover:scale-105 active:scale-95 uppercase tracking-widest">
+            Criar Conta de Teste
+        </button> 
+    </form>
+</div>
+
+<div class="text-center pb-20">
+    <p class="text-gray-500 dark:text-gray-400 font-bold">Já tem uma conta? <a href="{{ url_for('auth.login') }}" class="text-blue-600 dark:text-blue-400 font-black hover:underline">Faça seu Login aqui!</a></p>
+</div>
+{% endblock %}

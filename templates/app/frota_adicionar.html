@@ -1,0 +1,71 @@
+{% extends "base_app.html" %}
+
+{% block title %}Novo Veículo - Hibiro 2026{% endblock %}
+{% block page_title %}Adicionar à Frota{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+    <div class="bg-slate-50 dark:bg-slate-900/50 p-8 border-b border-slate-100 dark:border-slate-700">
+        <h3 class="text-xl font-black flex items-center gap-3 text-slate-800 dark:text-white uppercase tracking-tighter">
+            <i class="fa-solid fa-truck-ramp-box text-blue-500"></i> Cadastro de Ativo Imobilizado
+        </h3>
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-2">Preencha os dados técnicos do veículo</p>
+    </div>
+    
+    <form method="POST" action="{{ url_for('frota.adicionar_veiculo') }}" class="p-8 space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Placa do Veículo</label>
+                <input type="text" name="placa" placeholder="ABC1D23" required 
+                    class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition uppercase font-mono text-lg font-bold">
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Modelo Cadastrado</label>
+                <select name="id_modelo" required class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition appearance-none cursor-pointer text-sm font-bold uppercase">
+                    <option value="">Selecione...</option>
+                    {% for mo in modelos %}
+                        <option value="{{ mo.id_modelo }}">{{ mo.nome_modelo }} ({{ mo.nome_marca }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Tipo de Carroceria</label>
+                <select name="id_tipo" required class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition cursor-pointer text-sm font-bold uppercase">
+                    <option value="">Selecione...</option>
+                    {% for t in tipos %}
+                        <option value="{{ t.id_tipo }}">{{ t.nome_tipo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Data de Aquisição</label>
+                <input type="date" name="data_aquisicao" required 
+                    class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-bold">
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Valor Contábil (R$)</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">R$</span>
+                    <input type="number" step="0.01" name="valor_aquisicao" placeholder="0,00" required 
+                        class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-bold">
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-8 border-t border-slate-100 dark:border-slate-700 flex justify-end items-center gap-4">
+            <a href="{{ url_for('frota.lista_frota') }}" 
+               class="px-6 py-3 text-[10px] font-black text-slate-400 uppercase hover:text-slate-600 transition tracking-widest">
+                Cancelar
+            </a>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-3 rounded-2xl shadow-lg shadow-blue-500/30 transition transform hover:-translate-y-0.5 uppercase text-[10px] tracking-widest">
+                💾 Salvar Veículo
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

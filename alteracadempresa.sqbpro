@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="hibiro_frota.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="7250"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="aux_categoria" custom_title="0" dock_id="1" table="4,13:mainaux_categoria"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000011e00ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">-- Remove a tabela temporária caso ela tenha ficado pendente de um erro anterior
+DROP TABLE IF EXISTS &quot;cad_empresa_nova&quot;;
+
+-- 1. Criar a nova estrutura permitindo CNPJ nulo para o SaaS
+CREATE TABLE &quot;cad_empresa_nova&quot; (
+	&quot;id_empresa&quot;	INTEGER PRIMARY KEY AUTOINCREMENT,
+	&quot;razao_social&quot;	TEXT NOT NULL,
+	&quot;CNPJ&quot;	TEXT, -- Alterado para aceitar NULL (Experimento Grátis)
+	&quot;Cep&quot;	TEXT,
+	&quot;logradouro&quot;	TEXT,
+	&quot;numero&quot;	TEXT,
+	&quot;bairro&quot;	TEXT,
+	&quot;municipio&quot;	TEXT,
+	&quot;uf&quot;	TEXT,
+	&quot;telefone&quot;	TEXT,
+	&quot;email&quot;	TEXT,
+	&quot;data_abertura&quot;	DATE,
+	&quot;capital_social&quot;	DECIMAL(15, 2),
+	&quot;cnae_principal&quot;	TEXT,
+	&quot;ocupacao_principal&quot;	TEXT,
+	&quot;id_unifed&quot;	INTEGER,
+	FOREIGN KEY(&quot;id_unifed&quot;) REFERENCES &quot;cad_uf&quot;(&quot;id_unifed&quot;)
+);
+
+-- 2. Migrar os dados da tabela original para a nova
+INSERT INTO &quot;cad_empresa_nova&quot; 
+SELECT id_empresa, razao_social, CNPJ, Cep, logradouro, numero, bairro, municipio, uf, telefone, email, data_abertura, capital_social, cnae_principal, ocupacao_principal, id_unifed 
+FROM &quot;cad_empresa&quot;;
+
+-- 3. Substituir as tabelas
+DROP TABLE &quot;cad_empresa&quot;;
+ALTER TABLE &quot;cad_empresa_nova&quot; RENAME TO &quot;cad_empresa&quot;;</sql><current_tab id="0"/></tab_sql></sqlb_project>

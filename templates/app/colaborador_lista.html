@@ -1,0 +1,66 @@
+{% extends "base_app.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-3xl font-black text-slate-800 dark:text-white uppercase tracking-tighter">
+                <i class="fa-solid fa-users text-blue-500 mr-2"></i> Gestão de Colaboradores
+            </h1>
+            <p class="text-slate-500 text-sm font-bold uppercase tracking-widest">Motoristas, Clientes e Fornecedores</p>
+        </div>
+        <a href="{{ url_for('frota.adicionar_colaborador') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-black py-3 px-6 rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center gap-2">
+            <i class="fa-solid fa-plus"></i> NOVO CADASTRO
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-vscode-sidebar rounded-[2.5rem] border-4 border-slate-50 dark:border-slate-800 shadow-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-900/50">
+                        <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">ID</th>
+                        <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Nome / Razão Social</th>
+                        <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">CPF/CNPJ</th>
+                        <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Tipo</th>
+                        <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Cidade/UF</th>
+                        <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    {% for c in colaboradores %}
+                    <tr class="hover:bg-blue-50/30 dark:hover:bg-slate-800/50 transition">
+                        <td class="p-5 text-sm font-bold text-slate-400">#{{ c.id_colaborador }}</td>
+                        <td class="p-5 font-black text-slate-800 dark:text-white">{{ c.nome_colaborador }}</td>
+                        <td class="p-5 text-sm text-slate-500">{{ c.cpf_cnpj }}</td>
+                        <td class="p-5">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-black rounded-full uppercase">
+                                {{ c.tipo_clifor }}
+                            </span>
+                        </td>
+                        <td class="p-5 text-sm text-slate-500">
+                            {{ c.municipio }} / {{ c.sigla }}
+                        </td>
+                        <td class="p-5 flex justify-center gap-2">
+                            <a href="{{ url_for('frota.editar_colaborador', id=c.id_colaborador) }}" class="p-2 bg-amber-100 text-amber-600 rounded-lg hover:bg-amber-500 hover:text-white transition">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="{{ url_for('frota.excluir_colaborador', id=c.id_colaborador) }}" onclick="return confirm('Tem certeza que deseja excluir?')" class="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-500 hover:text-white transition">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="p-20 text-center">
+                            <i class="fa-solid fa-user-slash text-4xl text-slate-200 mb-4 block"></i>
+                            <p class="text-slate-400 font-bold italic">Nenhum colaborador encontrado no banco de dados.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

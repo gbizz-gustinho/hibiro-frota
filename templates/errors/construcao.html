@@ -1,0 +1,30 @@
+{% extends "base_app.html" %}
+
+{% block title %}Em Construção - Hibiro 2026{% endblock %}
+{% block page_title %}Módulo em Desenvolvimento{% endblock %}
+
+{% block content %}
+<div class="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
+    <div class="mb-8 relative">
+        <div class="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full"></div>
+        <i class="fa-solid fa-screwdriver-wrench text-7xl text-amber-500 relative animate-bounce"></i>
+    </div>
+
+    <h1 class="text-4xl font-black text-slate-800 dark:text-white uppercase tracking-tighter mb-4">
+        ESTAMOS <span class="text-blue-600">TRABALHANDO</span> NISSO!
+    </h1>
+    
+    <p class="text-slate-500 dark:text-slate-400 max-w-md mx-auto font-medium leading-relaxed mb-8">
+        Este módulo faz parte da expansão da gestão de frotas para microempreendedores. Em breve, você terá controle total sobre este recurso.
+    </p>
+
+    <div class="w-full max-w-xs bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden mb-10">
+        <div class="bg-blue-600 h-full w-2/3 animate-pulse"></div>
+    </div>
+
+    <a href="{{ url_for('frota.dashboard') }}" 
+       class="px-8 py-4 bg-slate-800 dark:bg-white text-white dark:text-slate-900 font-black rounded-2xl hover:scale-105 transition-transform uppercase tracking-widest shadow-xl">
+        Voltar ao Painel
+    </a>
+</div>
+{% endblock %}

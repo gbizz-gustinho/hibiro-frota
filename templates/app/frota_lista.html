@@ -1,0 +1,47 @@
+{% extends "base_app.html" %}
+{% block title %}Frota - Hibiro 2026{% endblock %}
+{% block page_title %}Minha Frota{% endblock %}
+
+{% block content %}
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+    <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center">
+        <h3 class="text-sm font-black uppercase tracking-widest text-slate-500">Veículos Operacionais</h3>
+        <a href="{{ url_for('frota.adicionar_veiculo') }}" class="bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-black py-2 px-4 rounded-xl transition uppercase tracking-widest shadow-lg shadow-blue-500/20">
+            <i class="fa-solid fa-plus mr-1"></i> Novo Veículo
+        </a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-[10px] uppercase font-black tracking-widest">
+                <tr>
+                    <th class="px-6 py-4">Placa</th>
+                    <th class="px-6 py-4">Veículo / Marca</th>
+                    <th class="px-6 py-4">Carroceria</th>
+                    <th class="px-6 py-4">Valor Contábil</th>
+                    <th class="px-6 py-4 text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                {% for v in veiculos %}
+                <tr class="hover:bg-blue-50/30 dark:hover:bg-slate-700/30 transition">
+                    <td class="px-6 py-4 font-mono font-bold text-blue-600 dark:text-blue-400 uppercase text-sm">{{ v.placa }}</td>
+                    <td class="px-6 py-4">
+                        <div class="font-bold text-slate-700 dark:text-white text-sm">{{ v.nome_modelo }}</div>
+                        <div class="text-[10px] text-slate-400 font-black uppercase">{{ v.nome_marca }}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded uppercase border border-slate-200 dark:border-slate-700">
+                            {{ v.nome_tipo }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-sm font-bold text-emerald-600">R$ {{ "%.2f"|format(v.valor_contabil_atual) }}</td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="p-2 text-slate-400 hover:text-blue-500 transition"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

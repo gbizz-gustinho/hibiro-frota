@@ -1,0 +1,55 @@
+{% extends "base_site.html" %}
+
+{% block content %}
+<section class="text-center mb-12">
+    <h1 class="text-4xl font-black text-blue-600 dark:text-blue-400 uppercase tracking-tighter">
+        <i class="fa-solid fa-comments"></i> Fale Conosco
+    </h1>
+    <p class="text-gray-500 dark:text-gray-300 mt-2 font-bold text-lg">Estamos prontos para atender sua frota.</p>
+</section>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto pb-20">
+    <form class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl border-4 border-gray-100 dark:border-slate-600" method="POST" action="{{ url_for('site_bp.contato') }}">
+        <div class="space-y-6">
+            <div>
+                <label class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Nome</label>
+                <input type="text" name="nome" placeholder="DIGITE SEU NOME COMPLETO" required
+                    class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">E-mail</label>
+                <input type="email" name="email" placeholder="SEU@EMAIL.COM" required
+                    class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold">
+            </div>
+
+            <div>
+                <label class="block text-sm font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-widest">Mensagem</label>
+                <textarea name="mensagem" rows="4" placeholder="COMO PODEMOS AJUDAR?" required
+                    class="w-full p-4 bg-gray-100 dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-500 rounded-xl focus:ring-4 focus:ring-blue-500 outline-none transition dark:text-white dark:placeholder-slate-200 font-bold"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white font-black text-xl rounded-xl shadow-lg shadow-blue-500/40 transform hover:-translate-y-1 transition uppercase">
+                Enviar Agora <i class="fa-solid fa-paper-plane ml-2"></i>
+            </button>
+        </div>
+    </form>
+
+    <div class="space-y-8">
+        <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-xl border-2 border-gray-100 dark:border-slate-600">
+            <h3 class="text-2xl font-black mb-6 text-blue-600 dark:text-blue-400 uppercase">Canais Diretos</h3>
+            <div class="space-y-4 text-lg dark:text-gray-100 font-bold">
+                <p class="flex items-center gap-4"><i class="fa-solid fa-phone text-blue-500 text-2xl"></i> (11) 99257-4664</p>
+                <p class="flex items-center gap-4"><i class="fa-solid fa-location-dot text-blue-500 text-2xl"></i> Barueri - SP</p>
+            </div>
+            <div class="my-8 border-t-2 border-gray-100 dark:border-slate-600"></div>
+            <h3 class="text-2xl font-black mb-6 text-blue-600 dark:text-blue-400 uppercase">Nossas Redes</h3>
+            <div class="flex gap-8 text-4xl text-gray-400">
+                <a href="https://linkedin.com/in/israel-bizzarri-142343347/" target="_blank" class="hover:text-blue-600 transition"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://instagram.com/meix.pj/" target="_blank" class="hover:text-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://youtube.com/@meixpj/" target="_blank" class="hover:text-red-600 transition"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

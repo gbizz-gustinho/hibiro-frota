@@ -1,0 +1,77 @@
+{% extends "base_app.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-3xl font-black text-slate-800 dark:text-white uppercase tracking-tighter">
+            <i class="fa-solid fa-file-signature text-emerald-500 mr-2"></i> Lançar Novo Frete
+        </h1>
+        <p class="text-slate-500 text-sm font-bold uppercase tracking-widest">Registro de Operação e Financeiro</p>
+    </div>
+
+    <form method="POST" class="bg-white dark:bg-vscode-sidebar p-8 rounded-[2.5rem] shadow-2xl border-4 border-slate-50 dark:border-slate-800">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Seleção de Veículo -->
+            <div class="space-y-2">
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400">Veículo</label>
+                <select name="id_veiculo" required class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                    {% for v in veiculos %}
+                    <option value="{{ v.id_veiculo }}">{{ v.placa }} - {{ v.modelo_marca }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Seleção de Motorista/Cliente -->
+            <div class="space-y-2">
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400">Colaborador / Motorista</label>
+                <select name="id_colaborador" required class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                    {% for c in colaboradores %}
+                    <option value="{{ c.id_colaborador }}">{{ c.nome_colaborador }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Dados da Viagem -->
+            <div class="space-y-2">
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400">Origem</label>
+                <input type="text" name="origem" required placeholder="Cidade/UF" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400">Destino</label>
+                <input type="text" name="destino" required placeholder="Cidade/UF" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+            </div>
+
+            <!-- Financeiro -->
+            <div class="space-y-2">
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400">Data da Operação</label>
+                <input type="date" name="data_emissao" required value="{{ date_today }}" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400">Valor do Frete (R$)</label>
+                <input type="text" name="valor_bruto" required placeholder="0,00" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+            </div>
+
+            <div class="md:col-span-2 space-y-2">
+                <label class="block text-xs font-black uppercase tracking-widest text-slate-400">Condição de Pagamento</label>
+                <select name="id_condicao" required class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-4 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                    {% for cond in condicoes %}
+                    <option value="{{ cond.id_condicao }}">{{ cond.nome_condicao }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="mt-10 flex gap-4">
+            <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-black uppercase py-4 rounded-2xl shadow-lg shadow-emerald-500/30 transition-all hover:scale-[1.02]">
+                Confirmar Lançamento
+            </button>
+            <a href="{{ url_for('frota.dashboard') }}" class="px-8 bg-slate-100 dark:bg-slate-800 text-slate-500 font-black uppercase py-4 rounded-2xl hover:bg-slate-200 transition">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

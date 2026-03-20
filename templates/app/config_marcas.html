@@ -1,0 +1,65 @@
+{% extends "base_app.html" %}
+
+{% block title %}Marcas - Hibiro 2026{% endblock %}
+{% block page_title %}Marcas de Veículos{% endblock %}
+
+{% block content %}
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8">
+    <h3 class="text-sm font-black mb-4 flex items-center gap-2 text-slate-400 uppercase tracking-widest">
+        <i class="fa-solid fa-plus-circle text-emerald-500"></i> Cadastrar Nova Marca
+    </h3>
+    <form method="POST" action="{{ url_for('configuracoes.config_marcas_veiculo') }}" class="flex flex-col sm:flex-row gap-4 items-end">
+        <div class="flex-1">
+            <label class="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">Nome do Fabricante</label>
+            <input type="text" name="nome_marca" placeholder="Ex: SCANIA, VOLVO, MERCEDES..." required 
+                class="w-full p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm font-bold uppercase">
+        </div>
+
+        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 px-10 rounded-xl transition shadow-lg shadow-emerald-500/20 uppercase text-[10px] tracking-widest">
+            Salvar Marca
+        </button>
+    </form>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+    <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
+        <h3 class="text-sm font-black flex items-center gap-2 text-slate-500 uppercase tracking-widest">
+            <i class="fa-solid fa-tags text-emerald-500"></i> Fabricantes Registrados
+        </h3>
+        <span class="text-[10px] font-black text-emerald-600 bg-emerald-100 dark:bg-emerald-900/40 px-3 py-1 rounded-lg uppercase">
+            {{ marcas|length }} Fabricantes
+        </span>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-[10px] uppercase font-black tracking-widest">
+                <tr>
+                    <th class="px-6 py-4">ID</th>
+                    <th class="px-6 py-4">Nome da Marca</th>
+                    <th class="px-6 py-4 text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                {% for ma in marcas %}
+                <tr class="hover:bg-emerald-50/30 dark:hover:bg-slate-700/30 transition group">
+                    <td class="px-6 py-4 text-xs font-bold text-slate-400">#{{ ma.id_marca }}</td>
+                    <td class="px-6 py-4 font-bold text-slate-700 dark:text-white text-sm uppercase">
+                        {{ ma.nome_marca }}
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="text-slate-300 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-10 text-center text-slate-400 italic text-xs font-medium">Nenhuma marca cadastrada.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

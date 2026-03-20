@@ -1,0 +1,142 @@
+{% extends "base_app.html" %}
+
+{% block content %}
+<div class="mb-10">
+    <h1 class="text-4xl font-black text-blue-600 dark:text-blue-400 uppercase tracking-tighter">
+        <i class="fa-solid fa-gauge-high mr-2"></i> Painel de Gestão
+    </h1>
+    <p class="text-slate-500 dark:text-slate-400 font-bold uppercase text-xs tracking-[0.3em] mt-2">
+        Empresa: <span class="text-blue-500">{{ session.get('razao_social', 'Configuração Pendente') }}</span> | ID: {{ session.get('id_empresa') }}
+    </p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    
+    <div class="bg-white dark:bg-vscode-sidebar p-6 rounded-[2rem] border-4 border-slate-100 dark:border-slate-800 shadow-xl transition hover:border-blue-500">
+        <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-blue-100 dark:bg-blue-500/10 rounded-2xl text-blue-600">
+                <i class="fa-solid fa-truck-moving text-2xl"></i>
+            </div>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Frota</span>
+        </div>
+        <h3 class="text-3xl font-black dark:text-white">{{ resumo.total_veiculos|default(0) }}</h3>
+        <p class="text-xs font-bold text-slate-500 uppercase">Veículos Ativos</p>
+    </div>
+
+    <div class="bg-white dark:bg-vscode-sidebar p-6 rounded-[2rem] border-4 border-slate-100 dark:border-slate-800 shadow-xl transition hover:border-emerald-500">
+        <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-emerald-100 dark:bg-emerald-500/10 rounded-2xl text-emerald-600">
+                <i class="fa-solid fa-hand-holding-dollar text-2xl"></i>
+            </div>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Financeiro</span>
+        </div>
+        <h3 class="text-3xl font-black dark:text-white">{{ resumo.saldo|format_currency }}</h3>
+        <p class="text-xs font-bold text-slate-500 uppercase">Saldo em Caixa</p>
+    </div>
+
+    <div class="bg-white dark:bg-vscode-sidebar p-6 rounded-[2rem] border-4 border-slate-100 dark:border-slate-800 shadow-xl transition hover:border-amber-500">
+        <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-amber-100 dark:bg-amber-500/10 rounded-2xl text-amber-500">
+                <i class="fa-solid fa-gas-pump text-2xl"></i>
+            </div>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Consumo</span>
+        </div>
+        <h3 class="text-3xl font-black dark:text-white">{{ resumo.total_litros|default('0.00') }}L</h3>
+        <p class="text-xs font-bold text-slate-500 uppercase">Últimos 30 dias</p>
+    </div>
+
+    <div class="bg-white dark:bg-vscode-sidebar p-6 rounded-[2rem] border-4 border-slate-100 dark:border-slate-800 shadow-xl transition hover:border-red-500">
+        <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-red-100 dark:bg-red-500/10 rounded-2xl text-red-600">
+                <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+            </div>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Alertas</span>
+        </div>
+        <h3 class="text-3xl font-black dark:text-white">
+    {{ "%02d" | format(resumo.alertas|default(0)|int) }}
+</h3>
+        <p class="text-xs font-bold text-slate-500 uppercase">Pendências</p>
+    </div>
+
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-white/50 dark:bg-vscode-header/50 backdrop-blur-sm p-8 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-black uppercase tracking-widest mb-6 text-blue-600 dark:text-blue-400">Ações Rápidas</h3>
+        <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Rota correta para a função adicionar_veiculo -->
+                    <a href="{{ url_for('frota.adicionar_veiculo') }}" class="...">
+                        <i class="fa-solid fa-plus-circle ..."></i>
+                        <span>Novo Veículo</span>
+                    </a>
+
+                    <!-- Rota correta para a lista_frota (já que você ainda não tem 'lancar_frete') -->
+                    <a href="{{ url_for('frota.lista_frota') }}" class="...">
+                        <i class="fa-solid fa-file-invoice ..."></i>
+                        <span>Ver Frota</span>
+                    </a>
+                </div>
+            </a>
+            <a href="{{ url_for('frota.lancar_frete') }}" class="flex flex-col items-center justify-center p-6 bg-white dark:bg-vscode-sidebar rounded-3xl shadow-md hover:scale-105 transition group">
+                <i class="fa-solid fa-file-invoice text-2xl text-emerald-500 mb-2 group-hover:text-amber-400"></i>
+                <span class="text-[10px] font-black uppercase">Lançar Frete</span>
+            </a>
+        </div>
+        <!-- TABELA DE ÚLTIMOS LANÇAMENTOS -->
+        <div class="mt-12 bg-white dark:bg-vscode-sidebar rounded-[2.5rem] border-4 border-slate-100 dark:border-slate-800 shadow-xl overflow-hidden">
+            <div class="p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                <h3 class="text-xl font-black uppercase tracking-tighter text-slate-800 dark:text-white">
+                    <i class="fa-solid fa-clock-rotate-left mr-2 text-blue-500"></i> Atividades Recentes
+                </h3>
+                <span class="px-4 py-1 bg-blue-100 text-blue-600 text-[10px] font-black rounded-full uppercase">Últimos 5 Fretes</span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 dark:bg-slate-900/50">
+                            <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Data</th>
+                            <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Veículo</th>
+                            <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Rota / Info</th>
+                            <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Valor</th>
+                            <th class="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                        {% for frete in ultimos_fretes %}
+                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition">
+                            <td class="p-5 text-sm font-bold text-slate-600 dark:text-slate-300">
+                                {{ frete.data_emissao }}
+                            </td>
+                            <td class="p-5">
+                                <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg font-black text-xs text-blue-600">
+                                    {{ frete.placa }}
+                                </span>
+                            </td>
+                            <td class="p-5 text-sm text-slate-500 italic">
+                                {{ frete.frete_info|default('Não informado') }}
+                            </td>
+                            <td class="p-5 font-black text-slate-800 dark:text-white">
+                                {{ frete.valor_bruto|format_currency }}
+                            </td>
+                            <td class="p-5 text-center">
+                                <span class="px-3 py-1 bg-emerald-100 text-emerald-600 text-[10px] font-black rounded-md uppercase">
+                                    {{ frete.status_op }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="p-10 text-center text-slate-400 font-bold italic">
+                                Nenhum frete lançado recentemente.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

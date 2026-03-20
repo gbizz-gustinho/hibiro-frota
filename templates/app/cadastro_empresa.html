@@ -1,0 +1,76 @@
+{% extends "base_site.html" %}
+
+{% block content %}
+<section class="text-center mb-12">
+    <h1 class="text-4xl font-black text-blue-600 dark:text-blue-400 uppercase tracking-tighter">
+        <i class="fa-solid fa-building-circle-check"></i> Configuração da Empresa
+    </h1>
+    <p class="text-gray-500 dark:text-gray-300 mt-2 font-bold text-lg uppercase tracking-widest">
+        Identificamos que você ainda não possui uma empresa vinculada.
+    </p>
+</section>
+
+<div class="max-w-5xl mx-auto bg-white dark:bg-slate-800 p-10 rounded-[2.5rem] shadow-2xl border-4 border-gray-100 dark:border-slate-700 mb-20">
+    <form action="{{ url_for('frota_bp.setup_empresa') }}" method="POST" class="space-y-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+                <label class="block text-xs font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-[0.2em]">Razão Social / Nome da Frota</label>
+                <input type="text" name="razao_social" placeholder="EX: TRANSPORTE RÁPIDO HIBIRO" required
+                    class="w-full p-4 bg-gray-50 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-blue-500 outline-none transition font-black dark:text-white uppercase">
+            </div>
+
+            <div class="md:col-span-1">
+                <label class="block text-xs font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-[0.2em]">CNPJ (Opcional no Grátis)</label>
+                <input type="text" name="cnpj" placeholder="00.000.000/0000-00"
+                    class="w-full p-4 bg-gray-50 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-blue-500 outline-none transition font-black dark:text-white">
+            </div>
+
+            <div class="md:col-span-1">
+                <label class="block text-xs font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-[0.2em]">E-mail Corporativo</label>
+                <input type="email" name="email" placeholder="contato@empresa.com"
+                    class="w-full p-4 bg-gray-50 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-blue-500 outline-none transition font-black dark:text-white">
+            </div>
+        </div>
+
+        <div class="relative py-4">
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200 dark:border-slate-700"></div></div>
+            <div class="relative flex justify-center text-xs uppercase font-black bg-white dark:bg-slate-800 px-4 text-slate-400">Dados de Localização (Opcional)</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-1">
+                <label class="block text-xs font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-[0.2em]">CEP</label>
+                <input type="text" name="cep" placeholder="00000-000"
+                    class="w-full p-4 bg-gray-50 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-blue-500 outline-none transition font-black dark:text-white">
+            </div>
+            <div class="md:col-span-2">
+                <label class="block text-xs font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-[0.2em]">Logradouro</label>
+                <input type="text" name="logradouro" placeholder="RUA, AVENIDA..."
+                    class="w-full p-4 bg-gray-50 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-blue-500 outline-none transition font-black dark:text-white">
+            </div>
+            <div>
+                <label class="block text-xs font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-[0.2em]">Município</label>
+                <input type="text" name="municipio" placeholder="BARUERI"
+                    class="w-full p-4 bg-gray-50 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-blue-500 outline-none transition font-black dark:text-white">
+            </div>
+            <div>
+                <label class="block text-xs font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-[0.2em]">UF</label>
+                <input type="text" name="uf" placeholder="SP" maxlength="2"
+                    class="w-full p-4 bg-gray-50 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-blue-500 outline-none transition font-black dark:text-white uppercase">
+            </div>
+            <div>
+                <label class="block text-xs font-black text-blue-600 dark:text-blue-300 mb-2 uppercase tracking-[0.2em]">Telefone</label>
+                <input type="text" name="telefone" placeholder="(11) 0000-0000"
+                    class="w-full p-4 bg-gray-50 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-blue-500 outline-none transition font-black dark:text-white">
+            </div>
+        </div>
+
+        <div class="pt-6">
+            <button type="submit" class="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white text-xl font-black rounded-2xl shadow-xl shadow-blue-500/40 transition transform hover:scale-[1.01] uppercase tracking-[0.2em]">
+                Finalizar Setup e Acessar App
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
